@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true">
+    <testsuites>
+        <testsuite name="unit">
+            <directory phpVersion="8.0.0" phpVersionOperator=">=">test/Unit</directory>
+            <directory phpVersion="8.0.0" phpVersionOperator=">=">test/Feature</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

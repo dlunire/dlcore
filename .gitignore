@@ -1,0 +1,32 @@
+# Base de datos
+*.sql
+db
+db/*
+
+# Bibliotecas
+vendor/
+node_modules
+
+# Herramientas
+Herramientas
+
+# Directorio de archivos
+.phpunit.result.cache
+uploads
+*uploads
+cache
+*cache
+src/descriptors
+*Herramientas
+
+# Logs del sistema
+logs
+
+# Variables de entorno
+.env
+.env*
+
+# Se permiten las siguientes variables de entorno:
+!.env.example
+!.env.type.example
+!.type.example
