@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\Request;
 
 use DLRoute\Requests\DLRequest;
-use DLTools\Config\DLValues;
+use DLCore\Config\DLValues;
 
 /**
  * Procesa la petición del cliente HTTP.

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Core\Data\DTO;
+namespace DLCore\Core\Data\DTO;
 
 /**
  * Representa un rango de valores utilizado en consultas SQL con BETWEEN.
  *
  * Esta clase es una inyección de dependencia para el método `between`
- * del constructor de consultas en DLTools.
+ * del constructor de consultas en DLCore.
  *
  * @author David E Luna M.
  * @license MIT

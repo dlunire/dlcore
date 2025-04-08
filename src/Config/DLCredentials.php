@@ -2,7 +2,7 @@
 
 namespace DLRoute\Config;
 
-use DLTools\Config\Credentials;
+use DLCore\Config\Credentials;
 
 trait DLCredentials {
 
@@ -106,7 +106,7 @@ trait DLCredentials {
             ];
         }
 
-        return (object) $vars;     
+        return (object) $vars;
     }
 
     /**
@@ -120,9 +120,7 @@ trait DLCredentials {
          * 
          * @var boolean
          */
-        $is_empty = empty(
-            $this->get_environments()
-        );
+        $is_empty = empty($this->get_environments());
 
         if ($is_empty) {
             $this->parse_file();

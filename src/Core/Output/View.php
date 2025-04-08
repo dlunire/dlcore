@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Core\Output;
+namespace DLCore\Core\Output;
 
-use DLTools\Compilers\DLView;
+use DLCore\Compilers\DLView;
 
 /**
  * Clase View
@@ -12,7 +12,7 @@ use DLTools\Compilers\DLView;
  * Se encarga de la gestión de vistas en formato HTML dentro del sistema.
  * Extiende de DLView para aprovechar su funcionalidad de compilación y renderizado.
  * 
- * @package DLTools\Core\Output
+ * @package DLCore\Core\Output
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @copyright 2025 David E Luna M
  * @license MIT

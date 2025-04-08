@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\Compilers;
+namespace DLCore\Compilers;
 
 use DLRoute\Server\DLServer;
 
@@ -9,7 +9,7 @@ use DLRoute\Server\DLServer;
  * la ayuda de la clase `DLTemplate` y crea archivos PHP listos para
  * ejecutar.
  * 
- * @package DLTools
+ * @package DLCore
  * 
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @license MIT

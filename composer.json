@@ -1,12 +1,12 @@
 {
-    "name": "dlunamontilla/dltools",
-    "description": "Procesar peticiones y realizar consultas a la base de datos",
+    "name": "dlunire/dlcore",
+    "description": "DLCore es el núcleo funcional del framework DLUnire. Proporciona el ORM, motor de plantillas, autenticación, envío de correos y lectura avanzada de variables de entorno con tipado estático. Todo lo esencial para construir aplicaciones modernas en PHP con una arquitectura limpia y extensible",
     "type": "library",
     "license": "MIT",
-    "homepage": "https://aprendiendo.netlify.app/",
+    "homepage": "https://dlunire.pro/",
     "autoload": {
         "psr-4": {
-            "DLTools\\": "src/"
+            "DLCore\\": "src/"
         },
         "classmap": [
             "src/"
@@ -14,9 +14,9 @@
     },
     "authors": [
         {
-            "name": "David E Luna M",
-            "email": "davidlunamontilla@gmail.com",
-            "homepage": "https://aprendiendo.netlify.app/",
+            "name": "DLUnire Framework",
+            "email": "dlunireframework@gmail.com",
+            "homepage": "https://dlunire.pro/",
             "role": "Software Developer"
         }
     ],

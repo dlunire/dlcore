@@ -1,16 +1,16 @@
 <?php
 
-namespace DLTools\Auth;
+namespace DLCore\Auth;
 
 use DLRoute\Requests\DLRequest;
 use DLRoute\Server\DLServer;
-use DLTools\Config\DLConfig;
+use DLCore\Config\DLConfig;
 
 /**
  * Por ahora, procesa el reCAPTCHA creado por Google. En futuras
  * versiones adoptará otras reCAPTCHAS.
  * 
- * @package DLTools
+ * @package DLCore
  * 
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @version v1.0.0
@@ -19,7 +19,7 @@ use DLTools\Config\DLConfig;
 class DLRecaptcha {
 
     use DLConfig;
-    
+
     private static ?self $instance = NULL;
 
     private function __construct() {
@@ -33,7 +33,7 @@ class DLRecaptcha {
      */
     public function post(): bool {
         $this->parse_file();
-        
+
         /**
          * Instancia del procesador de peticiones
          * 

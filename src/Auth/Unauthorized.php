@@ -1,12 +1,13 @@
 <?php
 
-namespace DLTools\Auth;
+namespace DLCore\Auth;
+
 use DLRoute\Server\DLServer;
 
 /**
  * Envía un mensaje de error con códigos de estados.
  * 
- * @package DLTools\Auth
+ * @package DLCore\Auth
  * 
  * @version 1.0.0 (release)
  * @author David E Luna M <davidlunamontilla@gmail.com>

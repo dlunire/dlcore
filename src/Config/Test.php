@@ -3,7 +3,7 @@
 namespace DLRoute\Config;
 
 use DLRoute\Requests\DLOutput;
-use DLTools\Config\DLEnvironment;
+use DLCore\Config\DLEnvironment;
 
 final class Test {
 
@@ -13,7 +13,7 @@ final class Test {
 
     private function __construct() {
         $this->parse_file();
-        
+
         /**
          * Variables de entorno
          * 

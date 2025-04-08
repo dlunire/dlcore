@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Core\Traits;
+namespace DLCore\Core\Traits;
 
 use Exception;
 

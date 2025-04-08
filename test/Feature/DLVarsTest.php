@@ -1,7 +1,7 @@
 <?php
 
-use DLTools\Config\Credentials;
-use DLTools\Config\DLEnvironment;
+use DLCore\Config\Credentials;
+use DLCore\Config\DLEnvironment;
 use PHPUnit\Framework\TestCase;
 
 class DLVarsTest extends TestCase {

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Core;
+namespace DLCore\Core;
 
 use Core\Request\Request;
 use DLRoute\Config\Controller;
 use DLRoute\Requests\DLOutput;
 use DLRoute\Server\DLServer;
-use DLTools\Auth\DLCookie;
-use DLTools\Core\Errors\ForbiddenException;
-use DLTools\Core\Traits\Token;
+use DLCore\Auth\DLCookie;
+use DLCore\Core\Errors\ForbiddenException;
+use DLCore\Core\Traits\Token;
 use Exception;
 
 abstract class BaseController extends Controller {

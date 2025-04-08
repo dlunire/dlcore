@@ -1,15 +1,15 @@
 <?php
 
-namespace DLTools\Interfaces;
+namespace DLCore\Interfaces;
 
-use DLTools\Auth\DLAuthOptions;
-use DLTools\Auth\DLCookie;
-use DLTools\Auth\DLUser;
+use DLCore\Auth\DLAuthOptions;
+use DLCore\Auth\DLCookie;
+use DLCore\Auth\DLUser;
 
 /**
  * Sistema de autenticación del sistema
  * 
- * @package DLTools\Interface
+ * @package DLCore\Interface
  * 
  * @version 1.0.0 (release)
  * @author David E Luna M <davidlunamontilla@gmail.com>

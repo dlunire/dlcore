@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
  */
 
 use DLRoute\Requests\DLRoute;
-use DLTools\Core\Output\View;
+use DLCore\Core\Output\View;
 
 $sessionExpirte = time() + 1300;
 

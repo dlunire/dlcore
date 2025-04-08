@@ -1,8 +1,9 @@
 <?php
 
-namespace DLTools\Tests;
+namespace DLCore\Tests;
 
-use DLTools\Database\Model;
+use DLCore\Database\Model;
 
 
-class Roles extends Model {}
+class Roles extends Model {
+}

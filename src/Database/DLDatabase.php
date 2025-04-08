@@ -1,9 +1,9 @@
 <?php
 
-namespace DLTools\Database;
+namespace DLCore\Database;
 
-use DLTools\Config\Credentials;
-use DLTools\Config\DLConfig;
+use DLCore\Config\Credentials;
+use DLCore\Config\DLConfig;
 use Error;
 use Exception;
 use PDO;
@@ -16,7 +16,7 @@ use PDO;
  * Permite el acceso a la base de datos definidas en las variables
  * de entorno.
  * 
- * @package DLTools\Database
+ * @package DLCore\Database
  * 
  * @author David E Luna M <davidlunamonilla@gmail.com>
  * @license MIT
@@ -349,7 +349,7 @@ class DLDatabase {
 
     /**
      * Devuelve una consulta SQL construída a partir del constructor
-     * de consulta de DLTools.
+     * de consulta de DLCore.
      *
      * @return string
      */

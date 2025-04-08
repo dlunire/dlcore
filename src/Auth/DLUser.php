@@ -1,13 +1,13 @@
 <?php
 
-namespace DLTools\Auth;
+namespace DLCore\Auth;
 
-use DLTools\Database\Model;
+use DLCore\Database\Model;
 
 /**
  * Procesa el usuario.
  * 
- * @package DLTools\Auth
+ * @package DLCore\Auth
  * 
  * @version 1.0.0 (release)
  * @author David E Luna M <davidlunamontilla@gmail.com>

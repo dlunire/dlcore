@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\Config;
+namespace DLCore\Config;
 
 use DLRoute\Requests\DLOutput;
 

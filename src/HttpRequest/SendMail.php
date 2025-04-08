@@ -1,20 +1,20 @@
 <?php
 
-namespace DLTools\HttpRequest;
+namespace DLCore\HttpRequest;
 
 use DLRoute\Requests\DLRequest;
-use DLTools\Config\DLValues;
+use DLCore\Config\DLValues;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use DLTools\Compilers\DLMarkdown;
-use DLTools\Config\Credentials;
-use DLTools\Config\DLConfig;
+use DLCore\Compilers\DLMarkdown;
+use DLCore\Config\Credentials;
+use DLCore\Config\DLConfig;
 
 /**
  * Permite enviar correos electrónicos utilizando la biblioteca 
  * PHPMailer.
  * 
- * @package DLTools
+ * @package DLCore
  * 
  * @author David E. Luna M. <davidlunamontilla@gmail.com>
  * @license MIT

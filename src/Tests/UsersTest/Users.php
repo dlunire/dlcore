@@ -1,8 +1,9 @@
 <?php
-namespace DLTools\Tests\UsersTest;
 
-use DLTools\Auth\DLAuth;
-use DLTools\Auth\DLUser;
+namespace DLCore\Tests\UsersTest;
+
+use DLCore\Auth\DLAuth;
+use DLCore\Auth\DLUser;
 
 class Users extends DLUser {
     // protected static ?string $table = "ciencia";
@@ -23,7 +24,7 @@ class Users extends DLUser {
         $this->set_password(
             $this->get_required('password')
         );
-        
+
         return $auth->auth($this, [
             "username_field" => 'username',
             "password_field" => 'password',

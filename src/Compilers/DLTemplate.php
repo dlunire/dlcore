@@ -1,14 +1,14 @@
 <?php
 
-namespace DLTools\Compilers;
+namespace DLCore\Compilers;
 
-use DLTools\Auth\DLAuth;
+use DLCore\Auth\DLAuth;
 
 
 /**
  * Parsea las plantillas definidas en el directorio resources.
  * 
- * @package DLTools
+ * @package DLCore
  * 
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @license MIT
@@ -286,7 +286,7 @@ class DLTemplate {
         $search = '@base(\'home\')';
         $search = "/@base\((.*)?\)/";
 
-        $replace = '<?php DLTools\Compilers\DLView::load($1, $data); ?>';
+        $replace = '<?php DLCore\Compilers\DLView::load($1, $data); ?>';
 
         preg_match_all($search, $stringTemplate, $matches);
         $stringTemplate = preg_replace($search, "", $stringTemplate);
@@ -372,7 +372,7 @@ class DLTemplate {
      */
     public static function parseIncludes(string $stringTemplate): string {
         $pattern = "/@includes\((.*?)\)/";
-        $replace = "<?php DLTools\Compilers\DLView::load($1, \$data); ?>";
+        $replace = "<?php DLCore\Compilers\DLView::load($1, \$data); ?>";
 
         $stringTemplate = preg_replace($pattern, $replace, $stringTemplate);
         return $stringTemplate;
@@ -503,7 +503,7 @@ class DLTemplate {
      */
     public static function parseMarkdown(string $stringTemplate): string {
         $pattern = "/@markdown\((.*?)\)/";
-        $replace = "<?php echo \DLTools\Compilers\DLMarkdown::parse($1); ?>";
+        $replace = "<?php echo \DLCore\Compilers\DLMarkdown::parse($1); ?>";
 
         return preg_replace($pattern, $replace, $stringTemplate) ?? $stringTemplate;
     }

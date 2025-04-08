@@ -1,15 +1,15 @@
 <?php
 
-namespace DLTools\Auth;
+namespace DLCore\Auth;
 
 use DLRoute\Requests\DLOutput;
 use DLRoute\Requests\DLRoute;
 use DLRoute\Routes\RouteDebugger;
 use DLRoute\Server\DLServer;
-use DLTools\Config\Credentials;
-use DLTools\Config\DLConfig;
-use DLTools\Config\Logs;
-use DLTools\Interfaces\AuthInterface;
+use DLCore\Config\Credentials;
+use DLCore\Config\DLConfig;
+use DLCore\Config\Logs;
+use DLCore\Interfaces\AuthInterface;
 use Error;
 
 class DLAuth implements AuthInterface {

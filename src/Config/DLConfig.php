@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\Config;
+namespace DLCore\Config;
 
 use DLRoute\Requests\DLOutput;
 use DLRoute\Server\DLServer;
@@ -13,7 +13,7 @@ use PDOException;
 /**
  * Permitirá capturar todas las variables de entorno.
  * 
- * @package DLTools
+ * @package DLCore
  * @version 2.0.0
  * @author David E Luna <davidlunamontilla@gmail.com>
  * @copyright (c) 2022 - David E Luna M

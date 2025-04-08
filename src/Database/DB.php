@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Database;
+namespace DLCore\Database;
 
 /**
  * Clase base abstracta para la gestión de bases de datos.
  * 
  * Esta clase servirá como punto central para la administración de conexiones y 
- * operaciones sobre bases de datos en el framework DLTools.
+ * operaciones sobre bases de datos en el framework DLCore.
  * 
  * ## Propósito:
  * - Proporcionar una estructura base para la interacción con múltiples motores de bases de datos.
@@ -21,7 +21,7 @@ namespace DLTools\Database;
  * - Integración con un parser SQL para mejorar la seguridad contra inyecciones SQL.
  * - Implementación de contratos y traits para separar responsabilidades.
  * 
- * @package DLTools\Database
+ * @package DLCore\Database
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @license MIT
  * @version v0.0.1

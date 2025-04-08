@@ -1,6 +1,8 @@
 <?php
 
-namespace DLTools\Test;
-use DLTools\Database\Model;
+namespace DLCore\Test;
 
-final class Clients extends Model {}
+use DLCore\Database\Model;
+
+final class Clients extends Model {
+}

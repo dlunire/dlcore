@@ -1,8 +1,8 @@
 <?php
 
-namespace DLTools\Test;
+namespace DLCore\Test;
 
-use DLTools\Core\BaseController;
+use DLCore\Core\BaseController;
 
 final class TestController extends BaseController {
     # Controlador para realizar pruebas

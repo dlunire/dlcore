@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\Compilers;
+namespace DLCore\Compilers;
 
 use DLRoute\Server\DLServer;
 
@@ -8,7 +8,7 @@ use DLRoute\Server\DLServer;
  * Permite parsear archivos Markdown con la ayuda de una 
  * biblioteca.
  * 
- * @package DLTools
+ * @package DLCore
  * 
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @license MIT

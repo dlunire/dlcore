@@ -1,6 +1,8 @@
 <?php
 
-namespace DLTools\Tests;
-use DLTools\Database\Model;
+namespace DLCore\Tests;
 
-class Contacts extends Model {}
+use DLCore\Database\Model;
+
+class Contacts extends Model {
+}

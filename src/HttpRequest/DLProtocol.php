@@ -1,9 +1,9 @@
 <?php
 
-namespace DLTools\HttpRequest;
+namespace DLCore\HttpRequest;
 
 /**
- * @package DLTools
+ * @package DLCore
  * @version 1.0.0
  * @author David E Luna <davidlunamontilla@gmail.com>
  * @copyright (c) 2020 - David E Luna M
@@ -36,7 +36,7 @@ class DLProtocol extends DLHost {
         $isHTTPS = $this->isHTTPS();
         $hostname = $this->getHostname();
 
-        foreach($this->hostnames as $host) {
+        foreach ($this->hostnames as $host) {
             if (!$isHTTPS && $hostname === $host) {
                 header("Location: https://{$host}");
                 exit;

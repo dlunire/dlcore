@@ -1,12 +1,12 @@
 <?php
 
-namespace DLTools\Interfaces;
+namespace DLCore\Interfaces;
 
 /**
  * Defuelve las credenciales de las variables de entorno si estas
  * están definidas, de lo contrario, devolverá valores predeterminados.
  * 
- * @package DLTools\Interfaces
+ * @package DLCore\Interfaces
  * 
  * @version 1.0.0 (release)
  * @author David E Luna <davidlunamontilla@gmail.com>

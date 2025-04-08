@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\Config;
+namespace DLCore\Config;
 
 use DLRoute\Config\DLCredentials;
 use DLRoute\Requests\DLOutput;
@@ -9,7 +9,7 @@ use DLRoute\Server\DLServer;
 /**
  * Lee e interpreta el archivo .env, pero con tipado estático.
  * 
- * @package DLTools\Config
+ * @package DLCore\Config
  * 
  * @version 1.0.0 (release)
  * @author David E Luna M <davidlunamontilla@gmail.com>
@@ -17,7 +17,7 @@ use DLRoute\Server\DLServer;
  * @license MIT
  */
 trait DLEnvironment {
-    
+
     use DLCredentials;
     use DLVarTypes;
 
@@ -73,9 +73,7 @@ trait DLEnvironment {
          * 
          * @var boolean
          */
-        $contains_environment = !empty(
-            $this->get_environments()
-        );
+        $contains_environment = !empty($this->get_environments());
 
         if (!$contains_environment) {
             /**
@@ -84,23 +82,23 @@ trait DLEnvironment {
              * @var string|null
              */
             $content = $this->get_env();
-    
+
             $this->remove_comments($content);
-    
+
             /**
              * Líneas
              * 
              * @var string[]
              */
             $lines = explode("\n", $content);
-    
+
             foreach ($lines as $line) {
                 $line = trim($line);
-    
+
                 if (empty($line)) {
                     continue;
                 }
-    
+
                 $this->parse_line($line);
             }
         }
@@ -116,7 +114,7 @@ trait DLEnvironment {
             if (!isset($environment->variable)) {
                 continue;
             }
-            
+
             putenv("{$environment->variable}={$environment->value}");
         }
 
@@ -131,39 +129,39 @@ trait DLEnvironment {
                 [
                     "value" => getenv('DL_PRODUCTION')
                 ],
-    
+
                 [
                     "value" => getenv('DL_DATABASE_HOST')
                 ],
-    
+
                 [
                     "value" => getenv('DL_DATABASE_PORT')
                 ],
-    
+
                 [
                     "value" => getenv('DL_DATABASE_USER')
                 ],
-                
+
                 [
                     "value" => getenv('DL_DATABASE_PASSWORD')
                 ],
-    
+
                 [
                     "value" => getenv('DL_DATABASE_NAME')
                 ],
-                
+
                 [
                     "value" => getenv('DL_DATABASE_CHARSET') ?? 'utf8'
                 ],
-                
+
                 [
                     "value" => getenv('DL_DATABASE_COLLATION') ?? 'utf8_general_ci'
                 ],
-                
+
                 [
                     "value" => getenv('DL_DATABASE_DRIVE') ?? 'mysql'
                 ],
-                
+
                 [
                     "value" => getenv('DL_PREFIX') ?? 'dl_'
                 ],

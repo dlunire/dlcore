@@ -1,14 +1,14 @@
 <?php
 
-namespace DLTools\Config;
+namespace DLCore\Config;
 
 use DLRoute\Requests\DLOutput;
-use DLTools\Interfaces\CredentialsInterface;
+use DLCore\Interfaces\CredentialsInterface;
 
 /**
  * Datos críticos de autenticación.
  * 
- * @package DLTools\Config
+ * @package DLCore\Config
  * 
  * @version 1.0.0 (release)
  * @author David E Luna M <davidlunamontilla@gmail.com>

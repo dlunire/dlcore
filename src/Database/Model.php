@@ -1,20 +1,20 @@
 <?php
 
-namespace DLTools\Database;
+namespace DLCore\Database;
 
 use DLRoute\Requests\DLRequest;
-use DLTools\Config\Credentials;
-use DLTools\Config\DLConfig;
-use DLTools\Config\DLValues;
-use DLTools\Config\Environment;
-use DLTools\Core\Data\DTO\ValueRange;
+use DLCore\Config\Credentials;
+use DLCore\Config\DLConfig;
+use DLCore\Config\DLValues;
+use DLCore\Config\Environment;
+use DLCore\Core\Data\DTO\ValueRange;
 use Error;
 
 /**
  * Procesa las consultas de las tablas que se encuentran asociadas
  * a este modelo.
  * 
- * @package DLTools\Database
+ * @package DLCore\Database
  * 
  * @version v0.1.63
  * @author David E Luna M <davidlunamontilla@gmail.com>

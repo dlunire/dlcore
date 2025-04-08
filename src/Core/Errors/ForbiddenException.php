@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Core\Errors;
+namespace DLCore\Core\Errors;
 
 use DLRoute\Requests\DLOutput;
 use RuntimeException;

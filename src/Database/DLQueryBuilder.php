@@ -1,15 +1,15 @@
 <?php
 
-namespace DLTools\Database;
+namespace DLCore\Database;
 
-use DLTools\Config\DLConfig;
-use DLTools\Core\Data\DTO\ValueRange;
+use DLCore\Config\DLConfig;
+use DLCore\Core\Data\DTO\ValueRange;
 use Exception;
 
 /**
  * Ayuda a validar las entradas del usuario.
  * 
- * @package DLTools\Database
+ * @package DLCore\Database
  * 
  * @version v0.1.63
  * @author David E Luna M <davidlunamontilla@gmail.com>

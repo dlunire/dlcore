@@ -1,11 +1,11 @@
 <?php
 
-namespace DLTools\Database;
+namespace DLCore\Database;
 
 /**
  * Continene las propiedades y en algunos casos, métodos de la base de datos.
  * 
- * @package DLTools\Database;
+ * @package DLCore\Database;
  * 
  * @version 1.0.0
  * @author David E Luna M <davidlunamontilla@gmail.com>

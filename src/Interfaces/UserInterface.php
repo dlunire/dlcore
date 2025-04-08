@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\Interfaces;
+namespace DLCore\Interfaces;
 
 interface UserInterface {
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace DLTools\Auth;
+namespace DLCore\Auth;
 
 use DLRoute\Server\DLServer;
-use DLTools\HttpRequest\DLHost;
+use DLCore\HttpRequest\DLHost;
 use Exception;
 
 /**
@@ -13,7 +13,7 @@ use Exception;
  * 
  * ```
  * <?php
- * use DLTools\Auth\DLCookie;
+ * use DLCore\Auth\DLCookie;
  * 
  * $cookie = new DLCookie();
  * $cookie->set_name('mi_cookie');
@@ -24,7 +24,7 @@ use Exception;
  * $cookie->create_cookie(3600);
  * ```
  * 
- * @package namespace DLTools\Auth;
+ * @package namespace DLCore\Auth;
  * @version 0.0.1 (release);
  * @author David E Luna M <davidlunamontilla@gmail.com>
  * @copyright 2024 David E Luna M

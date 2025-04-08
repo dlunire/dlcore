@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DLTools\Database;
+namespace DLCore\Database;
 
 final class ParseSQL {
 

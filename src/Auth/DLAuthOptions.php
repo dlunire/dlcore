@@ -1,13 +1,13 @@
 <?php
 
-namespace DLTools\Auth;
+namespace DLCore\Auth;
 
 use Exception;
 
 /**
  * Define las opciones de autenticación, permitiendo configurar los nombres de campos clave de la tabla de usuarios.
  *
- * @package DLTools\Auth
+ * @package DLCore\Auth
  * @version 0.0.1 (release)
  * 
  * @since 0.0.1

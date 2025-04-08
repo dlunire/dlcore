@@ -1,6 +1,6 @@
 <?php
 
-namespace DLTools\HttpRequest;
+namespace DLCore\HttpRequest;
 
 use DLRoute\Server\DLHost as ServerDLHost;
 
@@ -11,7 +11,7 @@ use DLRoute\Server\DLHost as ServerDLHost;
  * Se recomienda migrar a la clase `DLRoute\Server\DLHost`, que ofrece 
  * mejoras en la gestión de host y soporte actualizado para entornos HTTPS.
  *
- * @package DLTools
+ * @package DLCore
  * @version 1.1.0
  * @deprecated Esta clase está en desuso desde la versión v0.1.56.
  *             Se recomienda usar `DLRoute\Server\DLHost` en su lugar, ya que 

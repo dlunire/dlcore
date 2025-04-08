@@ -1,13 +1,13 @@
 <?php
 
-namespace DLTools\Config;
+namespace DLCore\Config;
 
 use TypeError;
 
 /**
  * Carga todas las variables de entorno
  * 
- * @package DLTools\Config;
+ * @package DLCore\Config;
  * 
  * @version 1.0.0 (release)
  * @author David E Luna M <davidlunamontilla@gmail.com>
