@@ -2,10 +2,10 @@
 
 ## Installation
 
-To install `dlunire/dltools`, run the following command:
+To install `dlunire/DLCore`, run the following command:
 
 ```bash
-composer require dlunire/dltools
+composer require dlunire/DLCore
 ```
 
 > **Important:** You must have Composer installed before installing this tool. If you don’t have it yet, [visit Composer’s official website](https://getcomposer.org) and follow the instructions.
@@ -14,10 +14,10 @@ composer require dlunire/dltools
 
 ## Instalación
 
-Para instalar `dlunire/dltools`, ejecute el siguiente comando:
+Para instalar `dlunire/DLCore`, ejecute el siguiente comando:
 
 ```bash
-composer require dlunire/dltools
+composer require dlunire/DLCore
 ```
 
 > **Importante:** debe tener instalado Composer previamente. Si no lo tiene, [visite el sitio oficial de Composer](https://getcomposer.org) y siga las instrucciones.
@@ -35,7 +35,7 @@ composer require dlunire/dltools
 
 ### Template Syntax Comparison / Comparación con Laravel
 
-| Feature                 | Laravel                    | DLTools                     |
+| Feature                 | Laravel                    | DLCore                     |
 |-------------------------|----------------------------|-----------------------------|
 | Base template           | `@extends('base')`         | `@base('base')`             |
 | Template directory      | `/resources/`              | `/resources/`               |
@@ -94,7 +94,7 @@ G_SITE_KEY: string = "<site-key>"
 <?php
 namespace App\Models;
 
-use DLTools\Database\Model;
+use DLCore\Database\Model;
 
 class Products extends Model {}
 ```
@@ -121,7 +121,7 @@ class Products extends Model {
 
 ```php
 <?php
-use DLTools\Core\BaseController;
+use DLCore\Core\BaseController;
 
 final class TestController extends BaseController {
   public function products(): array {
@@ -167,8 +167,8 @@ final class TestController extends BaseController {
 
 ```php
 <?php
-use DLTools\Core\BaseController;
-use DLTools\Mail\SendMail;
+use DLCore\Core\BaseController;
+use DLCore\Mail\SendMail;
 
 final class TestController extends BaseController {
   public function mail(): array {
@@ -187,8 +187,8 @@ final class TestController extends BaseController {
 
 ```php
 <?php
-use DLTools\Auth\DLAuth;
-use DLTools\Auth\DLUser;
+use DLCore\Auth\DLAuth;
+use DLCore\Auth\DLUser;
 
 class Users extends DLUser {
   public function capture_credentials(): void {
@@ -215,7 +215,7 @@ class Users extends DLUser {
 
 ## Documentation / Documentación
 
-This documentation will be updated progressively. DLTools has many advanced features that require time to document properly.
+This documentation will be updated progressively. DLCore has many advanced features that require time to document properly.
 
-Esta documentación se actualizará progresivamente. DLTools posee muchas funcionalidades avanzadas que requieren tiempo para documentarse con precisión.
+Esta documentación se actualizará progresivamente. DLCore posee muchas funcionalidades avanzadas que requieren tiempo para documentarse con precisión.
 
