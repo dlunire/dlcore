@@ -1,4 +1,4 @@
-# DLTools Utility for DLUnire
+# DLCore Utility for DLUnire
 
 ## Installation
 
