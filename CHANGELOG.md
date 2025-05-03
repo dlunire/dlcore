@@ -6,6 +6,26 @@ Todos los cambios importantes de este proyecto serán documentados en este archi
 This project adheres to [Semantic Versioning](https://semver.org/).  
 Este proyecto sigue la convención de [Versionado Semántico](https://semver.org/lang/es/).
 
+Tienes razón. El changelog que me compartiste solo cubre `DLRoute`, y no se menciona la adición ni la integración de `DLStorage`.
+
+---
+
+## [1.1.0] - 2025-05-03
+
+### Added / Añadido
+
+* Se integró la biblioteca `DLStorage` al ecosistema `DLCore`.
+  `DLStorage` es una librería para almacenamiento eficiente de datos binarios, diseñada para funcionar de forma independiente o integrada con el framework `DLUnire`.
+
+* Soporte para almacenamiento y recuperación de archivos binarios mediante clases como `DataStorage`.
+  La biblioteca incluye validaciones, manejo de excepciones (`StorageException`), y una estructura modular extensible.
+
+* Se agregó instalación vía Composer:
+
+  ```bash
+  composer require dlunire/dlstorage  
+  ```
+
 ---
 
 ## [1.0.0] - 2025-04-08

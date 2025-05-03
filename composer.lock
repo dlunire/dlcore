@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9338ad39e79a3dc699b4e1f78af0ef88",
+    "content-hash": "05c9a78929b7932aaf0c6e9d73b69406",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -120,6 +120,43 @@
                 "source": "https://github.com/dlunire/dlroute/tree/v1.0.1"
             },
             "time": "2025-04-08T14:53:04+00:00"
+        },
+        {
+            "name": "dlunire/dlstorage",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dlunire/dlstorage.git",
+                "reference": "a5c98019542b2ad69e4e65abb7e3dedcbf260750"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dlunire/dlstorage/zipball/a5c98019542b2ad69e4e65abb7e3dedcbf260750",
+                "reference": "a5c98019542b2ad69e4e65abb7e3dedcbf260750",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DLStorage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David E Luna M",
+                    "email": "dlunireframework@gmail.com"
+                }
+            ],
+            "description": "Librería de almacenamiento de datos binarios, optimizada para su integración con el framework DLUnire. Permite almacenar, gestionar y recuperar datos en formatos binarios de manera eficiente.\"version\": \"v0.1.0\"",
+            "support": {
+                "issues": "https://github.com/dlunire/dlstorage/issues",
+                "source": "https://github.com/dlunire/dlstorage/tree/v0.1.0"
+            },
+            "time": "2025-05-03T17:20:32+00:00"
         },
         {
             "name": "enshrined/svg-sanitize",
