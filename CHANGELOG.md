@@ -6,8 +6,6 @@ Todos los cambios importantes de este proyecto serán documentados en este archi
 This project adheres to [Semantic Versioning](https://semver.org/).  
 Este proyecto sigue la convención de [Versionado Semántico](https://semver.org/lang/es/).
 
-Tienes razón. El changelog que me compartiste solo cubre `DLRoute`, y no se menciona la adición ni la integración de `DLStorage`.
-
 ---
 
 ## [1.1.0] - 2025-05-03

@@ -1,111 +1,79 @@
-## [v0.2.2]
+# Changelog / Registro de Cambios
 
-### Eliminación del alias `is_null` en DLDatabase
+All notable changes to this project will be documented in this file.  
+Todos los cambios importantes de este proyecto serán documentados en este archivo.
 
-- Se eliminó el alias `is_null` que apuntaba al método `field_is_null` para evitar colisiones de nombres, particularmente con la clase `DLConfig`.
-
-## [v0.2.1]
-
-### Mejoras en `Model`
-1. **Corrección en `set_params`**
-   - Se corrigió la asignación de la tabla en el método estático `set_params` para mejorar la coherencia con la configuración del modelo.
-
-2. **Ajuste en `get()`**
-   - Se igualó el comportamiento del método `get()` con el de `DLDatabase`, eliminando el llamado innecesario a `select`.
-
-3. **Ajuste en `first()`**
-   - Se igualó el comportamiento del método `first()` con el de `DLDatabase`, eliminando el llamado innecesario a `select`.
-
-4. **Nuevo alias `is_null`**
-   - Se creó un alias `is_null` de `field_is_null` para facilitar su uso.
-
-### Mejoras en `DLDatabase`
-1. **Corrección en la gestión de la instancia única**
-   - Se agregó `self::$instance->clean();` dentro del método estático `get_instance()` para llamar al método protegido `clean()`, asegurando que cada nueva instancia se inicialice correctamente.
-
-### Novedades
-
-1. **Soporte para `SELECT DISTINCT`**
-   - Se agregó compatibilidad con la cláusula `DISTINCT`, permitiendo consultas más eficientes cuando se requieren valores únicos.
-
-2. **Almacenamiento de datos en formato binario**
-   - Ahora es posible almacenar datos en formato binario dentro del sistema de base de datos, ampliando las capacidades de manejo de información.
-
-3. **Almacenamiento de credenciales de emergencia**
-   - Se agregó una opción para almacenar credenciales de emergencia cuando no es posible definir `env.type` como variable de entorno con tipos estáticos.
+This project adheres to [Semantic Versioning](https://semver.org/).  
+Este proyecto sigue la convención de [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
-## [v0.2.0]
+## [1.1.0] - 2025-05-03
 
-### Novedades de la versión
+### Added / Añadido
 
-- **Compatibilidad con nuevos motores de base de datos**  
-  Se añade soporte para:
-  - **PostgreSQL (`psql`)**: Puerto predeterminado `5432`. Para su uso, se debe instalar la extensión `php-pgsql`.
-  - **SQLite (`sqlite`)**: No requiere configuración de puertos.
-  - **MariaDB/MySQL**: Funcionalidad compatible.  
-  *Nota:* Se prevé la incorporación de nuevos motores en futuras versiones.
+* Se integró la biblioteca `DLStorage` al ecosistema `DLCore`.
+  `DLStorage` es una librería para almacenamiento eficiente de datos binarios, diseñada para funcionar de forma independiente o integrada con el framework `DLUnire`.
 
-> **Importante:** Para utilizar estos motores en PHP, es necesario instalar las siguientes extensiones:
->
-> Para **SQLite**:
-> ```bash
-> sudo apt install php-sqlite3
-> ```
->
-> Para **PostgreSQL**:
-> ```bash
-> sudo apt install php-pgsql
-> ```
+* Soporte para almacenamiento y recuperación de archivos binarios mediante clases como `DataStorage`.
+  La biblioteca incluye validaciones, manejo de excepciones (`StorageException`), y una estructura modular extensible.
 
-- **Subconsultas en la propiedad estática `$table`**  
-  Ahora se permiten subconsultas en la definición de la tabla en los modelos. Ejemplos:
-  ```php
-  // Subconsulta simple:
-  protected static ?string $table = "SELECT * FROM tabla";
-  
-  // Consulta más compleja con parámetros:
-  protected static ?string $table = "SELECT * FROM tabla WHERE record_status = :record_status";
-  
-  // Uso de un nombre de tabla personalizado:
-  protected static ?string $table = "otra_tabla";
+* Se agregó instalación vía Composer:
+
+  ```bash
+  composer require dlunire/dlstorage  
   ```
 
-- **Nuevo método `replace` en el modelo**  
-  Se incorpora el método `replace` (compatible, por el momento, con MariaDB/MySQL), que actualiza el registro si ya existe, funcionando de manera similar a `create` o `insert`:
-  ```php
-  Tabla::replace([
-      "campo" => "valor"
-  ]);
-  ```
+---
 
-- **Método `show_tables()` para listar tablas**  
-  Se agrega un método estático que muestra las tablas de la base de datos con soporte para paginación. Ejemplos:
-  ```php
-  // Especificando página y número de registros:
-  DLDatabase::show_tables(1, 50);
-  
-  // Uso con parámetros predeterminados:
-  DLDatabase::show_tables();
-  ```
+## [1.0.0] - 2025-04-08
 
-- **Incorporación del método `between` en las consultas**  
-  Se añade el método `between`, que permite realizar consultas filtrando valores dentro de un rango determinado. Ejemplo:
-  ```php
-  Employee::between('age', new ValueRange(18, 25))->get();
-  ```
+### Added / Añadido
 
-- **Soporte del método `between` en el modelo `Model`**  
-  Ahora los modelos pueden utilizar `between` directamente en sus consultas, lo que mejora la flexibilidad en los filtros de búsqueda.
+- Initial stable release of `DLRoute`.  
+  Versión estable inicial de `DLRoute`.
 
-- **Nueva clase `ValueRange`**  
-  Se introduce la clase `ValueRange`, que permite definir intervalos de valores de manera clara y estructurada:
-  ```php
-  $range = new ValueRange(10, 50);
-  ```
-  Su uso en consultas se realiza de la siguiente manera:
-  ```php
-  Employee::between('salary', $range)->get();
-  ```
+- Routing system with support for HTTP methods: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`.  
+  Sistema de enrutamiento con soporte para métodos HTTP: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`.
 
+- Route definitions using callbacks, arrays, or controller references.  
+  Definición de rutas usando callbacks, arrays o referencias a controladores.
+
+- Parameterized routes with type filtering (`integer`, `string`, `boolean`, `email`, etc.).  
+  Rutas parametrizadas con filtrado por tipo (`integer`, `string`, `boolean`, `email`, etc.).
+
+- Support for regular expression filters on route parameters.  
+  Soporte para filtros con expresiones regulares en parámetros de rutas.
+
+- JSON request body support (application/json).  
+  Soporte para cuerpo de solicitudes JSON (`application/json`).
+
+- Basic controller structure included.  
+  Estructura básica de controladores incluida.
+
+- Composer autoload with `psr-4`.  
+  Autocarga de clases con `psr-4` mediante Composer.
+
+- Integration-ready for the `DLUnire` framework.  
+  Listo para integrarse con el framework `DLUnire`.
+
+---
+
+## Upcoming / Próximamente
+
+### Planned / Planeado
+
+- Named routes support.  
+  Soporte para rutas con nombre.
+
+- Middleware integration.  
+  Integración de middlewares.
+
+- Route groups with prefix and middleware stacking.  
+  Agrupación de rutas con prefijo y pila de middlewares.
+
+- Route caching.  
+  Cacheo de rutas.
+
+- CLI generator for controllers and routes.  
+  Generador CLI para controladores y rutas.
