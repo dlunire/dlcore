@@ -1,12 +1,9 @@
 :root {
     background-color: #0b0d13;
     color: silver;
-
     font-family: "Roboto", "Open Sans", sans-serif, arial;
-
     --max-width: 980px;
     --width: calc(100% - 30px);
-
     line-height: 1.6;
 }
 
@@ -18,7 +15,6 @@ body {
 
 * {
     box-sizing: border-box;
-
     scrollbar-width: thin;
     scroll-behavior: smooth;
     scrollbar-color: rgba(255, 136, 0, 0.829) transparent;
@@ -111,14 +107,13 @@ pre:not(:last-of-type) {
 }
 
 .app__logo {
-    --icon-color: rgb(255 153 0 / 75%);
-    --icon-size: 80px;
-
+    --icon-color: #fffa;
+    --icon-size: 40px;
     --icon-width: var(--icon-size);
     --icon-height: var(--icon-size);
-
     display: flex;
     align-items: center;
+    gap: 5px;
 }
 
 .app__title {
@@ -153,7 +148,6 @@ pre:not(:last-of-type) {
     flex-grow: 1;
     padding-top: 40px;
     padding-bottom: 40px;
-
     margin-left: auto;
     margin-right: auto;
     max-width: var(--max-width);
@@ -165,11 +159,9 @@ pre:not(:last-of-type) {
     color: rgba(255, 255, 255, 0.61);
     min-height: 50px;
     border-top: 1px solid rgba(129, 196, 252, 0.133);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     position: sticky;
     bottom: 0;
 }
@@ -177,21 +169,17 @@ pre:not(:last-of-type) {
 .footer__inner {
     width: var(--width);
     max-width: var(--max-width);
-
 }
 
 blockquote {
     --border-color: rgba(255, 255, 255, 0.048);
-
     border-left: 5px solid rgba(255, 255, 255, 0.253);
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color);
-
     border-radius: 5px 3px 3px 5px;
     padding: 5px 20px;
     background-color: rgba(255, 217, 0, 0.055);
-
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -254,11 +242,9 @@ h2 {
 }
 
 .changelog {
-
     border-top: 1px solid rgba(255, 230, 121, 0.055);
     padding-top: 20px;
     padding-bottom: 20px;
-
     margin-top: 30px;
 }
 

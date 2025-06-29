@@ -95,11 +95,11 @@ trait DLConfig {
     private function set_timezone(string $drive, PDO &$pdo, string $timezone = '+00:00'): void {
         switch ($drive) {
             case 'pgsql':
-                $pdo->exec("SET TIME ZONE '$timezone'");
+                $pdo->exec("SET TIME ZONE '{$timezone}'");
                 break;
             case 'mysql':
             case 'mariadb':
-                $pdo->exec("SET time_zone = '$timezone'");
+                $pdo->exec("SET time_zone = '{$timezone}'");
                 break;
         }
     }

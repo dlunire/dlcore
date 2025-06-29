@@ -2,6 +2,7 @@
 
 namespace DLCore\Config;
 
+use DLCore\Exceptions\InvalidTypeException;
 use DLRoute\Requests\DLOutput;
 
 trait DLValues {
@@ -37,13 +38,21 @@ trait DLValues {
     }
 
     /**
-     * Se asegura que la entrada del usuario sea un correo electrónico, de lo contrario,
-     * de volverá un error de tipo incompatible.
+     * Obtiene y valida que el valor del campo especificado sea un correo electrónico válido.
      *
-     * @param string $field Nombre del campo.
-     * @return string
+     * Este método accede a los datos de entrada proporcionados por el usuario y verifica que el valor
+     * correspondiente al campo especificado cumpla con el formato de una dirección de correo electrónico.
+     * 
+     * En caso de que el valor esté ausente, no sea una cadena válida o no cumpla con el formato esperado,
+     * se lanza una excepción del tipo {@see InvalidTypeException} con código 400.
+     *
+     * @param string $field Nombre del campo que se desea validar.
+     * @param string|null $label Etiqueta del campo, utilizada para personalizar el mensaje de error (opcional).
+     * @return string Correo electrónico validado y normalizado (sin espacios iniciales ni finales).
+     *
+     * @throws InvalidTypeException Si el valor es nulo, no es una cadena o no es un correo válido.
      */
-    public function get_email(string $field): string {
+    public function get_email(string $field, ?string $label = null): string {
         /**
          * Entrada del usuario.
          * 
@@ -56,20 +65,27 @@ trait DLValues {
         }
 
         if (is_null($value) || !($this->is_email($value))) {
-            $this->invalid_type("«{$value}» No es un formato válido de correo en el campo «{$field}»");
+            /** @var string $message */
+            $message = is_string($label)
+                ? "«{$value}» no es un formato válido de correo en el campo «{$label}»"
+                : "«{$value}» no es un formato válido de correo en el campo «{$field}»";
+
+            throw new InvalidTypeException($message);
         }
 
         return $value;
     }
+
 
     /**
      * Devuelve una cadena UUID a partir de la entrada de un usuario. Si la cadean
      * `UUIDv4` es inválido, devolverá un error de tipo.
      *
      * @param string $field Campo del formulario
+     * @param string|null $label Etiqueta del campo
      * @return string
      */
-    public function get_uuid(string $field): string {
+    public function get_uuid(string $field, ?string $label = null): string {
         /**
          * Entrada del usuario.
          * 
@@ -82,7 +98,9 @@ trait DLValues {
         }
 
         if (is_null($value)) {
-            $this->invalid_type("El campo {$field} es requerido");
+            is_string($label)
+                ? $this->invalid_type("El campo {$field} es requerido")
+                : $this->invalid_type("El campo {$label} es requerido");
         }
 
         if (!($this->is_uuid($value))) {
