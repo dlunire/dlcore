@@ -8,7 +8,7 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
-## [1.1.1] - 2025-10-29
+## [1.1.2] - 2025-10-29
 
 - Se instalan actualizaciones
 
