@@ -83,16 +83,16 @@
         },
         {
             "name": "dlunire/dlroute",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dlunire/dlroute.git",
-                "reference": "e7f1cf19771dac95650fe05a5ddfc2fa389e844f"
+                "reference": "2287497efd9944884a609e433d12a75def604158"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dlunire/dlroute/zipball/e7f1cf19771dac95650fe05a5ddfc2fa389e844f",
-                "reference": "e7f1cf19771dac95650fe05a5ddfc2fa389e844f",
+                "url": "https://api.github.com/repos/dlunire/dlroute/zipball/2287497efd9944884a609e433d12a75def604158",
+                "reference": "2287497efd9944884a609e433d12a75def604158",
                 "shasum": ""
             },
             "require": {
@@ -117,9 +117,9 @@
             "description": "Sistema de rutas simple, eficiente y flexible. Úsalo con DLUnire o intégralo fácilmente en cualquier proyecto PHP",
             "support": {
                 "issues": "https://github.com/dlunire/dlroute/issues",
-                "source": "https://github.com/dlunire/dlroute/tree/v1.0.1"
+                "source": "https://github.com/dlunire/dlroute/tree/v1.0.2"
             },
-            "time": "2025-04-08T14:53:04+00:00"
+            "time": "2025-10-29T11:22:47+00:00"
         },
         {
             "name": "dlunire/dlstorage",
