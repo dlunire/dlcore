@@ -26,9 +26,9 @@
         "league/commonmark": "^2.3",
         "phpmailer/phpmailer": "^6.8",
         "dlunire/dlroute": "^1.0",
-        "dlunire/dlstorage": "^0.1.0",
         "enshrined/svg-sanitize": "^0.22.0",
-        "michelf/php-markdown": "^2.0"
+        "michelf/php-markdown": "^2.0",
+        "dlunire/dlstorage": "^0.1"
     },
     "config": {
         "optimize-autoloader": true
