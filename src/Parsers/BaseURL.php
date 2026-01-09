@@ -124,8 +124,7 @@ abstract class BaseURL {
         /** @var string[] $parts */
         $parts = explode(separator: ":", string: $this->url);
 
-        /** @var string|null $scheme */
-        $scheme = $parts[0] ?? null;
+        [$scheme, $rest] = $parts;
 
         if (\is_string($scheme)) {
             $scheme = trim($scheme);
