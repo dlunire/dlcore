@@ -14,7 +14,7 @@ namespace DLCore\Core\Data\DTO;
  * @license MIT
  * @version 1.0.0
  * @since 25 de febrero de 2025
- * @link https://github.com/dlunamontilla/dltools/blob/main/src/Core/Data/Values/ValueRange.php
+ * @link https://github.com/dlunire/dlcore/blob/main/src/Core/Data/Values/ValueRange.php
  */
 final class ValueRange {
     /**
