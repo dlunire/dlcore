@@ -17,27 +17,17 @@ namespace DLCore\Core\Data\DTO;
  * @link https://github.com/dlunire/dlcore/blob/main/src/Core/Data/Values/ValueRange.php
  */
 final class ValueRange {
-    /**
-     * Valor de punto de partida del rango.
-     *
-     * @var string $from
-     */
-    public readonly string $from;
 
     /**
-     * Valor de finalización del rango.
+     * Rango de valores para cláusula BETWEEN en consultas SQL.
      *
-     * @var string $to
+     * @param string $from Valor inicial (inclusive)
+     * @param string $to   Valor final (inclusive)
      */
-    public readonly string $to;
-
-    /**
-     * Constructor de la clase ValueRange.
-     *
-     * @param string $from Valor inicial del rango.
-     * @param string $to Valor final del rango.
-     */
-    public function __construct(string $from, string $to) {
+    public function __construct(
+        public readonly string $from,
+        public readonly string $to,
+    ) {
         $this->from = trim($from);
         $this->to = trim($to);
     }

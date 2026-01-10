@@ -4,5 +4,6 @@
     // "editor.fontFamily": "Fira Code Retina",
     "editor.fontLigatures": true,
     "docwriter.style": "JSDoc",
+    "php.version": "8.3",
     // "oneDarkPro.vivid": true
 }

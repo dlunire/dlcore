@@ -12,7 +12,7 @@ namespace DLCore\Exceptions;
 use RuntimeException;
 
 /**
- * UrlException
+ * URLException
  *
  * Se lanza cuando se detecta un error relacionado con URLs,
  * como URLs inválidas, vacías, mal formadas o con esquemas
