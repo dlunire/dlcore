@@ -38,10 +38,10 @@ DLRoute acts as the lower-level layer that abstracts the execution environment, 
 
 ## Installation
 
-To install `dlunire/DLCore`, run the following command:
+To install `dlunire/dlcore`, run the following command:
 
 ```bash
-composer require dlunire/DLCore
+composer require dlunire/dlcore
 ```
 
 > **Important:** You must have Composer installed before installing this tool. If you don’t have it yet, [visit Composer’s official website](https://getcomposer.org) and follow the instructions.
@@ -50,10 +50,10 @@ composer require dlunire/DLCore
 
 ## Instalación
 
-Para instalar `dlunire/DLCore`, ejecute el siguiente comando:
+Para instalar `dlunire/dlcore`, ejecute el siguiente comando:
 
 ```bash
-composer require dlunire/DLCore
+composer require dlunire/dlcore
 ```
 
 > **Importante:** debe tener instalado Composer previamente. Si no lo tiene, [visite el sitio oficial de Composer](https://getcomposer.org) y siga las instrucciones.
