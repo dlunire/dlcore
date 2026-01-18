@@ -14,10 +14,10 @@ Herramientas
 .phpunit.result.cache
 uploads
 *uploads
-cache
 *cache
 src/descriptors
 *Herramientas
+storage
 
 # Logs del sistema
 logs
@@ -30,3 +30,11 @@ logs
 !.env.example
 !.env.type.example
 !.type.example
+
+# Archivos compilados
+dist
+cache
+build
+builds
+.build
+.builds
