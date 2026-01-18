@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DLCore\Parsers;
+namespace DLCore\Parsers\URLs;
 
 use DLCore\Exceptions\URLException;
+use DLCore\Parsers\Traits\Value;
 
 /**
  * Estructura estándar de una URL (RFC 3986 + WHATWG URL Standard, 2026).
@@ -68,6 +69,7 @@ use DLCore\Exceptions\URLException;
  * @license MIT
  */
 abstract class BaseURL {
+    use Value;
 
     /**
      * Protocolo del la URL
@@ -319,6 +321,7 @@ abstract class BaseURL {
      * @return void
      */
     private function load_host(): void {
+        # Pendiente por escribir la lógica para el host
     }
 
     private function validate_ipv6(string $input): bool {
@@ -326,9 +329,32 @@ abstract class BaseURL {
         return false;
     }
 
-    private function validate_ipv4(string $input): bool {
+    /**
+     * Valida si se trata de una dirección IPv4
+     *
+     * @param string $input Entrada a ser analizada
+     * @return boolean
+     */
+    private function is_ipv4(string $input): bool {
 
-        return false;
+        $input = trim($input);
+
+        /** @var string $pattern */
+        $pattern = "/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/";
+
+        /** @var boolean $found */
+        $found = \boolval(
+            preg_match($pattern, $input)
+        );
+
+        if (!$found) return false;
+
+        /** @var non-empty-string[] $parts */
+        $parts = explode(".", $input, 4);
+
+        $this->set_array($parts);
+        
+        return $this->is_ipaddress_v4();
     }
 
     public function validate_domain(string $input): bool {

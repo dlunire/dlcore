@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DLCore\Core\Output;
 
 use DLCore\Compilers\DLView;
+use Exception;
 
 /**
  * Clase View
@@ -31,17 +32,23 @@ final class View extends DLView {
     /**
      * Obtiene el contenido renderizado de una vista en formato HTML.
      * 
-     * @param string $view Nombre de la vista o ruta de la vista.
+     * @param string $view Nombre o ruta de la vista o plantilla
      *     - La ruta por defecto es `welcome`.
      *     - La estructura de rutas puede utilizar barras diagonales `/` o puntos `.` para la separación.
-     * @param array $options Un array asociativo que contiene las variables a ser inyectadas en la vista.
+     * 
+     * @param array $varnames Permite definir el nombre de las variables dentro del motor de plantillas. No debes
+     *              definir nombres de variables súperglobales propias de PHP, porque lanzará una excepción con
+     *              el error específico.
+     * 
      * @return string Contenido HTML generado a partir de la vista.
+     * 
+     * @throws Exception
      */
-    public static function get(string $view = 'welcome', array $options = []): string {
+    public static function get(string $view = 'welcome', array $varnames = []): string {
         new self();
 
         ob_start();
-        self::load($view, $options);
+        self::load($view, $varnames);
 
         /**
          * Contenido obtenido de la vista tras la carga y renderizado.

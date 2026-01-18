@@ -1,4 +1,40 @@
-# DLCore Utility for DLUnire
+# DLCore — Kernel de DLUnire / DLUnire Core Kernel
+
+## Español
+
+### Dependencia de Infraestructura
+
+DLCore **requiere DLRoute como proveedor del contexto de ejecución**.
+Esto incluye, pero no se limita a:
+
+* Resolución del *document root*
+* Contexto del entorno de servidor
+* Resolución base del sistema de archivos y rutas
+
+DLCore **no inicializa ni define el entorno de ejecución**.
+Su responsabilidad es **consumir dicho entorno de forma determinista**, delegando esta tarea a DLRoute como capa de infraestructura.
+
+Esta dependencia es **intencional y estructural**, y forma parte del diseño arquitectónico del framework.
+**DLRoute** actúa como la capa inferior que abstrae el entorno de ejecución, mientras que **DLCore** construye sobre dicho contexto sin duplicar responsabilidades.
+
+---
+
+## English
+
+### Infrastructure Dependency
+
+DLCore **requires DLRoute as the execution context provider**.
+This includes, but is not limited to:
+
+* Document root resolution
+* Server environment context
+* Base filesystem and path resolution
+
+DLCore **does not initialize nor define the execution environment**.
+Its responsibility is to **consume that environment deterministically**, delegating this role to DLRoute as the infrastructure layer.
+
+This dependency is **intentional and structural**, and is part of the framework’s architectural design.
+DLRoute acts as the lower-level layer that abstracts the execution environment, while DLCore builds on top of that context without duplicating responsibilities.
 
 ## Installation
 

@@ -28,99 +28,99 @@ class DLTemplate {
     /**
      * Dobles llaves, que serán reemplazadas por entidades PHP.
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function keys(string $stringTemplate): string {
+    private static function keys(string $string_template): string {
         $search = '/\{\{ \$(.*?) \}\}/';
         $replace = '<?= htmlspecialchars(print_r($$1, true)); ?>';
 
-        return preg_replace($search, $replace, $stringTemplate);
+        return preg_replace($search, $replace, $string_template);
     }
 
     /**
      * Devuelve una la función `json_encode` con los parámetros establecidos
      * para que puedas devolver a partir de un Array una cadena JSON formateada.
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function convertStringArrayToJSONPretty(string $stringTemplate): string {
+    private static function convert_string_array_to_json_pretty(string $string_template): string {
         $search = '/@json\((.*?),?\s?(\'|\")pretty(\'|\")\)/';
         $replace = '<?= json_encode($1, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>';
-        return preg_replace($search, $replace, $stringTemplate);
+        return preg_replace($search, $replace, $string_template);
     }
 
     /**
      * Devuelve una función `json_encode` con un $array pasado como argumento
      *
-     * @param string $stringTemplate Cadena a ser procesada
+     * @param string $string_template Cadena a ser procesada
      * @return string
      */
-    private static function convertStringArrayToJSON(string $stringTemplate): string {
+    private static function convert_string_array_to_json(string $string_template): string {
         $search = '/@json\((.*?)\)/';
         $replace = '<?= json_encode($1); ?>';
-        return preg_replace($search, $replace, $stringTemplate);
+        return preg_replace($search, $replace, $string_template);
     }
 
     /**
      * Una llave de apertura y cierre con dos (02) signos de admiración
      * de cierre que serán reemplazadas por entidades PHP sin filtros.
      *
-     * @param string $stringTemplate Código stringTemplate de la plantilla con sus directivas
+     * @param string $string_template Código string_template de la plantilla con sus directivas
      * @return string
      */
-    private static function keysHTML(string $stringTemplate): string {
+    private static function keys_html(string $string_template): string {
         $search = '/\{\!\! \$(.*?) \!\!\}/m';
         $replace = '<?= print_r(trim($$1), true); ?>';
 
-        return preg_replace($search, $replace, $stringTemplate);
+        return preg_replace($search, $replace, $string_template);
     }
 
     /**
      * Parsear las directivas de las estructuras condicionales
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function parserConditionals(string $stringTemplate): string {
-        $conditionlsOpen = '/@if{1}.*\n*$/mi';
-        $conditionalsClose = '/\@endif|\@endif\n$/mi';
+    private static function parser_condicionals(string $string_template): string {
+        $conditionals_open = '/@if{1}.*\n*$/mi';
+        $condicionals_close = '/\@endif|\@endif\n$/mi';
         $else = '/(@else)+\s*if+\s*/m';
 
-        $stringTemplate = trim($stringTemplate);
+        $string_template = trim($string_template);
 
-        $stringTemplate = preg_replace_callback($conditionlsOpen, function ($matches) {
+        $string_template = preg_replace_callback($conditionals_open, function (array $matches) {
             $found = $matches[0];
             $if = trim(trim($found, "@"));
 
             $if = "<?php $if { ?>";
             return trim($if);
-        }, $stringTemplate);
+        }, $string_template);
 
-        $stringTemplate = preg_replace_callback($conditionalsClose, function (array $matches) {
+        $string_template = preg_replace_callback($condicionals_close, function (array $matches) {
             $found = $matches[0];
             $endif = str_replace($found, "<?php } ?>", $found);
             return trim($endif);
-        }, $stringTemplate);
+        }, $string_template);
 
-        $stringTemplate = self::parseElse($stringTemplate);
-        $stringTemplate = self::parseElseIf($stringTemplate);
+        $string_template = self::parse_else($string_template);
+        $string_template = self::parse_else_if($string_template);
 
-        return $stringTemplate;
+        return $string_template;
     }
 
     /**
      * Parsea la estructura else
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parseElse(string $stringTemplate): string {
+    public static function parse_else(string $string_template): string {
         $pattern = '/@else{1}$/';
         $replace = "<?php } else { ?>";
 
-        $lines = preg_split("/\n/", $stringTemplate);
+        $lines = preg_split("/\n/", $string_template);
         $newLines = [];
 
         foreach ($lines as $key => $line) {
@@ -134,14 +134,14 @@ class DLTemplate {
     /**
      * Parsea la estructura elseif
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parseElseIf(string $stringTemplate): string {
+    public static function parse_else_if(string $string_template): string {
         $pattern = '/@(else\s*if)\s*(.*)?\)/';
         $replace = "<?php } $1 $2) { ?>";
 
-        $lines = preg_split("/\n/", $stringTemplate);
+        $lines = preg_split("/\n/", $string_template);
         $newLines =  [];
 
         foreach ($lines as $key => $line) {
@@ -156,118 +156,128 @@ class DLTemplate {
      * Parsea una estructura repetitida utiliza para
      * iterar arrays
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function makeForEach(string $stringTemplate): string {
-        $findFor = '/\@foreach.*\n*/mi';
+    private static function make_foreach(string $string_template): string {
+        $find_for = '/\@foreach.*\n*/mi';
         $endfor = '/\@endforeach.*\n*/mi';
 
 
-        $stringTemplate = preg_replace_callback($findFor, function (array $matches) {
+        $string_template = preg_replace_callback($find_for, function (array $matches) {
             $found = $matches[0];
             $for = trim(trim($found, '@'));
 
             $php = "<?php $for: ?>";
             return trim($php);
-        }, $stringTemplate);
+        }, $string_template);
 
-        $stringTemplate = preg_replace_callback($endfor, function (array $matches) {
+        $string_template = preg_replace_callback($endfor, function (array $matches) {
             $found = $matches[0];
             $end = trim(trim($found, '@'));
 
             $php = "<?php $end; ?>";
             return trim($php);
-        }, $stringTemplate);
+        }, $string_template);
 
 
-        return trim($stringTemplate);
+        return trim($string_template);
     }
 
     /**
      * Itera estructuras repetitivas
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function makeFor(string $stringTemplate): string {
+    private static function makefor(string $string_template): string {
         $findFor = '/\@for.*\n*/mi';
         $endfor = '/\@endfor.*\n*/mi';
 
 
-        $stringTemplate = preg_replace_callback($findFor, function (array $matches) {
+        $string_template = preg_replace_callback($findFor, function (array $matches) {
             $found = $matches[0];
             $for = trim(trim($found, '@'));
 
             $php = "<?php $for: ?>";
             return trim($php);
-        }, $stringTemplate);
+        }, $string_template);
 
-        $stringTemplate = preg_replace_callback($endfor, function (array $matches) {
+        $string_template = preg_replace_callback($endfor, function (array $matches) {
             $found = $matches[0];
             $end = trim(trim($found, '@'));
 
             $php = "<?php $end; ?>";
             return trim($php);
-        }, $stringTemplate);
+        }, $string_template);
 
 
-        return trim($stringTemplate);
+        return trim($string_template);
     }
 
     /**
      * Crea etiquetas de apertura y cierre de PHP a partir
      * de las directivas @php y @endphp de Laravel
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function makePHP(string $stringTemplate): string {
-        $stringTemplate = preg_replace("/\@php/", "<?php", $stringTemplate);
-        $stringTemplate = preg_replace("/\@endphp/", "?>", $stringTemplate);
+    private static function make_php(string $string_template): string {
+        $string_template = preg_replace("/\@php/", "<?php", $string_template);
+        $string_template = preg_replace("/\@endphp/", "?>", $string_template);
 
-        return trim($stringTemplate);
+        return trim($string_template);
     }
 
 
     /**
      * Compila las plantillas dl-template a PHP
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function build(string $stringTemplate): string {
-        $stringTemplate = self::parseComments($stringTemplate);
+    public static function build(string $string_template): string {
+        $string_template = self::parseComments($string_template);
 
-        $stringTemplate = self::keys($stringTemplate);
-        $stringTemplate = self::keysHTML($stringTemplate);
-        $stringTemplate = self::parserConditionals($stringTemplate);
-        $stringTemplate = self::makeForEach($stringTemplate);
-        $stringTemplate = self::makeFor($stringTemplate);
-        $stringTemplate = self::makePHP($stringTemplate);
-        $stringTemplate = self::convertStringArrayToJSONPretty($stringTemplate);
-        $stringTemplate = self::convertStringArrayToJSONPretty($stringTemplate);
-        $stringTemplate = self::convertStringArrayToJSON($stringTemplate);
-        $stringTemplate = self::parseIncludes($stringTemplate);
-        $stringTemplate = self::parsePrint($stringTemplate);
-        $stringTemplate = self::generateTokenCSRF($stringTemplate);
-        $stringTemplate = self::parseMarkdown($stringTemplate);
-
-        $stringTemplate = self::parseFunctions($stringTemplate);
-        $stringTemplate = self::parse_break($stringTemplate);
-        $stringTemplate = self::parse_continue($stringTemplate);
-        $stringTemplate = self::parse_var($stringTemplate);
-
-        return $stringTemplate;
+        $string_template = self::keys($string_template);
+        $string_template = self::keys_html($string_template);
+        $string_template = self::parser_condicionals($string_template);
+        $string_template = self::make_foreach($string_template);
+        $string_template = self::makefor($string_template);
+        $string_template = self::make_php($string_template);
+        $string_template = self::convert_string_array_to_json_pretty($string_template);
+        $string_template = self::convert_string_array_to_json($string_template);
+        $string_template = self::parse_includes($string_template);
+        $string_template = self::parse_print($string_template);
+        $string_template = self::generate_token_csrf(string_template: $string_template);
+        $string_template = self::parse_markdown($string_template);
+        
+        $string_template = self::parser_functions($string_template);
+        $string_template = self::parse_break($string_template);
+        $string_template = self::parse_continue($string_template);
+        $string_template = self::parse_var($string_template);
+    
+        return $string_template;
     }
 
     /**
-     * Devuelve la instancia del objeto. Si no existe la 
-     * instancia, la crea.
+     * Alias de get_instance
+     * 
+     * @deprecated Este método se eliminará en la versión v2.0.0
      *
      * @return self
      */
     public static function getInstance(): self {
+        return self::get_instance();
+    }
+
+    /**
+     * Devuelve la instancia de DLTemplate. Se genera una instancia nueva si previamente
+     * no ha sido instanciada.
+     *
+     * @return self
+     */
+    public static function get_instance(): self {
         if (!self::$instance) {
             self::$instance = new self;
         }
@@ -278,19 +288,19 @@ class DLTemplate {
     /**
      * Permite parsear la directiva que permite extender la vista base
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @param array $data
      * @return string
      */
-    public static function parseDirective(string $stringTemplate, array $data = []): string {
+    public static function parse_directive(string $string_template, array $data = []): string {
         $search = '@base(\'home\')';
         $search = "/@base\((.*)?\)/";
 
-        $replace = '<?php DLCore\Compilers\DLView::load($1, $data); ?>';
+        $replace = '<?php DLCore\Compilers\DLView::load($1, $varnames); ?>';
 
-        preg_match_all($search, $stringTemplate, $matches);
-        $stringTemplate = preg_replace($search, "", $stringTemplate);
-        $stringTemplate = self::parseSections($stringTemplate);
+        preg_match_all($search, $string_template, $matches);
+        $string_template = preg_replace($search, "", $string_template);
+        $string_template = self::parse_sections($string_template);
 
         /**
          * Rutas incluidas a partir de directivas principales
@@ -305,8 +315,8 @@ class DLTemplate {
         }
 
 
-        $stringTemplate .= "\n\n" . implode("\n", $includes);
-        return $stringTemplate;
+        $string_template .= "\n\n" . implode("\n", $includes);
+        return $string_template;
     }
 
     /**
@@ -314,14 +324,14 @@ class DLTemplate {
      * con contenido establecidos en dichas secciones.
      * 
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function parseSections(string $stringTemplate): string {
+    private static function parse_sections(string $string_template): string {
         $pattern = '/@section\((.*?)\)\s*([\s\S]*?)\s*@endsection/';
 
-        preg_match_all($pattern, $stringTemplate, $matches);
-        $stringTemplate = preg_replace($pattern, "", $stringTemplate);
+        preg_match_all($pattern, $string_template, $matches);
+        $string_template = preg_replace($pattern, "", $string_template);
 
         /**
          * Bloque de secciones
@@ -359,35 +369,35 @@ class DLTemplate {
         $string = implode("", $newBlocks);
 
         $string = trim($string);
-        $stringTemplate = trim($stringTemplate);
+        $string_template = trim($string_template);
 
-        return $string . $stringTemplate;
+        return $string . $string_template;
     }
 
     /**
      * Parsea la directa `@includes`
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parseIncludes(string $stringTemplate): string {
+    public static function parse_includes(string $string_template): string {
         $pattern = "/@includes\((.*?)\)/";
-        $replace = "<?php DLCore\Compilers\DLView::load($1, \$data); ?>";
+        $replace = "<?php DLCore\Compilers\DLView::load($1, \$varnames); ?>";
 
-        $stringTemplate = preg_replace($pattern, $replace, $stringTemplate);
-        return $stringTemplate;
+        $string_template = preg_replace($pattern, $replace, $string_template);
+        return $string_template;
     }
 
     /**
      * Parsea la directiva @print
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parsePrint(string $stringTemplate): string {
+    public static function parse_print(string $string_template): string {
         $pattern = "/@print\((.*?)\)/";
 
-        $stringTemplate = preg_replace_callback($pattern, function ($matches) use ($stringTemplate) {
+        $string_template = preg_replace_callback($pattern, function ($matches) use ($string_template) {
             $m1 = $matches[1] ?? '';
 
             $m1 = trim($m1, '\'');
@@ -399,9 +409,9 @@ class DLTemplate {
             return empty(trim($m1))
                 ? ''
                 : "<?php if (!isset($$m1)) {echo \"<h3 style=\\\"color: white; background-color: #d00000; padding: 20px; border-radius: 5px; font-weight: normal\\\">No existe las sección <strong style=\\\"padding: 10px; border-radius: 5px; background-color: #000000a0\\\">$section</strong></h3>\"; http_response_code(500); exit(1);} print_r($$m1); ?>";
-        }, $stringTemplate);
+        }, $string_template);
 
-        return trim($stringTemplate);
+        return trim($string_template);
     }
 
     /**
@@ -412,28 +422,28 @@ class DLTemplate {
      * {{-- ... --}}
      *```
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parseComments(string $stringTemplate): string {
+    public static function parseComments(string $string_template): string {
         $pattern = "/\{\{\-\-([\s\S]*?)\-\-\}\}/";
-        $stringTemplate = preg_replace($pattern, "", $stringTemplate);
+        $string_template = preg_replace($pattern, "", $string_template);
 
         $pattern = "/<\!\-\-([\s\S]*?)\-\->/";
-        $stringTemplate = preg_replace($pattern, "", $stringTemplate);
+        $string_template = preg_replace($pattern, "", $string_template);
 
-        return trim($stringTemplate);
+        return trim($string_template);
     }
 
     /**
      * Devuelve un elemento de formulario de tipo `hidden` con un
      * valor que es el token de referencia. 
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    private static function generateTokenCSRF(string $stringTemplate): string {
-        $stringTemplate = self::generateTokenCSRFWithField($stringTemplate);
+    private static function generate_token_csrf(string $string_template): string {
+        $string_template = self::generate_token_csrf_with_field($string_template);
 
         /**
          * Patrón de busca de la directiva @csrf
@@ -446,18 +456,18 @@ class DLTemplate {
         $token = $auth->get_token();
 
         $replace = "<input type=\"hidden\" name=\"csrf-token\" id=\"csrf-token\" value=\"{$token}\" />";
-        $stringTemplate = preg_replace($pattern, $replace, $stringTemplate) ?? $stringTemplate;
+        $string_template = preg_replace($pattern, $replace, $string_template) ?? $string_template;
 
-        return $stringTemplate;
+        return $string_template;
     }
 
     /**
      * Permite establecer un nombre personalizado al campo oculto del token CSRF.
      *
-     * @param string $stringTemplate
+     * @param string $stromg_template
      * @return string
      */
-    private static function generateTokenCSRFWithField(string $stringTemplate): string {
+    private static function generate_token_csrf_with_field(string $stromg_template): string {
         /**
          * Autenticador del sistema
          * 
@@ -486,39 +496,39 @@ class DLTemplate {
          */
         $replace = "<input type=\"hidden\" name=\"$1\" id=\"$1\" value=\"{$token}\" />";
 
-        $stringTemplate = preg_replace($pattern, $replace, $stringTemplate);
+        $stromg_template = preg_replace($pattern, $replace, $stromg_template);
 
         $pattern = '/\@csrf\(\'(.*)\'\)/';
 
-        $stringTemplate = preg_replace($pattern, $replace, $stringTemplate);
+        $stromg_template = preg_replace($pattern, $replace, $stromg_template);
 
-        return trim($stringTemplate);
+        return trim($stromg_template);
     }
 
     /**
      * Ubica el archivo Markdown y lo compila
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parseMarkdown(string $stringTemplate): string {
+    public static function parse_markdown(string $string_template): string {
         $pattern = "/@markdown\((.*?)\)/";
         $replace = "<?php echo \DLCore\Compilers\DLMarkdown::parse($1); ?>";
 
-        return preg_replace($pattern, $replace, $stringTemplate) ?? $stringTemplate;
+        return preg_replace($pattern, $replace, $string_template) ?? $string_template;
     }
 
     /**
      * Parsea todo lo que no se haya parseado entre llaves (`{{... }}`)
      *
-     * @param string $stringTemplate
+     * @param string $string_template
      * @return string
      */
-    public static function parseFunctions(string $stringTemplate): string {
+    public static function parser_functions(string $string_template): string {
         $pattern = '/\{\{\s*(.*?)\s*\}\}/';
         $replace = "<?= $1; ?>";
 
-        return preg_replace($pattern, $replace, $stringTemplate);
+        return preg_replace($pattern, $replace, $string_template);
     }
 
     /**
