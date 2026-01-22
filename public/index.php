@@ -8,9 +8,9 @@ ini_set('display_errors', 1);
  * @var int $sessionExpire
  */
 
+use DLCore\Boot\Project;
 use DLRoute\Requests\DLRoute;
 use DLCore\Core\Output\View;
-use DLCore\Parsers\Slug\NormalizeFilename;
 use DLCore\Parsers\Slug\Path;
 use DLRoute\Server\DLServer;
 
@@ -20,6 +20,8 @@ session_set_cookie_params($sessionExpirte);
 session_start();
 
 include dirname(__DIR__, 1) . "/vendor/autoload.php";
+
+Project::run();
 
 DLRoute::get(uri: '/', controller: function () {
     return View::get();
