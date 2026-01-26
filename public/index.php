@@ -15,6 +15,6 @@ $sessionExpirte = time() + 1300;
 session_set_cookie_params($sessionExpirte);
 session_start();
 
-include dirname(__DIR__, 1) . "/vendor/autoload.php";
+require_once dirname(__DIR__, 1) . "/vendor/autoload.php";
 
 Project::run();

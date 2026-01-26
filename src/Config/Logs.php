@@ -2,6 +2,7 @@
 
 namespace DLCore\Config;
 
+use DLCore\Parsers\Slug\Path;
 use DLRoute\Requests\DLOutput;
 use DLRoute\Routes\RouteDebugger;
 use DLRoute\Server\DLServer;
@@ -18,35 +19,28 @@ use DLRoute\Server\DLServer;
  */
 final class Logs {
 
+    /**
+     * Almacena los logs del sistema
+     *
+     * @param string $filename Archivo a ser creado en los logs del sistema.
+     * @param mixed $data Datos a ser almacenados.
+     * @return void
+     */
     public static function save(string $filename, mixed $data): void {
-        /**
-         * Raíz de la aplicación
-         * 
-         * @var string
-         */
-        $root = DLServer::get_document_root();
+        /** @var non-empty-string $file */
+        $file = "/logs/{$filename}";
 
-        /**
-         * Directorio de archivos logs
-         * 
-         * @var string
-         */
-        $log_dir = "{$root}/logs";
-
-        $log_dir = RouteDebugger::remove_trailing_slash($log_dir);
-
-        if (!file_exists($log_dir)) {
-            mkdir($log_dir, 0755, true);
-        }
+        Path::ensure_container_dir($file);
 
         /**
          * Log de destino
          * 
          * @var string
          */
-        $filename = "{$log_dir}/{$filename}";
+        $filename = Path::resolve($file);
 
-        if (is_object($data) || is_array($data)) {
+
+        if (\is_object($data) || \is_array($data)) {
             $data = DLOutput::get_json($data, true);
         }
 

@@ -62,6 +62,13 @@ class Project {
      * @return void
      */
     public static function run(): void {
+
+        Authorizations::register_domain([
+            "localhost"
+        ]);
+
+        Authorizations::init();
+
         self::include_constants_dir();
         self::include_helper_dir();
         self::include_routes_dir();

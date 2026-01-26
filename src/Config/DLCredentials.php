@@ -42,7 +42,7 @@ trait DLCredentials {
 
         foreach ($environments as $environment) {
 
-            if (!is_object($environment)) {
+            if (!\is_object($environment)) {
                 continue;
             }
 
@@ -67,8 +67,8 @@ trait DLCredentials {
              * @var ?string $var_name
              */
             $var_name = $environment->variable ?? null;
-
-            if (is_null($var_name)) {
+            
+            if ($var_name === null) {
                 continue;
             }
 
@@ -88,15 +88,15 @@ trait DLCredentials {
                 $value = $this->parse_string($value);
             }
 
-            if (is_numeric($value) && is_null($type)) {
+            if (is_numeric($value) && $this->is_null($type)) {
                 $value = $this->parse_numeric($value);
             }
 
-            if ($value === "true" && is_null($type)) {
+            if ($value === "true" && $this->is_null($type)) {
                 $value = true;
             }
 
-            if ($value === "false" && is_null($type)) {
+            if ($value === "false" && $this->is_null($type)) {
                 $value = false;
             }
 
@@ -107,6 +107,16 @@ trait DLCredentials {
         }
 
         return (object) $vars;
+    }
+
+    /**
+     * Evalúa si el valor es nulo.
+     *
+     * @param mixed $value Valor a ser comparado.
+     * @return boolean
+     */
+    private function is_null(mixed $value): bool {
+        return $value === null;
     }
 
     /**

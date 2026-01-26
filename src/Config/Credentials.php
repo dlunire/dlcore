@@ -246,7 +246,7 @@ final class Credentials implements CredentialsInterface {
 
         echo DLOutput::get_json([
             "status" => false,
-            "error" => "Error de tipo de datos",
+            "message" => "Error de tipo de datos",
             "details" => [
                 "actual" => $actual_type,
                 "expected" => $expected_type,
