@@ -84,26 +84,40 @@ final class Environment {
     }
 
     /**
-     * Obtiene el valor de una variable de entorno.
+     * Obtiene el valor de una variable de entorno. Si no existe la variable de entorno, entonces,
+     * devolverá un valor nulo.
      *
      * @param string $varname El nombre de la variable de entorno que se desea obtener.
-     * @return string El valor de la variable de entorno si existe, o una cadena vacía si no se encuentra.
+     * @return string|null
      */
-    public function get_env_value(string $varname): string {
+    public function get_env_value(string $varname): ?string {
         /**
          * Valor de la variable de entorno
          * 
-         * @var string $value
+         * @var non-empty-string|null $value
          */
-        $value = "";
+        $value = null;
 
-        if (
-            array_key_exists($varname, $this->environment) &&
-            array_key_exists('value', $this->environment[$varname])
-        ) {
+        /** @var boolean $varname_exists */
+        $varname_exists = \array_key_exists($varname, $this->environment) &&
+            \array_key_exists('value', $this->environment[$varname]);
+
+        if ($varname_exists) {
             $value = $this->environment[$varname]['value'];
         }
 
-        return trim($value);
+        return \is_string($value) ? trim($value) : null;
+    }
+
+    /**
+     * Alias de `$this->get_env_value`.
+     * 
+     * Devuelve el valor de la variable de entorno.
+     *
+     * @param string $varname Nombre de la variable de entorno a ser consultada
+     * @return string|null
+     */
+    public function get(string $varname): ?string {
+        return $this->get_env_value($varname);
     }
 }

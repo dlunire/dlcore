@@ -225,7 +225,7 @@ abstract class Model {
 
         $table = "{$prefix}{$table}";
 
-        if (!is_null($table_name)) {
+        if ($table_name !== null) {
             $table = $table_name;
         }
 

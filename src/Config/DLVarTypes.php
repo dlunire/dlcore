@@ -2,8 +2,6 @@
 
 namespace DLCore\Config;
 
-use DLRoute\Config\Controller;
-
 /**
  * Tipos de datos de las variables de entorno.
  * 

@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use DLCore\Core\Output\View;
+use DLCore\Core\Time\DLTime;
+use DLCore\Database\Model;
 use DLCore\Parsers\Slug\Path;
 use DLRoute\Requests\DLRoute;
 use DLRoute\Server\DLServer;
@@ -23,6 +25,8 @@ DLRoute::get('/routes', function () {
         "http_host" => DLServer::get_http_host(),
         "url_base" => DLServer::get_base_url(),
         "ip" => DLServer::get_ipaddress(),
+        "resolve" => Path::resolve("/.home/\\\\\\////david///"),
+        "home" => Path::get_home_dir()
     ];
 });
 
@@ -45,11 +49,31 @@ DLRoute::get('/david', function () {
 
 DLRoute::get('/dir', function () {
 
-    return [
-        "one-resolve" => Path::resolve("/mi/ruta"),
-        "resolve" => Path::resolve('/sandbox/../../etc/passwd algo por aquí.md'),
-        "resolve_filename" => Path::resolve_filename('/sandbox/../../etc/passwd algo por aquí.md'),
-        "get_filename" => Path::get_filename("David Eduardo", true),
-        "routes" => DLRoute::get_routes()
-    ];
+    try {
+        $data = [
+            "one-resolve" => Path::resolve("/mi/ruta"),
+            "resolve" => Path::resolve('/sandbox/../../etc/passwd algo por aquí.md'),
+            "resolve_filename" => Path::resolve_filename('/sandbox/../../etc/passwd algo por aquí.md'),
+            "get_filename" => Path::get_filename("David Eduardo", true),
+            "routes" => DLRoute::get_routes(),
+            "home" => Path::build_home_path("/ciencia"),
+            "test" => dirname("/ciencia"),
+            "date" => DLTime::now_for_filename()
+        ];
+    } catch (Exception $error) {
+        return [
+            "message" => $error->getMessage(),
+            "code" => $error->getCode(),
+            "details" => $error->getTrace()
+        ];
+    }
+
+    return $data;
+});
+
+final class Filenames extends Model {
+}
+
+DLRoute::get('/test', function () {
+    return Filenames::get();
 });

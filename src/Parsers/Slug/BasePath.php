@@ -49,6 +49,15 @@ use DLCore\Exceptions\InvalidPath;
 abstract class BasePath {
 
     /**
+     * Lista de claves para tener acceso al HOME del sistema operativo.
+     * 
+     * @var non-empty-string[]
+     */
+    protected const HOMES = [
+        'HOME', 'USERPROFILE', 'HOMEDRIVE', 'HOMEPATH', 'APPDATA'
+    ];
+
+    /**
      * Normaliza los separadores de directorio al sistema operativo donde está
      * corriendo su aplicación
      * 
@@ -107,7 +116,7 @@ abstract class BasePath {
      * Devuelve la ruta con separadores normalizados
      *
      * @param string $path Ruta a ser normalizada
-     * @param boolean $dot_separator Indica si el punto (.) se utilizará como separador de directorio.
+     * @param boolean $dot_separator [Opcional] Indica si el punto (.) se utilizará como separador de directorio.
      * @param boolean $collapse [Opcional] Indica si los caracteres seleccionados a colapsar lo hacen, según 
      *                          vaya evolucionando los caracteres seleccionados para ese propósito. El valor por
      *                          defecto es `false`: no colapsa.
@@ -115,7 +124,7 @@ abstract class BasePath {
      * 
      * @throws InvalidPath
      */
-    protected static function get_normalize_path(string $path, bool $dot_separator = false, bool $collapse = false): string {
+    public static function get_normalize_path(string $path, bool $dot_separator = false, bool $collapse = false): string {
         return DIRECTORY_SEPARATOR . self::normalize_separator($path, $dot_separator, $collapse);
     }
 

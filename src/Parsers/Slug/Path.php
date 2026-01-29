@@ -206,12 +206,14 @@ final class Path extends BasePath {
      * y asume control total sobre la estructura esperada del entorno.
      */
     public static function ensure_dir(string $path, bool $dot_separator = false, bool $collapse = false): void {
+        /** @var int $old_mask */
+        $old_mask = umask(0);
 
         /** @var non-empty-string $dir */
         $dir = self::resolve($path, $dot_separator, $collapse);
 
-        /** @var non-empty-string $dirname */
-        $dirname = basename($dir);
+        /** @var non-empty-string $normalized_path */
+        $normalized_path = self::get_normalize_path($path, $dot_separator, $collapse);
 
         if (\file_exists($dir) && \is_dir($dir)) {
             return;
@@ -221,8 +223,10 @@ final class Path extends BasePath {
         $root = DLServer::get_document_root();
 
         if (!\is_writable($root)) {
+            umask($old_mask);
+
             throw new InvalidPath(
-                "Asegúrese de establecer los permisos necesarios para crear el directorio «{$dirname}» o créelo manualmente"
+                "Asegúrese de establecer los permisos necesarios para crear el directorio «{$normalized_path}» o créelo manualmente"
             );
         }
 
@@ -238,7 +242,8 @@ final class Path extends BasePath {
             unlink($dir);
         }
 
-        mkdir($dir, 0755, true);
+        mkdir($dir, 0775, true);
+        umask($old_mask);
     }
 
     /**
@@ -267,5 +272,121 @@ final class Path extends BasePath {
         /** @var string $dir */
         $dir = dirname($path);
         self::ensure_dir($dir, $dot_separator, $collapse);
+    }
+
+    /**
+     * Devuelve el directorio HOME del usuario o del entorno de ejecución.
+     *
+     * Este método resuelve la ruta base asociada al usuario del sistema
+     * o al contexto de ejecución actual (CLI, servidor web, contenedor, etc.),
+     * independientemente del sistema operativo subyacente.
+     *
+     * La ruta devuelta **no representa el document root de la aplicación**,
+     * sino el directorio personal del usuario que ejecuta el proceso
+     * (por ejemplo: `/home/usuario` en sistemas Unix-like o
+     * `C:\Users\Usuario` en Windows).
+     *
+     * Este valor es utilizado como punto de anclaje para:
+     * - Configuración local no versionada
+     * - Almacenamiento de credenciales de usuario
+     * - Cachés de desarrollo
+     * - Datos dependientes del entorno y no del proyecto
+     *
+     * El método abstrae las diferencias entre plataformas (Linux, macOS, Windows)
+     * y evita el uso directo de variables de entorno dispersas en el código
+     * de dominio.
+     *
+     * @param string $scope_dir Directorio alternativo que se utilizará dentro de la aplicación, en el caso
+     *               de que no sea posible determinar la proporcionada por el sistema operativo.
+     * 
+     * @return string Ruta absoluta del directorio HOME normalizada para el sistema operativo.
+     *
+     * @throws InvalidPath Si no es posible determinar el directorio HOME del entorno de ejecución
+     *                     actual, además de no poder crearse un directorio para un `/.home` alternativo.
+     */
+    public static function get_home_dir(string $scope_dir = "/dlunire"): string {
+        /** @var non-empty-string|null $home_dir */
+        $home_dir = null;
+
+        /** @var non-empty-string $current_scope_dir */
+        $current_scope_dir = "/.home/{$scope_dir}";
+
+        foreach (static::HOMES as $home) {
+            $home_dir = getenv($home, true);
+            if (\is_string($home_dir) && trim($home_dir) !== '')
+                break;
+        }
+
+        if (!\is_string($home_dir)) {
+            self::ensure_dir($current_scope_dir);
+            $home_dir = self::resolve($current_scope_dir);
+        }
+
+        return $home_dir;
+    }
+
+    /**
+     * Asegura, siempre que sea posible, el directorio donde se guardarán los archivos con la llave de entropía
+     * que se encargará de cifrar o decifrar las credenciales almacenadas en contenedores binarios.
+     *
+     * @param string $path Ruta relativa del directorio donde se encuentra la llave de entropía.
+     * @return void
+     * 
+     * @throws InvalidPath
+     */
+    public static function ensure_home_subdir(string $path = "/"): void {
+        /** @var non-empty-string $entropy_dir */
+        $entropy_dir = self::build_home_path($path);
+
+        /** @var non-empty-string $home */
+        $home = self::get_home_dir();
+
+        if (!is_writable($home)) {
+            throw new InvalidPath("Asegúrese de tener los permisos necesarios para crear el directorio «{$path}»", 403);
+        }
+
+        if (file_exists($entropy_dir) && is_dir($entropy_dir)) {
+            return;
+        }
+
+        if (file_exists($entropy_dir)) {
+            /** @var string $file_content */
+            $file_content = file_get_contents($entropy_dir);
+
+            $file_content !== false
+                ? file_put_contents("{$entropy_dir}.backup", $file_content)
+                : null;
+
+            unlink($entropy_dir);
+        }
+
+        mkdir($entropy_dir, 0755, true);
+    }
+
+    /**
+     * Devuelve una ruta absoluta normalizada, compuesta por el directorio `$HOME`
+     * y una ruta relativa.
+     *
+     * La ruta resultante puede referenciar un archivo o un directorio; esta función
+     * no valida la existencia ni el tipo del recurso, ni interactúa con el sistema
+     * de archivos.
+     *
+     * @param string $path Ruta relativa (archivo o directorio).
+     * @return non-empty-string Ruta absoluta normalizada.
+     *
+     * @throws InvalidPath Si no es posible resolver el directorio `$HOME` debido a
+     *         restricciones del entorno o permisos insuficientes.
+     */
+    public static function build_home_path(string $path): string {
+        /** @var non-empty-string $home */
+        $home = self::get_home_dir();
+
+        /** @var non-empty-string $current_path */
+        $current_path = self::get_normalize_path("/.dlunire/{$path}");
+
+        /** @var non-empty-string $full_path */
+        $full_path = "{$home}{$current_path}";
+
+        return $full_path;
     }
 }

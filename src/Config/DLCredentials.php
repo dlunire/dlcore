@@ -88,15 +88,15 @@ trait DLCredentials {
                 $value = $this->parse_string($value);
             }
 
-            if (is_numeric($value) && $this->is_null($type)) {
+            if (is_numeric($value) && $this->is_null_value($type)) {
                 $value = $this->parse_numeric($value);
             }
 
-            if ($value === "true" && $this->is_null($type)) {
+            if ($value === "true" && $this->is_null_value($type)) {
                 $value = true;
             }
 
-            if ($value === "false" && $this->is_null($type)) {
+            if ($value === "false" && $this->is_null_value($type)) {
                 $value = false;
             }
 
@@ -115,7 +115,7 @@ trait DLCredentials {
      * @param mixed $value Valor a ser comparado.
      * @return boolean
      */
-    private function is_null(mixed $value): bool {
+    private function is_null_value(mixed $value): bool {
         return $value === null;
     }
 

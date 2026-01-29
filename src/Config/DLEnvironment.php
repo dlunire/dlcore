@@ -2,9 +2,9 @@
 
 namespace DLCore\Config;
 
+use DLCore\Parsers\Slug\Path;
 use DLRoute\Config\DLCredentials;
 use DLRoute\Requests\DLOutput;
-use DLRoute\Server\DLServer;
 
 /**
  * Lee e interpreta el archivo .env, pero con tipado estático.
@@ -22,31 +22,20 @@ trait DLEnvironment {
     use DLVarTypes;
 
     /**
-     * Variables de entorno usada por la aplicacion.
-     *
-     * @var array
-     */
-    private array $vars = [];
-
-    /**
      * Devuelve el contenido del archivo .env
      *
      * @return string
      */
     private function get_env(): string {
-        /**
-         * Directorio raíz de la aplicación.
-         * 
-         * @var string
-         */
-        $root = DLServer::get_document_root();
+        /** @var non-empty-string $file */
+        $file = "/.env.type";
 
         /**
          * Variables de entorno.
          * 
-         * @var string
+         * @var non-empty-string $filename
          */
-        $filename = "{$root}/.env.type";
+        $filename = Path::resolve($file);
 
         if (!file_exists($filename)) {
             return "";
@@ -273,7 +262,7 @@ trait DLEnvironment {
 
         $type = strtolower($type);
 
-        if (!in_array($type, self::$types)) {
+        if (!\in_array($type, self::$types)) {
             $type = strtoupper($type);
             static::error("Tipo de datos desconocido. Tipo desconocido {$type}");
         }

@@ -18,6 +18,8 @@ uploads
 src/descriptors
 *Herramientas
 storage
+.home
+app
 
 # Logs del sistema
 logs
@@ -25,10 +27,12 @@ logs
 # Variables de entorno
 .env
 .env*
+dlunire.env.type
 
 # Se permiten las siguientes variables de entorno:
 !.env.example
 !.env.type.example
+!dlunire.type.example
 !.type.example
 
 # Archivos compilados

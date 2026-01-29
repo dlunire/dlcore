@@ -39,7 +39,6 @@ final class Logs {
          */
         $filename = Path::resolve($file);
 
-
         if (\is_object($data) || \is_array($data)) {
             $data = DLOutput::get_json($data, true);
         }

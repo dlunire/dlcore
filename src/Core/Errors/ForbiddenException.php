@@ -16,7 +16,7 @@ final class ForbiddenException extends RuntimeException {
      * @param int $code Código de estado HTTP asociado (opcional, por defecto 403).
      * @param Throwable|null $previous Excepción encadenada previa (opcional).
      */
-    public function __construct(string $message = "Acceso prohibido", int $code = 403, ?Throwable $previous = null) {
+    public function __construct(string $message = "Acceso restringido", int $code = 403, ?Throwable $previous = null) {
         parent::__construct($message, $code, $previous);
     }
 

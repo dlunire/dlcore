@@ -2,6 +2,7 @@
 
 namespace DLCore\Config;
 
+use DLCore\Parsers\Slug\Path;
 use DLRoute\Requests\DLOutput;
 use DLRoute\Server\DLServer;
 use Error;
@@ -200,8 +201,7 @@ trait DLConfig {
 
         $database = trim($database);
         $database = trim($database, "\/\\");
-        $database = preg_replace("/[\/\\\]+/", DIRECTORY_SEPARATOR, $database);
-
+        
         /** @var string $mysql El DSN para MySQL/MariaDB. */
         $mysql = "mysql:dbname={$database};host={$host};port={$port};charset={$charset};collation={$collation}";
 
@@ -224,42 +224,22 @@ trait DLConfig {
      *
      * @param string $database Nombre de la base de datos sin extensión.
      * @return string DSN de la base de datos SQLite en formato `sqlite:/ruta/a/la/base_de_datos.sqlite`.
-     *
-     * @throws InvalidArgumentException Si el nombre de la base de datos está vacío.
      */
     private function get_sqlite_dsn(string $database): string {
-        // Normaliza la ruta eliminando barras redundantes y caracteres innecesarios
-        $database = preg_replace("/[\\/\\\]+/", DIRECTORY_SEPARATOR, $database);
-        $database = trim($database, "\/\\");
-        $database = trim($database);
 
-        // Verifica si el nombre de la base de datos es válido
-        if (empty($database)) {
-            throw new InvalidArgumentException("El nombre de la base de datos no puede estar vacío");
+        if (trim($database) === '') {
+            $database = "default";
         }
 
-        /** @var string $root Directorio raíz del servidor */
-        $root = DLServer::get_document_root();
+        /** @var non-empty-string $db */
+        $relative_db = "/db/{$database}.sqlite";
 
-        /** @var string $db_dir Directorio donde se almacenarán las bases de datos SQLite */
-        $db_dir = $root . DIRECTORY_SEPARATOR . "db";
+        Path::ensure_container_dir($relative_db);
+        
+        /** @var non-empty-string $db */
+        $db = Path::resolve($relative_db);
 
-        // Si el directorio de la base de datos existe pero no es un directorio, se elimina
-        if (file_exists($db_dir) && !is_dir($db_dir)) {
-            unlink($db_dir);
-        }
-
-        // Si el directorio no existe, se crea con permisos adecuados
-        if (!file_exists($db_dir)) {
-            mkdir(
-                directory: $db_dir,
-                permissions: 0755,
-                recursive: true
-            );
-        }
-
-        /** @var string $sqlite DSN de la base de datos SQLite */
-        return "sqlite:{$db_dir}" . DIRECTORY_SEPARATOR . "{$database}.sqlite";
+        return "sqlite:{$db}";
     }
 
     /**
@@ -278,7 +258,7 @@ trait DLConfig {
      * 
      * @throws InvalidArgumentException Si el campo `$field` está vacío.
      * 
-     * @author David E Luna M. <https://github.com/dlunamontilla>
+     * @author David E Luna M. <https://github.com/dlunire>
      * @license MIT
      */
     protected function get_field(string $field): string {
