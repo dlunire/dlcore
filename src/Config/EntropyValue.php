@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DLCore\Config;
 
 use DLCore\Core\Time\DLTime;
+use DLCore\Exceptions\FileNotFoundException;
 use DLCore\Exceptions\InvalidDate;
 use DLCore\Exceptions\InvalidPath;
 use DLCore\Parsers\Slug\Path;
@@ -109,23 +110,17 @@ trait EntropyValue {
             );
         }
 
-        /** @var non-empty-string $relative_path */
-        $relative_path = dirname($file_path);
-
-        if (trim($relative_path) === trim($file_path)) {
-            $file_path .= "/default";
-        }
-
-        Path::ensure_home_subdir($relative_path);
-
         /** @var non-empty-string $file_full_path */
         $file_full_path = Path::build_home_path($file_path);
+
+        Path::ensure_home_subdir($file_full_path);
 
         /** @var non-empty-string $basename_hash */
         $basename_hash = hash('sha256', basename($file_full_path));
 
         /** @var non-empty-string $filename */
         $filename = $file_full_path . DIRECTORY_SEPARATOR . $basename_hash;
+
 
         /** @var non-empty-string $date */
         $date = DLTime::now_for_filename();
@@ -150,6 +145,72 @@ trait EntropyValue {
         return $entropy_value_from_filename;
     }
 
+    private static function ensure_file_writing(string $filename): void {
+        /** @var non-empty-string $entropy_value */
+        $entropy_value = bin2hex(string: random_bytes(length: 100));
+
+        /** @var non-empty-string $date */
+        $date = DLTime::now_for_filename();
+
+        /** @var string */
+        $renamed = false;
+
+        if (\file_exists($filename) && \is_dir($filename)) {
+            rename(from: $filename, to: "{$filename}-{$date}.backup");
+        }
+    }
+
+    /**
+     * Obtiene una fuente de entropía persistente y garantiza la existencia
+     * de un flujo de bytes no vacío.
+     *
+     * Este método valida únicamente:
+     * - Que el archivo exista.
+     * - Que no sea un directorio.
+     * - Que sea legible.
+     * - Que contenga al menos un byte.
+     *
+     * No valida formato, imprimibilidad, codificación ni calidad
+     * criptográfica de la entropía. El contenido es tratado como
+     * material binario crudo y opaco.
+     *
+     * El método nunca retorna valores vacíos ni falsos: ante cualquier
+     * incumplimiento del contrato, lanza una excepción explícita.
+     *
+     * @param string $filename Ruta del archivo que actúa como fuente de entropía.
+     *
+     * @return non-empty-string Raw entropy bytes (flujo binario no vacío).
+     *
+     * @throws FileNotFoundException
+     *         Si el archivo no existe, es un directorio, no es legible
+     *         o no contiene bytes de entropía.
+     */
+    private static function require_entropy_bytes(string $filename, int $length = 20): string {
+        /** @var non-empty-string|null $content */
+        $content = null;
+
+        if (!\file_exists($filename)) {
+            throw new FileNotFoundException();
+        }
+
+        if (\is_dir($filename)) {
+            throw new FileNotFoundException("El archivo que intentas consultar es un directorio");
+        }
+
+        /** @var bool|non-empty-string $content */
+        $content = file_get_contents($filename);
+
+        if ($content === false || \strlen($content) === 0) {
+            throw new FileNotFoundException("No se pudo obtener la llave de entropía del archivo a consultar");
+        }
+
+        if (\strlen($content) < $length) {
+            throw new FileNotFoundException("La llave de entropía debe contar al menos, con {$length} bytes");
+        }
+
+        return $content;
+    }
+
     /**
      * Obtiene una llave de entropía persistente asociada a una ruta configurada
      * mediante una variable de entorno.
@@ -172,7 +233,7 @@ trait EntropyValue {
      * @throws InvalidDate Si no es posible generar información temporal requerida
      *                     durante el proceso.
      */
-    public static function get_entropy_value(string $varname = 'file_path'): string {
+    public static function get_key_entropy(string $varname = 'file_path'): string {
         return self::determine_entropy_value($varname);
     }
 }

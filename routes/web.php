@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use DLCore\Controllers\InstallCredentialsController;
 use DLCore\Core\Output\View;
 use DLCore\Core\Time\DLTime;
 use DLCore\Database\Model;
@@ -77,3 +78,5 @@ final class Filenames extends Model {
 DLRoute::get('/test', function () {
     return Filenames::get();
 });
+
+DLRoute::get('/install', [InstallCredentialsController::class, 'install']);
