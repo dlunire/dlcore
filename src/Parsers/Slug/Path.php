@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace DLCore\Parsers\Slug;
 
+use DLCore\Core\Time\DLTime;
 use DLCore\Exceptions\InvalidPath;
 use DLRoute\Server\DLServer;
 
@@ -44,19 +45,54 @@ use DLRoute\Server\DLServer;
 final class Path extends BasePath {
 
     /**
-     * Devuelve una ruta resuelta absoluta con separadores normalizados en función del sistema operativo
-     * en la que esté corriendo el script o la aplicación escrita.
+     * Resuelve una ruta absoluta normalizada a partir de una ruta relativa,
+     * tomando como base el directorio raíz del entorno de ejecución.
      *
-     * @param string $path Ruta a ser analizada y procesada.
-     * @param boolean $eval_filename Indica vamos a normalizar el nombre de un archivo, incluyendo, su ruta.
-     * @param boolean $dot_separator Indica si se tomará el punto (.) como separador de directorio.
-     * @param boolean $collapse Indica si los caracteres seleccionados para colapsar lo hacen. Para indicar que 
-     *                          deben colapsar debe valer `true`, caso contrario, no lo hará.
-     * @return string
+     * Este método construye una ruta absoluta consistente y portable,
+     * normalizando separadores de directorio según el sistema operativo
+     * y aplicando, de forma opcional, reglas adicionales de colapsado
+     * y evaluación de nombres de archivo.
+     *
+     * La resolución parte del `document_root` del entorno actual y permite,
+     * bajo condiciones controladas, ascender niveles en la jerarquía de
+     * directorios para resolver rutas externas al directorio del proyecto.
+     *
+     * Responsabilidades del método:
+     * - Determinar el directorio base de resolución según el nivel indicado.
+     * - Normalizar la ruta relativa proporcionada.
+     * - Evaluar opcionalmente el nombre del archivo final.
+     * - Construir una ruta absoluta con separadores normalizados.
+     *
+     * Este método **no valida la existencia del path resultante**, ni garantiza
+     * permisos de acceso o escritura; su responsabilidad se limita exclusivamente
+     * a la **resolución y normalización semántica de la ruta**.
+     *
+     * @param string  $path          Ruta relativa a ser resuelta.
+     * @param bool    $eval_filename Indica si debe normalizarse explícitamente
+     *                               el nombre del archivo final junto con su ruta.
+     * @param bool    $dot_separator Indica si el punto (`.`) debe interpretarse
+     *                               como separador de directorio durante la
+     *                               normalización.
+     * @param bool    $collapse      Indica si los separadores repetidos u otros
+     *                               caracteres normalizables deben colapsarse
+     *                               en una forma canónica.
+     * @param int     $level         [Opcional] Número de niveles a ascender desde
+     *                               el directorio raíz del proyecto. Su uso debe
+     *                               limitarse a escenarios controlados y justificados.
+     *
+     * @return non-empty-string Ruta absoluta resuelta y normalizada.
      */
-    private static function get_resolve(string $path, bool $eval_filename, bool $dot_separator, bool $collapse): string {
+
+    private static function get_resolve(string $path, bool $eval_filename, bool $dot_separator, bool $collapse, int $level = 0): string {
+        $level = \intval(abs($level));
+
+        /** @var non-empty-string $document_root */
+        $document_root = DLServer::get_document_root();
+
         /** @var non-empty-string $root */
-        $root = DLServer::get_document_root();
+        $root = $level < 1
+            ? $document_root
+            : dirname($document_root, $level);
 
         /** @var non-empty-string $normalized_path */
         $normalized_path = self::get_normalize_path($path, $dot_separator, $collapse);
@@ -96,34 +132,75 @@ final class Path extends BasePath {
     }
 
     /**
-     * Resuelve la ruta absoluta del sistema operativo
+     * Resuelve una ruta absoluta normalizada en función del entorno de ejecución
+     * y del sistema operativo subyacente.
      *
-     * @param string $path Ruta a ser convertida en absoluta
-     * @param boolean $dot_separator [Opcional] Indica si los puntos deben tomarse como separadores. El valor
-     *                               por defecto es `false`, es decir, que los puntos no son separadores por defecto.
-     * 
-     * @param boolean $collapse [Opcional] Indica si deben colapsar los caracteres seleccionados para
-     *                          dicho propósito. El valor por defecto es `false`, es decir, sin colapsar.
-     * @return string
+     * Este método actúa como interfaz pública para la resolución de rutas,
+     * convirtiendo una ruta relativa en una ruta absoluta consistente y
+     * portable. La resolución se realiza tomando como base el directorio
+     * raíz del entorno de ejecución y aplicando reglas opcionales de
+     * normalización y colapsado.
+     *
+     * El método **no valida la existencia física del path resultante**, ni
+     * verifica permisos de acceso o escritura. Su responsabilidad se limita
+     * exclusivamente a la **resolución semántica de la ruta**.
+     *
+     * No se realiza evaluación explícita de nombres de archivo; el path es
+     * tratado como una ruta lógica completa.
+     *
+     * @param string $path          Ruta relativa a ser resuelta.
+     * @param bool   $dot_separator [Opcional] Indica si el punto (`.`) debe
+     *                               interpretarse como separador de directorio
+     *                               durante el proceso de normalización.
+     *                               Por defecto es `false`.
+     * @param bool   $collapse      [Opcional] Indica si los separadores repetidos
+     *                               u otros caracteres normalizables deben
+     *                               colapsarse en una forma canónica.
+     *                               Por defecto es `false`.
+     * @param int    $level         [Opcional] Número de niveles a ascender desde
+     *                               el directorio raíz de resolución. Su uso
+     *                               debe limitarse a escenarios controlados.
+     *
+     * @return non-empty-string Ruta absoluta resuelta y normalizada.
      */
-    public static function resolve(string $path, bool $dot_separator = false, bool $collapse = false): string {
-        return self::get_resolve($path, false, $dot_separator, $collapse);
+    public static function resolve(string $path, bool $dot_separator = false, bool $collapse = false, int $level = 0): string {
+        return self::get_resolve(path: $path, eval_filename: false, dot_separator: $dot_separator, collapse: $collapse, level: $level);
     }
 
     /**
-     * Devuelve la ruta absoluta del archivo con los nombres normalizados.
+     * Resuelve una ruta absoluta normalizada incluyendo la evaluación explícita
+     * del nombre de archivo final.
      *
-     * @param string $path Ruta a ser analizada
-     * @param boolean $dot_separator [Opcional] Indica si el punto (.) se tomará como separador de directorio. El
-     *                               valor por defecto es `false`, es decir, que no se tratan como separadores por defecto.
-     * 
-     * @param boolean $collapse [Opcional] Indica si los caracteres seleccionados previamente en la arquitectura del manejador
-     *                          de ruta deben colapsarse en un solo carácter. Los caracteres seleccionados para tal fin no
-     *                          colapsan por defecto, es decir, que valen `false`.
-     * @return string
+     * Este método convierte una ruta relativa en una ruta absoluta consistente
+     * y portable, aplicando reglas de normalización tanto a los separadores de
+     * directorio como al nombre del archivo contenido en la ruta.
+     *
+     * A diferencia de `resolve()`, este método **sí evalúa y normaliza el nombre
+     * del archivo final**, garantizando que la ruta resultante represente un
+     * archivo válido según las reglas internas del manejador de rutas.
+     *
+     * El método no valida la existencia física del archivo ni verifica permisos
+     * de acceso o escritura; su responsabilidad se limita a la **resolución
+     * semántica y normalización del path**.
+     *
+     * @param string $path          Ruta relativa que incluye un nombre de archivo.
+     * @param bool   $dot_separator [Opcional] Indica si el punto (`.`) debe
+     *                               interpretarse como separador de directorio
+     *                               durante el proceso de normalización.
+     *                               Por defecto es `false`.
+     * @param bool   $collapse      [Opcional] Indica si los separadores repetidos
+     *                               u otros caracteres normalizables deben
+     *                               colapsarse en una forma canónica.
+     *                               Por defecto es `false`.
+     * @param int    $level         [Opcional] Número de niveles a ascender desde
+     *                               el directorio raíz de resolución. Su uso
+     *                               debe limitarse a escenarios controlados.
+     *
+     * @return non-empty-string Ruta absoluta resuelta y normalizada que incluye
+     *                          un nombre de archivo evaluado.
      */
-    public static function resolve_filename(string $path, bool $dot_separator = false, bool $collapse = false): string {
-        return self::get_resolve($path, true, $dot_separator, $collapse);
+    public static function resolve_filename(string $path, bool $dot_separator = false, bool $collapse = false, int $level = 0): string {
+        return self::get_resolve($path, true, $dot_separator, $collapse, $level);
     }
 
     /**
@@ -194,6 +271,9 @@ final class Path extends BasePath {
      * @param bool    $collapse
      *        Indica si se deben colapsar segmentos redundantes del path durante
      *        la resolución.
+     * 
+     * @param int $level [Opcional] Indica cuántos niveles sale del directorio. Cualquier valor entero que se introduzco
+     *            como argumento en este parámetro siempre será un valor absoluto. Es decir, un entero positivo.
      *
      * @throws InvalidPath
      *         Si el directorio raíz de la aplicación no es escribible y se requiere
@@ -205,12 +285,14 @@ final class Path extends BasePath {
      * Este método forma parte del núcleo de normalización del sistema de archivos
      * y asume control total sobre la estructura esperada del entorno.
      */
-    public static function ensure_dir(string $path, bool $dot_separator = false, bool $collapse = false): void {
+    public static function ensure_dir(string $path, bool $dot_separator = false, bool $collapse = false, int $level = 0): void {
+        $level = \intval(abs($level));
+
         /** @var int $old_mask */
         $old_mask = umask(0);
 
         /** @var non-empty-string $dir */
-        $dir = self::resolve($path, $dot_separator, $collapse);
+        $dir = self::resolve($path, $dot_separator, $collapse, $level);
 
         /** @var non-empty-string $normalized_path */
         $normalized_path = self::get_normalize_path($path, $dot_separator, $collapse);
@@ -219,8 +301,14 @@ final class Path extends BasePath {
             return;
         }
 
+        /** @var non-empty-string $document_root */
+        $document_root = DLServer::get_document_root();
+
         /** @var non-empty-string $root */
-        $root = DLServer::get_document_root();
+        $root = $level < 1
+            ? $document_root
+            : dirname($document_root, $level);
+
 
         if (!\is_writable($root)) {
             umask($old_mask);
@@ -230,14 +318,18 @@ final class Path extends BasePath {
             );
         }
 
+        /** @var non-empty-string $rename */
+        $date_for_filename = DLTime::now_for_filename();
+
         if (\file_exists($dir)) {
 
             /** @var string $content */
             $content = file_get_contents($dir);
 
             if ($content !== FALSE) {
-                file_put_contents("{$dir}.backup", $content);
+                rename(from: $dir, to: "{$dir}-{$date_for_filename}.backup");
             }
+            ;
 
             unlink($dir);
         }
@@ -318,8 +410,8 @@ final class Path extends BasePath {
         }
 
         if (!\is_string($home_dir)) {
-            self::ensure_dir($current_scope_dir);
-            $home_dir = self::resolve($current_scope_dir);
+            self::ensure_dir(path: $current_scope_dir, level: 1);
+            $home_dir = self::resolve(path: $current_scope_dir);
         }
 
         return $home_dir;
@@ -335,6 +427,9 @@ final class Path extends BasePath {
      * @throws InvalidPath
      */
     public static function ensure_home_subdir(string $path = "/"): void {
+        /** @var int $old_mask */
+        $old_mask = umask(0);
+
         /** @var non-empty-string $entropy_dir */
         $entropy_dir = self::build_home_path($path);
 
@@ -342,6 +437,7 @@ final class Path extends BasePath {
         $home = self::get_home_dir();
 
         if (!is_writable($home)) {
+            umask($old_mask);
             throw new InvalidPath("Asegúrese de tener los permisos necesarios para crear el directorio «{$path}»", 403);
         }
 
@@ -361,6 +457,9 @@ final class Path extends BasePath {
         }
 
         mkdir($entropy_dir, 0755, true);
+
+        /** @var int $old_mask */
+        umask($old_mask);
     }
 
     /**

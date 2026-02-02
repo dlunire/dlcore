@@ -110,10 +110,10 @@ trait EntropyValue {
             );
         }
 
+        Path::ensure_home_subdir($file_path);
+
         /** @var non-empty-string $file_full_path */
         $file_full_path = Path::build_home_path($file_path);
-
-        Path::ensure_home_subdir($file_full_path);
 
         /** @var non-empty-string $basename_hash */
         $basename_hash = hash('sha256', basename($file_full_path));
@@ -121,43 +121,87 @@ trait EntropyValue {
         /** @var non-empty-string $filename */
         $filename = $file_full_path . DIRECTORY_SEPARATOR . $basename_hash;
 
+        self::rename_colliding_directory($filename);
 
-        /** @var non-empty-string $date */
-        $date = DLTime::now_for_filename();
+        /** @var non-empty-string $entropy */
+        $entropy = self::ensure_entropy_file($filename, 40);
 
-        /** @var non-empty-string $entropy_value */
-        $entropy_value = bin2hex(random_bytes(20));
-
-        if (\is_dir($filename)) {
-            rename($filename, "{$filename}-{$date}.backup");
-            file_put_contents($filename, $entropy_value);
-            return $entropy_value;
-        }
-
-        /** @var string $entropy_value_from_filename */
-        $entropy_value_from_filename = file_get_contents($filename);
-
-        if (!\is_string($entropy_value_from_filename) || trim($entropy_value_from_filename) === '') {
-            file_put_contents($filename, $entropy_value);
-            return $entropy_value;
-        }
-
-        return $entropy_value_from_filename;
+        // print_r($entropy); exit;
+        return $entropy;
     }
 
-    private static function ensure_file_writing(string $filename): void {
-        /** @var non-empty-string $entropy_value */
-        $entropy_value = bin2hex(string: random_bytes(length: 100));
-
+    /**
+     * Renombra un directorio existente cuando su nombre colisiona con el nombre
+     * de un archivo esperado.
+     *
+     * Si el path indicado existe y corresponde a un directorio, este método
+     * intenta renombrarlo agregando un sufijo de respaldo basado en la fecha
+     * actual. Si el path no existe o corresponde a un archivo regular, no se
+     * realiza ninguna acción.
+     *
+     * Este método no valida la ruta ni asegura la existencia de directorios;
+     * su única responsabilidad es resolver la colisión de nombre mediante
+     * el renombrado del directorio.
+     *
+     * @param string $filename Ruta cuyo nombre puede colisionar con un archivo.
+     *
+     * @throws InvalidPath Si no es posible renombrar el directorio existente
+     *                     que colisiona con el nombre del archivo.
+     */
+    private static function rename_colliding_directory(string $filename): void {
         /** @var non-empty-string $date */
         $date = DLTime::now_for_filename();
 
-        /** @var string */
-        $renamed = false;
-
-        if (\file_exists($filename) && \is_dir($filename)) {
-            rename(from: $filename, to: "{$filename}-{$date}.backup");
+        if (!\file_exists($filename) || !\is_dir($filename)) {
+            return;
         }
+
+        /** @var boolean $renamed */
+        $renamed = rename(from: $filename, to: "{$filename}-{$date}.backup");
+
+        if (!$renamed && \file_exists($filename)) {
+            throw new InvalidPath(
+                "No fue posible renombrar el directorio existente que colisiona con el nombre del archivo"
+            );
+        }
+    }
+
+    /**
+     * Garantiza la existencia de un archivo de entropía con una longitud mínima
+     * de bytes criptográficamente seguros.
+     *
+     * Si el archivo ya existe y contiene la cantidad requerida de entropía,
+     * no se modifica su contenido. En caso contrario, el archivo es creado
+     * e inicializado con nuevos bytes aleatorios.
+     *
+     * Este método asume que la ruta ha sido validada previamente y que el
+     * directorio de destino existe y es escribible.
+     *
+     * @param string $filename Ruta del archivo que almacenará la llave de entropía.
+     * @param int    $length   Cantidad mínima de bytes de entropía requerida.
+     * @return non-empty-string
+     *
+     * @throws InvalidPath Si el archivo no puede ser creado o escrito.
+     */
+    private static function ensure_entropy_file(string $filename, int $length): string {
+        /** @var non-empty-string $entropy */
+        $entropy = random_bytes($length);
+
+        /** @var int|bool $created */
+        $operation_result = false;
+
+        try {
+            $operation_result = true;
+            return self::require_entropy_bytes($filename, $length);
+        } catch (FileNotFoundException $error) {
+            $operation_result = file_put_contents($filename, $entropy);
+        }
+
+        if ($operation_result === false) {
+            throw new InvalidPath("No fue posible crear el archivo con la llave de entropía");
+        }
+
+        return $entropy;
     }
 
     /**

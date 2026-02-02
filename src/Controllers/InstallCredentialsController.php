@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace DLCore\Controllers;
 
-use DLCore\Auth\EncriptedCredentials;
+use DLCore\Auth\EncryptedCredentials;
 use DLCore\Core\BaseController;
-use Exception;
 
 /**
  * Controlador de instalación las credenciales de acceso a la base de datos.
@@ -20,12 +19,20 @@ use Exception;
  */
 final class InstallCredentialsController extends BaseController {
 
-    public function install() {
-        $install = new EncriptedCredentials();
+    /**
+     * Punto de entrada de instalación de credenciales de acceso a la base de datos
+     *
+     * @return array
+     */
+    public function install(): array {
+        $install = new EncryptedCredentials();
+
+        /** @var non-empty-string $entropy */
+        $entropy = $install->get_key_entropy('file_path');
 
         return [
             "status" => true,
-            "entropy" => $install->get_key_entropy('file_path')
+            "entropy" => bin2hex($entropy)
         ];
     }
 }
