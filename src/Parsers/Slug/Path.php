@@ -411,9 +411,9 @@ final class Path extends BasePath {
 
         if (!\is_string($home_dir)) {
             self::ensure_dir(path: $current_scope_dir, level: 1);
-            $home_dir = self::resolve(path: $current_scope_dir);
+            $home_dir = self::resolve(path: $current_scope_dir, level: 1);
         }
-
+        
         return $home_dir;
     }
 
@@ -444,6 +444,7 @@ final class Path extends BasePath {
         if (file_exists($entropy_dir) && is_dir($entropy_dir)) {
             return;
         }
+
 
         if (file_exists($entropy_dir)) {
             /** @var string $file_content */

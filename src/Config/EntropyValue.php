@@ -9,6 +9,9 @@ use DLCore\Exceptions\FileNotFoundException;
 use DLCore\Exceptions\InvalidDate;
 use DLCore\Exceptions\InvalidPath;
 use DLCore\Parsers\Slug\Path;
+use DLRoute\Server\DLServer;
+use DLStorage\Errors\ValueError;
+use InvalidArgumentException;
 
 /**
  * Trait EntropyValue
@@ -37,7 +40,7 @@ use DLCore\Parsers\Slug\Path;
  * por la infraestructura del framework.
  *
  * @version     v0.0.1
- * @package     Cryptography\Entropy
+ * @package      DLCore\Config
  * @license     MIT
  * @author      David E Luna M
  * @copyright   Copyright (c) 2025 David E Luna M
@@ -67,7 +70,9 @@ trait EntropyValue {
     private static function get_value(string $varname): ?string {
         /** @var Environment */
         $environment = Environment::get_instance();
-        return $environment->get($varname);
+        $value =  $environment->get_env_value($varname);
+        
+        return $value;
     }
 
     /**
@@ -104,16 +109,27 @@ trait EntropyValue {
         /** @var non-empty-string|null $file_path */
         $file_path = self::get_value(strtoupper(trim($varname)));
 
+        /** @var boolean $multitenant */
+        $multitenant = self::get_boolean('multitenant');
+
+        // var_dump($multitenant); exit;
+
         if ($file_path === null || trim($file_path) === '') {
             throw new InvalidPath(
                 \sprintf("La ruta de archivo es requerida en «%s»", strtoupper(trim($varname)))
             );
         }
 
-        Path::ensure_home_subdir($file_path);
+        /** @var non-empty-string $domain_for_filename */
+        $domain_for_filename = Path::get_normalize_file(DLServer::get_host());
+
+        /** @var non-empty-string $relative_path */
+        $relative_path = "{$file_path}{$domain_for_filename}";
 
         /** @var non-empty-string $file_full_path */
-        $file_full_path = Path::build_home_path($file_path);
+        $file_full_path = Path::build_home_path($relative_path);
+
+        Path::ensure_home_subdir($relative_path);
 
         /** @var non-empty-string $basename_hash */
         $basename_hash = hash('sha256', basename($file_full_path));
@@ -126,8 +142,63 @@ trait EntropyValue {
         /** @var non-empty-string $entropy */
         $entropy = self::ensure_entropy_file($filename, 40);
 
-        // print_r($entropy); exit;
         return $entropy;
+    }
+
+    /**
+     * Obtiene el valor booleano de una variable definida en `dlunire.env.type`.
+     *
+     * Este método interpreta explícitamente el valor de una variable de entorno
+     * como un booleano estricto, aceptando únicamente los literales:
+     *
+     * - `"true"`
+     * - `"false"`
+     *
+     * Cualquier otro valor será considerado un error de tipo y provocará
+     * una excepción, evitando ambigüedades semánticas propias de los entornos
+     * dinámicos.
+     *
+     * La lectura del valor se realiza a través del sistema de entropía de DLUnire,
+     * lo que garantiza que el origen del dato no proviene directamente del sistema
+     * operativo, sino de la capa lógica controlada por el framework.
+     *
+     * @param non-empty-string $varname
+     *        Nombre de la variable lógica definida en `dlunire.env.type`
+     *        que se desea interpretar como booleano.
+     *
+     * @return bool
+     *         Retorna `true` o `false` únicamente si el valor de la variable
+     *         coincide exactamente con los literales permitidos.
+     *
+     * @throws ValueError
+     *         Si el valor asociado a la variable no es un literal booleano válido.
+     * 
+     * @throws InvalidArgumentException
+     *         Si el argumento contiene una cadena vacía.
+     *
+     * @internal
+     *         Este método forma parte del mecanismo interno de tipado estricto
+     *         del sistema de configuración de DLUnire y no debe ser utilizado
+     *         directamente por código de usuario.
+     */
+    private static function get_boolean(string $varname): bool {
+        /** @var string $new_varname */
+        $new_varname = strtoupper(trim($varname));
+
+        if ($new_varname === '') {
+            throw new InvalidArgumentException("El campo 'varname' es requerido");
+        }
+
+        /** @var non-empty-string|null $value */
+        $value = self::get_value($new_varname);
+
+        var_dump($value); exit;
+
+        if ($value !== "true" && $value !== "false") {
+            throw new ValueError("Error de tipo en '{$varname}'");
+        }
+
+        return false;
     }
 
     /**
@@ -181,7 +252,8 @@ trait EntropyValue {
      * @param int    $length   Cantidad mínima de bytes de entropía requerida.
      * @return non-empty-string
      *
-     * @throws InvalidPath Si el archivo no puede ser creado o escrito.
+     * @throws InvalidPath Si el directorio contenedro del archivo de entropía archivo
+     *                     no pueden ser creado o escrito.
      */
     private static function ensure_entropy_file(string $filename, int $length): string {
         /** @var non-empty-string $entropy */
@@ -194,7 +266,11 @@ trait EntropyValue {
             $operation_result = true;
             return self::require_entropy_bytes($filename, $length);
         } catch (FileNotFoundException $error) {
-            $operation_result = file_put_contents($filename, $entropy);
+            if (!\is_dir(dirname($filename))) {
+                throw new InvalidPath("No fue posible crear el directorio donde se persistirá la llave de entropía");
+            }
+
+            $operation_result = @file_put_contents($filename, $entropy);
         }
 
         if ($operation_result === false) {

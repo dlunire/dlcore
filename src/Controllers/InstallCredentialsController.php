@@ -29,7 +29,7 @@ final class InstallCredentialsController extends BaseController {
 
         /** @var non-empty-string $entropy */
         $entropy = $install->get_key_entropy('file_path');
-
+        
         return [
             "status" => true,
             "entropy" => bin2hex($entropy)
