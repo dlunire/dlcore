@@ -186,7 +186,7 @@ trait DLDatabaseProperties {
     /**
      * Opciones adicionales de la consulta SQL
      *
-     * @var array
+     * @var string
      */
     protected string $options = "";
 

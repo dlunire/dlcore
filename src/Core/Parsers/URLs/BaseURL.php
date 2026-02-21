@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DLCore\Parsers\URLs;
+namespace DLCore\Core\Parsers\URLs;
 
 use DLCore\Exceptions\URLException;
-use DLCore\Parsers\Traits\Value;
+use DLCore\Core\Parsers\Traits\Value;
 
 /**
  * Estructura estándar de una URL (RFC 3986 + WHATWG URL Standard, 2026).

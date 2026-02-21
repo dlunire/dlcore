@@ -27,7 +27,6 @@ logs
 # Variables de entorno
 .env
 .env*
-dlunire.env.type
 
 # Se permiten las siguientes variables de entorno:
 !.env.example

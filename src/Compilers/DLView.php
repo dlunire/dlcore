@@ -3,7 +3,7 @@
 namespace DLCore\Compilers;
 
 use DLCore\Exceptions\InvalidPath;
-use DLCore\Parsers\Slug\Path;
+use DLCore\Core\Parsers\Slug\Path;
 use DLRoute\Server\DLServer;
 use Exception;
 

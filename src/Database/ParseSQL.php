@@ -23,7 +23,7 @@ final class ParseSQL {
         $pattern = "/where(.*)/i";
 
         /** @var bool $found */
-        $found = boolval(preg_match($pattern, $this->query, $matches));
+        $found = \boolval(preg_match($pattern, $this->query, $matches));
 
         /** @var string $query */
         $query = "";
@@ -50,7 +50,7 @@ final class ParseSQL {
         $parts = explode(" OR ", $query);
 
         foreach ($parts as &$part) {
-            if (!is_string($part)) {
+            if (!\is_string($part)) {
                 continue;
             }
 

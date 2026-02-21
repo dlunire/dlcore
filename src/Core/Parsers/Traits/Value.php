@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DLCore\Parsers\Traits;
+namespace DLCore\Core\Parsers\Traits;
 
 /**
  * Permite manipular valores a partir de un array u objetos (objetos en el futuro) para consultarlos 
@@ -10,7 +10,7 @@ namespace DLCore\Parsers\Traits;
  * 
  * No solamente permite extraer valores, sino evaluar rango de valores permitidos.
  * 
- * @package DLCore\Parsers\Traits
+ * @package DLCore\Core\Parsers\Traits
  * 
  * @version v0.0.1 (release)
  * @author Davi E Luna M <dlunireframework@gmail.com>

@@ -26,7 +26,7 @@
 
 declare(strict_types=1);
 
-namespace DLCore\Parsers\Spaces;
+namespace DLCore\Core\Parsers\Spaces;
 
 /**
  * Normaliza los espacios en blanco para elimnar los redundante, incluyendo saltos de líneas,
@@ -36,7 +36,7 @@ namespace DLCore\Parsers\Spaces;
  * También permite eliminar espacios en blanco sin comprometer la funcionalidad del código fuente
  * para comprimirlo y reducir el ancho de banda.
  * 
- * @package DLCore\Parsers\Spaces
+ * @package DLCore\Core\Parsers\Spaces
  */
 class WhiteSpace {
 

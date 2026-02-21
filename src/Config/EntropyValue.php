@@ -8,7 +8,7 @@ use DLCore\Core\Time\DLTime;
 use DLCore\Exceptions\FileNotFoundException;
 use DLCore\Exceptions\InvalidDate;
 use DLCore\Exceptions\InvalidPath;
-use DLCore\Parsers\Slug\Path;
+use DLCore\Core\Parsers\Slug\Path;
 use DLRoute\Server\DLServer;
 use DLStorage\Errors\ValueError;
 use InvalidArgumentException;
@@ -109,10 +109,8 @@ trait EntropyValue {
         /** @var non-empty-string|null $file_path */
         $file_path = self::get_value(strtoupper(trim($varname)));
 
-        /** @var boolean $multitenant */
+        // /** @var boolean $multitenant */
         $multitenant = self::get_boolean('multitenant');
-
-        // var_dump($multitenant); exit;
 
         if ($file_path === null || trim($file_path) === '') {
             throw new InvalidPath(

@@ -2,7 +2,7 @@
 
 namespace DLCore\Config;
 
-use DLCore\Parsers\Slug\Path;
+use DLCore\Core\Parsers\Slug\Path;
 use DLRoute\Requests\DLOutput;
 use DLRoute\Server\DLServer;
 use Error;

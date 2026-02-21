@@ -26,7 +26,7 @@
 
 declare(strict_types=1);
 
-namespace DLCore\Parsers\Slug;
+namespace DLCore\Core\Parsers\Slug;
 
 use DLCore\Core\Time\DLTime;
 use DLCore\Exceptions\InvalidPath;
@@ -35,7 +35,7 @@ use DLRoute\Server\DLServer;
 /**
  * Permite resolver la ruta absoluta del sistema
  * 
- * @package DLCore\Parsers\Slug
+ * @package DLCore\Core\Parsers\Slug
  * 
  * @version v0.0.1 (release)
  * @author David E Luna M <dlunireframework@gmail.com>

@@ -6,7 +6,7 @@ use DLCore\Controllers\InstallCredentialsController;
 use DLCore\Core\Output\View;
 use DLCore\Core\Time\DLTime;
 use DLCore\Database\Model;
-use DLCore\Parsers\Slug\Path;
+use DLCore\Core\Parsers\Slug\Path;
 use DLRoute\Requests\DLRoute;
 use DLRoute\Server\DLServer;
 

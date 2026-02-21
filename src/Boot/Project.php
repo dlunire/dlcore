@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace DLCore\Boot;
 
-use DLCore\Parsers\Slug\Path;
+use DLCore\Core\Parsers\Slug\Path;
 use DLRoute\Requests\DLRoute;
 
 /**
