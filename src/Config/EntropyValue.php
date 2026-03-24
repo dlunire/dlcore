@@ -190,8 +190,6 @@ trait EntropyValue {
         /** @var non-empty-string|null $value */
         $value = self::get_value($new_varname);
 
-        var_dump($value); exit;
-
         if ($value !== "true" && $value !== "false") {
             throw new ValueError("Error de tipo en '{$varname}'");
         }
