@@ -8,6 +8,16 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
+## [v2.0.0] - 2026-07-05
+
+### BREAKING CHANGES
+
+- **License change**: the package license changed from `MIT` to **`AGPL-3.0-or-later`**, as part of the adoption of a dual licensing model across the whole DLUnire ecosystem (open source under AGPL-3.0 + commercial licenses for use in closed-source products). Use in proprietary products — including network access (SaaS) — without publishing the corresponding source code now requires a commercial license. See `LICENSE` and `LICENSING.md` in the main repository (`dlunire/dlunire`) for full details. The `license` field in `composer.json` was updated accordingly.
+
+**Cambio de licencia**: se cambió la licencia del paquete de `MIT` a **`AGPL-3.0-or-later`**, como parte de la adopción de un modelo de licenciamiento dual para todo el ecosistema DLUnire (código abierto vía AGPL-3.0 + licencias comerciales para uso en productos de código cerrado). El uso en productos propietarios —incluido el acceso por red (SaaS)— sin publicar el código fuente correspondiente ahora requiere una licencia comercial. Ver `LICENSE` y `LICENSING.md` en el repositorio principal (`dlunire/dlunire`) para el detalle completo. El campo `license` en `composer.json` fue actualizado en consecuencia.
+
+---
+
 ## [v1.1.4] - 2025-10-29
 
 - Se instalan actualizaciones
