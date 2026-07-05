@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "febdf187e637825de359e740c6b3ba61",
+    "content-hash": "2077dea90961f88b6957de7d30bfdbfa",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -83,16 +83,16 @@
         },
         {
             "name": "dlunire/dlroute",
-            "version": "v1.0.4",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dlunire/dlroute.git",
-                "reference": "4e910008d421d3edd942027eb180a004e50ca145"
+                "reference": "9dcc54b83761fdb189149b46bd733a871dde736d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dlunire/dlroute/zipball/4e910008d421d3edd942027eb180a004e50ca145",
-                "reference": "4e910008d421d3edd942027eb180a004e50ca145",
+                "url": "https://api.github.com/repos/dlunire/dlroute/zipball/9dcc54b83761fdb189149b46bd733a871dde736d",
+                "reference": "9dcc54b83761fdb189149b46bd733a871dde736d",
                 "shasum": ""
             },
             "require": {
@@ -106,20 +106,26 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "AGPL-3.0-or-later"
             ],
             "authors": [
                 {
-                    "name": "DLUnire Framework",
-                    "email": "dlunireframework@gmail.com"
+                    "name": "David E Luna M",
+                    "email": "info@dlunire.dev"
                 }
             ],
-            "description": "Sistema de rutas simple, eficiente y flexible. Úsalo con DLUnire o intégralo fácilmente en cualquier proyecto PHP",
+            "description": "Sistema avanzado de enrutamiento HTTP impulsado por autómatas finitos. Altamente eficiente, flexible y de alto rendimiento. Úsalo como motor central de DLUnire o intégralo fácilmente en cualquier proyecto PHP.",
             "support": {
                 "issues": "https://github.com/dlunire/dlroute/issues",
-                "source": "https://github.com/dlunire/dlroute/tree/v1.0.4"
+                "source": "https://github.com/dlunire/dlroute/tree/v2.0.0"
             },
-            "time": "2026-01-15T08:26:50+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/dlunire",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-07-05T14:17:10+00:00"
         },
         {
             "name": "dlunire/dlstorage",
@@ -205,16 +211,16 @@
         },
         {
             "name": "imagine/imagine",
-            "version": "1.5.2",
+            "version": "1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-imagine/Imagine.git",
-                "reference": "f9ed796eefb77c2f0f2167e1d4e36bc2b5ed6b0c"
+                "reference": "dd57a4c290ff4d223d17bcd219dac9ac8bf1cc16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-imagine/Imagine/zipball/f9ed796eefb77c2f0f2167e1d4e36bc2b5ed6b0c",
-                "reference": "f9ed796eefb77c2f0f2167e1d4e36bc2b5ed6b0c",
+                "url": "https://api.github.com/repos/php-imagine/Imagine/zipball/dd57a4c290ff4d223d17bcd219dac9ac8bf1cc16",
+                "reference": "dd57a4c290ff4d223d17bcd219dac9ac8bf1cc16",
                 "shasum": ""
             },
             "require": {
@@ -261,9 +267,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-imagine/Imagine/issues",
-                "source": "https://github.com/php-imagine/Imagine/tree/1.5.2"
+                "source": "https://github.com/php-imagine/Imagine/tree/1.5.4"
             },
-            "time": "2026-01-09T10:45:12+00:00"
+            "time": "2026-06-04T10:05:48+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2649,5 +2655,5 @@
         "php": ">=8.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

@@ -1,5 +1,28 @@
 <?php
 
+/**
+ * DLUnire
+ * Copyright (C) 2026 David E Luna M
+ *
+ * Operando bajo el establecimiento de comercio "DLUnire",
+ * NIT 700551569-1, matrícula mercantil Nº 10007069
+ * (matrícula mercantil personal Nº 10007068).
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <https://www.gnu.org/licenses/>.
+ */
+
 namespace DLCore\HttpRequest;
 
 use DLRoute\Server\DLHost as ServerDLHost;
@@ -11,15 +34,14 @@ use DLRoute\Server\DLHost as ServerDLHost;
  * Se recomienda migrar a la clase `DLRoute\Server\DLHost`, que ofrece 
  * mejoras en la gestión de host y soporte actualizado para entornos HTTPS.
  *
- * @package DLCore
- * @version 1.1.0
+ * @package DLCore\HttpRequest
  * @deprecated Esta clase está en desuso desde la versión v0.1.56.
  *             Se recomienda usar `DLRoute\Server\DLHost` en su lugar, ya que 
  *             esta clase será eliminada en versiones futuras.
  * 
- * @author David E Luna <davidlunamontilla@gmail.com>
+ * @author David E Luna <info@dlunire.dev>
  * @copyright (c) 2020 - David E Luna M
- * @license MIT
+ * @license AGPL-3.0 license
  */
 class DLHost {
     /**
@@ -93,7 +115,7 @@ class DLHost {
         $https = \DLRoute\Server\DLHost::is_https();
         $url = (string) $_SERVER['REQUEST_URI'];
 
-        if (!count($this->hostName) > 0)
+        if (!\count($this->hostName) > 0)
             return;
 
         foreach ($this->hostName as $host) {
