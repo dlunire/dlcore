@@ -120,7 +120,7 @@ G_SECRET_KEY: string = "<secret-key>"
 G_SITE_KEY: string = "<site-key>"
 ```
 
-> For syntax highlighting, install [DL Typed Environment extension](https://marketplace.visualstudio.com/items?itemName=dlunamontilla.envtype)
+> For syntax highlighting, install [DL Typed Environment extension](https://open-vsx.org/extension/dlunire/dlunire-envtype)
 
 ---
 
