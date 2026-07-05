@@ -152,7 +152,7 @@ trait DLQueryBuilder {
         }
 
         if (\count($register) < 1) {
-            $register = $this->limit($start, $rows)->get($param);
+            $register = $this->limit($start, $rows)->{'get'}($param);
         }
 
         if ($quantity <= 0) {

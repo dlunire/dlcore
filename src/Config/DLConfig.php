@@ -46,6 +46,18 @@ trait DLConfig {
     use DLEnvironment;
 
     /**
+     * Motores de base de datos permitidos
+     * 
+     * @var non-empty-array<string,true>
+     */
+    private const SUPPORTED_DRIVERS = [
+        "mariadb" => true,
+        "mysql" => true,
+        "sqlite" => true,
+        "pgsql" => true
+    ];
+
+    /**
      * Establece y obtiene una conexión con el motor de base de datos.
      * @param string $timezone Zona horaria seleccionada
      * @return PDO
@@ -115,6 +127,7 @@ trait DLConfig {
      * @return void
      */
     private function set_timezone(string $drive, PDO &$pdo, string $timezone = '+00:00'): void {
+        
         switch ($drive) {
             case 'pgsql':
                 $pdo->exec("SET TIME ZONE '{$timezone}'");
@@ -126,12 +139,11 @@ trait DLConfig {
         }
     }
 
-
     /**
      * Devuelve errores personalizados
      *
-     * @param array|object $data Contenido de error
-     * @param bool $mail Opcional. Indica si es un error de envío de correo electrónico o no.
+     * @param PDOException|Exception|Error $error Error capturado
+     * @param boolean $mail Correo electrónico
      * @return void
      */
     protected function exception(PDOException|Exception|Error $error, bool $mail = false): void {
@@ -192,8 +204,15 @@ trait DLConfig {
      * @return string El DSN correspondiente al tipo de base de datos.
      * 
      * @throws InvalidArgumentException Si el tipo de base de datos no es reconocido.
+     * @throws PDOException Si elije un emotor de base de datos incorrecto.
      */
     private function get_dsn(string $drive = 'mysql'): string {
+        /** @var boolean $is_valid_drive */
+        $is_valid_drive = self::SUPPORTED_DRIVERS[$drive] ?? false;
+
+        if (!$is_valid_drive) {
+            throw new PDOException("El motor de base de datos «{$drive}» no está soportado. En su lugar, elija 'pgsql', 'sqlite', 'mariadb' o 'mysql'");
+        }
 
         /**
          * Obtiene las credenciales necesarias para la conexión con la base de datos.

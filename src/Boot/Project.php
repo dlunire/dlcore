@@ -43,23 +43,42 @@ class Project {
     /**
      * Ejecuta el proceso de inicialización y arranque de la aplicación.
      *
-     * Este método actúa como punto de entrada del núcleo del framework. Su
-     * responsabilidad es preparar el entorno de ejecución cargando, en un
-     * orden bien definido, los siguientes componentes:
+     * Este método constituye el punto de entrada principal del framework y es
+     * responsable de preparar el entorno de ejecución antes de transferir el
+     * control al motor de enrutamiento.
      *
-     * 1. Directorio de constantes globales de la aplicación.
-     * 2. Directorio de helpers reutilizables.
-     * 3. Definiciones de rutas del sistema.
+     * Durante su ejecución se realizan, en el siguiente orden, las operaciones
+     * fundamentales de inicialización:
      *
-     * Una vez cargados estos recursos, delega el control al motor de ruteo
-     * para resolver y ejecutar la ruta correspondiente a la petición actual.
+     * 1. Registro de los dominios autorizados para la aplicación.
+     * 2. Inicialización del sistema de autorizaciones.
+     * 3. Carga de las constantes globales definidas por la aplicación.
+     * 4. Carga de los helpers reutilizables.
+     * 5. Carga opcional del directorio de rutas (`routes/`).
+     * 6. Ejecución del motor de enrutamiento.
      *
-     * Este método no devuelve ningún valor y su ejecución tiene efectos
-     * colaterales sobre el estado global de la aplicación.
+     * La carga automática del directorio `routes/` puede habilitarse o
+     * deshabilitarse mediante el parámetro `$autoload_routes`. Cuando se
+     * establece en `false`, la responsabilidad de registrar las rutas recae
+     * completamente sobre el desarrollador antes de invocar este método o desde
+     * cualquier otro punto del proceso de inicialización.
+     *
+     * Esta flexibilidad permite implementar procesos de bootstrap
+     * personalizados, arquitecturas modulares, sistemas de plugins,
+     * aplicaciones multi-tenant o cualquier otro mecanismo de registro manual
+     * de rutas.
+     *
+     * Este método no devuelve ningún valor y produce efectos colaterales sobre
+     * el estado global de la aplicación durante su proceso de inicialización.
+     *
+     * @param bool $autoload_routes Indica si debe cargarse automáticamente el
+     *                              contenido del directorio `routes/` antes de
+     *                              ejecutar el motor de enrutamiento. El valor
+     *                              predeterminado es `true`.
      *
      * @return void
      */
-    public static function run(): void {
+    public static function run(bool $autoload_routes = true): void {
 
         Authorizations::register_domain([
             "localhost"
@@ -69,7 +88,10 @@ class Project {
 
         self::include_constants_dir();
         self::include_helper_dir();
-        self::include_routes_dir();
+
+        if ($autoload_routes) {
+            self::include_routes_dir();
+        }
 
         DLRoute::execute();
     }

@@ -499,7 +499,7 @@ class DLDatabase {
         /** @var string $drive */
         $drive = $credentials->get_drive();
 
-        if (!in_array($drive, self::DRIVERS, true)) {
+        if (!\in_array($drive, self::DRIVERS, true)) {
             throw new Exception("REPLACE INTO no es compatible con {$drive}. Solo está disponible para MySQL/MariaDB", 500);
         }
 
