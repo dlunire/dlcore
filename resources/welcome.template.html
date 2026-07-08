@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenidos a DLCore</title>
+    <meta name="theme-color" content="#0b0d13">
+    <meta name="description" content="DLCore — núcleo del framework DLUnire. ORM, plantillas, autenticación y bootstrap PHP moderno.">
+    <title>Bienvenido a DLCore</title>
 
     <link rel="icon" href="./favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,34 +18,75 @@
 </head>
 
 <body>
-    <main class="app">
+    <main class="app welcome">
         <header class="header app__header">
-            <nav class="header__nav">
-                <div class="app__logo">
+            <nav class="header__nav" aria-label="Principal">
+                <a class="app__logo" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
                     @includes('layouts.icons.isotipo')
 
-                    <h1 class="app__title"><strong>DL</strong><span>Core</span></h1>
-                </div>
+                    <span class="app__title"><strong>DL</strong><span>Core</span></span>
+                </a>
             </nav>
         </header>
 
-        <div class="container">
-            <div class="markdown">
-                @markdown('welcome')
+        <section class="welcome-hero" aria-labelledby="welcome-hero-title">
+            <div class="welcome-hero__backdrop" aria-hidden="true">
+                <div class="welcome-hero__grid"></div>
             </div>
 
+            <div class="welcome-hero__inner container">
+                <div class="welcome-hero__copy">
+                    <p class="welcome-hero__eyebrow">Framework DLUnire</p>
+                    <h1 id="welcome-hero-title" class="welcome-hero__title">
+                        <strong>DL</strong><span>Core</span>
+                    </h1>
+                    <p class="welcome-hero__lead">
+                        Núcleo PHP para ORM, plantillas, autenticación y bootstrap de aplicaciones web modernas.
+                    </p>
+                </div>
 
-            <div class="changelog">
-                <h2 class="container__title">Notas de la versión</h2>
-                <div class="markdown">
-                    @markdown('changelog.changelog')
+                <div class="welcome-hero__badges">
+                    <span class="badge badge--version">v2.1.0</span>
+                    <span class="badge badge--stack">PHP 8.2+</span>
+                    <span class="badge badge--stack">AGPL-3.0</span>
+                    <a class="badge badge--link" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
+                        dlunire.dev
+                    </a>
                 </div>
             </div>
+        </section>
+
+        <div class="container welcome-layout">
+            <article class="panel panel--main">
+                <header class="panel__header panel__header--accent">
+                    <span class="panel__kicker">Guía y referencia</span>
+                    <h2 class="panel__title">Documentación y estado del proyecto</h2>
+                    <p class="panel__subtitle">Tutorial publicado, dependencias del ecosistema y notas operativas.</p>
+                </header>
+
+                <div class="markdown markdown--welcome">
+                    @markdown('welcome')
+                </div>
+            </article>
+
+            <aside class="panel panel--changelog" aria-labelledby="changelog-title">
+                <header class="panel__header panel__header--compact panel__header--changelog">
+                    <span class="panel__kicker">Changelog</span>
+                    <h2 id="changelog-title" class="panel__title">Notas de la versión</h2>
+                    <p class="panel__subtitle">Cambios recientes según Versionado Semántico.</p>
+                </header>
+
+                <div class="markdown markdown--changelog">
+                    @markdown('changelog.changelog')
+                </div>
+            </aside>
         </div>
 
         <footer class="footer app__footer">
             <div class="footer__inner">
-                2025 - David E Luna M - Todos los derechos reservados
+                <span>2026 — David E Luna M</span>
+                <span class="footer__sep" aria-hidden="true">·</span>
+                <span>Todos los derechos reservados</span>
             </div>
         </footer>
     </main>

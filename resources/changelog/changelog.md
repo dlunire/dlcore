@@ -1,5 +1,3 @@
-# Changelog / Registro de Cambios
-
 All notable changes to this project will be documented in this file.  
 Todos los cambios importantes de este proyecto serán documentados en este archivo.
 
@@ -8,72 +6,35 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
-## [1.1.0] - 2025-05-03
+## [v2.1.0]
 
-### Added / Añadido
+### Removed / Eliminado
 
-* Se integró la biblioteca `DLStorage` al ecosistema `DLCore`.
-  `DLStorage` es una librería para almacenamiento eficiente de datos binarios, diseñada para funcionar de forma independiente o integrada con el framework `DLUnire`.
+- **`enshrined/svg-sanitize`**: eliminada de `composer.json`. El saneamiento de SVG en subidas lo realiza **DLRoute** (`DLUpload::sanitize_svg()`); un sanitizador adicional en DLCore es redundante en el flujo estándar de DLUnire.
 
-* Soporte para almacenamiento y recuperación de archivos binarios mediante clases como `DataStorage`.
-  La biblioteca incluye validaciones, manejo de excepciones (`StorageException`), y una estructura modular extensible.
+### Documentation / Documentación
 
-* Se agregó instalación vía Composer:
-
-  ```bash
-  composer require dlunire/dlstorage  
-  ```
+- Tutorial progresivo de **DLCore** en `docs/tutorial/` (27 capítulos: variables de entorno, ORM, plantillas, autenticación, credenciales cifradas y DLStorage, despliegue, APIs JSON, ORM avanzado, DLRoute y `DLAuth`).
+- Aclaración de **`MULTITENANT`**: variable presente pero modo multitenant incompleto; depende de **DLParse** (en desarrollo). Recomendación `MULTITENANT: false` en monoinquilino.
 
 ---
 
-## [1.0.0] - 2025-04-08
+## [v2.0.0] - 2026-07-05
 
-### Added / Añadido
+### BREAKING CHANGES
 
-- Initial stable release of `DLRoute`.  
-  Versión estable inicial de `DLRoute`.
+- Licencia cambiada de `MIT` a **`AGPL-3.0-or-later`** (modelo dual AGPL + licencias comerciales en el ecosistema DLUnire).
 
-- Routing system with support for HTTP methods: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`.  
-  Sistema de enrutamiento con soporte para métodos HTTP: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`.
+### Changed
 
-- Route definitions using callbacks, arrays, or controller references.  
-  Definición de rutas usando callbacks, arrays o referencias a controladores.
-
-- Parameterized routes with type filtering (`integer`, `string`, `boolean`, `email`, etc.).  
-  Rutas parametrizadas con filtrado por tipo (`integer`, `string`, `boolean`, `email`, etc.).
-
-- Support for regular expression filters on route parameters.  
-  Soporte para filtros con expresiones regulares en parámetros de rutas.
-
-- JSON request body support (application/json).  
-  Soporte para cuerpo de solicitudes JSON (`application/json`).
-
-- Basic controller structure included.  
-  Estructura básica de controladores incluida.
-
-- Composer autoload with `psr-4`.  
-  Autocarga de clases con `psr-4` mediante Composer.
-
-- Integration-ready for the `DLUnire` framework.  
-  Listo para integrarse con el framework `DLUnire`.
+- **`Project::run()`**: parámetro opcional `bool $autoload_routes = true` para deshabilitar la carga automática de `routes/` y registrar rutas manualmente (bootstrap personalizado, módulos, pruebas).
 
 ---
 
-## Upcoming / Próximamente
+## [v1.1.4] - 2025-10-29
 
-### Planned / Planeado
+- Se instalan actualizaciones.
 
-- Named routes support.  
-  Soporte para rutas con nombre.
+## [v1.1.0] - 2025-05-03
 
-- Middleware integration.  
-  Integración de middlewares.
-
-- Route groups with prefix and middleware stacking.  
-  Agrupación de rutas con prefijo y pila de middlewares.
-
-- Route caching.  
-  Cacheo de rutas.
-
-- CLI generator for controllers and routes.  
-  Generador CLI para controladores y rutas.
+- Integración de **DLStorage** en el ecosistema DLCore (contenedores binarios, `DataStorage`, instalación vía Composer).
