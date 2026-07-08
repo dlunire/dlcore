@@ -2,12 +2,14 @@
 
 El capítulo [02-variables-entorno.md](02-variables-entorno.md) cubre `.env.type` para configuración tipada. El [10-bootstrap-operacion.md](10-bootstrap-operacion.md) menciona un flujo alternativo: **contenedores binarios `.dlstorage`** donde los secretos no quedan en texto plano en disco. Aquí verás cómo encajan `EntropyValue`, `EncryptedCredentials` y el paquete `dlunire/dlstorage`.
 
+> Modelo de Transformación de Bytes (MTB) en profundidad: [tutorial DLStorage](../../../dlstorage/docs/tutorial/README.md) (cap. 2 — no es ofuscación ni AES).
+
 ## Cuándo usar cada enfoque
 
 | Enfoque | Ideal para | Dónde vive el secreto |
 |---------|------------|------------------------|
 | **`.env.type`** | Desarrollo, CI, despliegues con gestor de secretos | Archivo fuera de git en el servidor |
-| **`.dlstorage` + entropía** | Instalación guiada, credenciales de BD que el operador configura una vez | Payload ofuscado en el proyecto; llave en `$HOME` del usuario PHP |
+| **`.dlstorage` + entropía** | Instalación guiada, credenciales de BD que el operador configura una vez | Payload MTB en el proyecto; llave de transformación en `$HOME` del usuario PHP |
 
 La mayoría de proyectos bastan con `.env.type`. El contenedor cifrado entra cuando quieres un **bootloader de instalación** (`DATABASE: boolean = true`) y separar el material de desbloqueo del archivo portable.
 
@@ -25,9 +27,29 @@ MULTITENANT: boolean = true
 |----------|-----|
 | `FILE_PATH` | Directorio lógico (no es una ruta del SO) donde se resuelve la entropía y, habitualmente, el contenedor de credenciales |
 | `DATABASE` | `true`: la aplicación puede ejecutar un flujo de instalación de credenciales de BD; `false`: no consulta ni persiste credenciales de base de datos |
-| `MULTITENANT` | Indica intención SaaS: una base de datos por dominio. La ruta de entropía ya incorpora el host normalizado del servidor |
+| `MULTITENANT` | **En desarrollo** — objetivo SaaS: una base de datos por dominio (véase apartado siguiente) |
 
 > Si cambias `FILE_PATH`, el bootloader puede volver a ejecutarse para el nuevo contexto. Al regresar al valor original, se reutiliza lo ya persistido ([comentarios en `dlunire.env.type`](../../dlunire.env.type)).
+
+## `MULTITENANT` — estado actual
+
+El modo multitenant de DLCore **aún no está terminado**. La variable existe en `dlunire.env.type` y `EntropyValue` la lee, pero la resolución completa de credenciales, rutas y configuración **por tenant** depende de **DLParse**, que sigue en desarrollo y **no forma parte de este tutorial**.
+
+| Estado | Detalle |
+|--------|---------|
+| Disponible hoy | Entropía y rutas bajo `$HOME` que incorporan el host normalizado (`DLServer::get_host()`) |
+| Pendiente | Aislamiento multitenant de extremo a extremo (BD, parseo de `.env.type` por dominio, bootloader SaaS) |
+| Bloqueador | Integración con **DLParse** cuando el paquete esté listo |
+
+### Recomendación hasta que DLParse esté listo
+
+En despliegues **monoinquilino** (un solo dominio, una sola BD), define:
+
+```envtype
+MULTITENANT: boolean = false
+```
+
+No construyas flujos de producción que asuman tenant aislado solo con `MULTITENANT: true`; hoy no hay garantía de comportamiento multitenant completo. Cuando DLParse y la capa multitenant estén publicados, este capítulo se ampliará con el flujo definitivo.
 
 ## Arquitectura: dos piezas separadas
 
@@ -42,7 +64,7 @@ El diseño **no guarda la llave dentro del contenedor**. Hay dos recursos distin
                               │
                               ▼ misma entropía al leer/escribir
 ┌─────────────────────────────────────────────────────────────┐
-│  Contenedor .dlstorage (payload ofuscado)                   │
+│  Contenedor .dlstorage (payload MTB)                        │
 │  {raíz_proyecto}/{FILE_PATH}/database.dlstorage             │
 │  Gestionado por EncryptedCredentials → SaveData             │
 └─────────────────────────────────────────────────────────────┘
@@ -176,7 +198,7 @@ Estructura interna del archivo (vía `SaveData`):
 ## Seguridad y limitaciones
 
 1. **Separación entropía / payload** — quien obtenga solo el `.dlstorage` no puede leer el contenido sin la llave en `$HOME`. Quien controle ambos, sí.
-2. **Ofuscación, no cifrado fuerte** — DLStorage transforma bytes con entropía (MTB). No sustituye a AES-256 ni a un gestor de secretos empresarial. Trátalo como capa de **defensa en profundidad**, no como HSM.
+2. **MTB, no cifrado fuerte** — DLStorage aplica el Modelo de Transformación de Bytes con entropía. No sustituye a AES-256 ni a un gestor de secretos empresarial. Trátalo como capa de **defensa en profundidad**, no como HSM.
 3. **Permisos** — el usuario PHP debe poder escribir en `$HOME/.dlunire/`. Restringe lectura del home en hosts compartidos.
 4. **No versionar secretos** — excluye `.dlstorage` con credenciales reales del repositorio; la entropía tampoco debe copiarse a git.
 5. **Misma entropía** — documenta el procedimiento de migración si cambias de servidor: copia contenedor **y** archivo de entropía, o reinstala credenciales.
@@ -221,7 +243,8 @@ Arranque posterior
 | Bootstrap, `composer configure`, checklist producción | [10-bootstrap-operacion.md](10-bootstrap-operacion.md) |
 | `Path::build_home_path()` y utilidades de ruta | [10-bootstrap-operacion.md](10-bootstrap-operacion.md) |
 | Excepciones `InvalidPath`, `FileNotFoundException` | [11-excepciones-pruebas.md](11-excepciones-pruebas.md) |
-| Referencia DLStorage | [Storage.md](https://github.com/dlunire/dlstorage/blob/master/doc/Storage.md) |
+| Tutorial DLStorage (MTB) | [dlstorage/docs/tutorial/README.md](../../../dlstorage/docs/tutorial/README.md) |
+| Referencia `Storage` | [Storage.md](https://github.com/dlunire/dlstorage/blob/master/doc/Storage.md) |
 
 ## Siguiente paso
 
