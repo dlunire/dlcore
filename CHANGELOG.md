@@ -8,7 +8,7 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
-## [Unreleased]
+## [v2.1.0]
 
 ### Removed / Eliminado
 

@@ -2,7 +2,7 @@
 
 Los capítulos [04-controladores.md](04-controladores.md), [06-autenticacion.md](06-autenticacion.md) y [23-cors-dl-token-orm.md](23-cors-dl-token-orm.md) usan DLRoute de forma básica. Aquí verás el **enrutador HTTP en profundidad**: parámetros dinámicos, `filter_by_type()`, `match()` con `RouteHandler`, tipos MIME, inyección de datos y contrato de respuesta.
 
-> DLRoute es la **capa de infraestructura** obligatoria de DLUnire (`dlunire/dlroute` ^2.0). DLCore no reemplaza al router; lo consume vía `DLRoute::execute()` al final del bootstrap ([10-bootstrap-operacion.md](10-bootstrap-operacion.md)).
+> DLRoute es la **capa de infraestructura** obligatoria de DLUnire (`dlunire/dlroute` ^2.0). DLCore no reemplaza al router; lo consume vía `DLRoute::execute()` al final del bootstrap ([10-bootstrap-operacion.md](10-bootstrap-operacion.md)). Tutorial completo de DLRoute: [../../../dlroute/docs/tutorial/README.md](../../../dlroute/docs/tutorial/README.md).
 
 ## Ciclo de despacho
 

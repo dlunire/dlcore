@@ -118,7 +118,7 @@ final class SendMail {
          */
         $credentials = $this->get_credentials();
 
-        if (is_null($email) || !($this->is_email($email))) {
+        if ($email === null || !($this->is_email($email))) {
             $this->error_type("Formato de correo inválido hacia el destinatario");
         }
 

@@ -46,18 +46,19 @@ Los ejemplos del tutorial respetan esta convención. No uses camelCase (`getUser
 
 ## DLRoute — documentación relacionada
 
-DLCore **no reemplaza** a DLRoute: lo consume. Para enrutamiento, peticiones HTTP y subida de archivos, consulta la documentación de DLRoute:
+DLCore **no reemplaza** a DLRoute: lo consume. Tutorial progresivo de DLRoute (16 capítulos): [DLRoute tutorial](../../../dlroute/docs/tutorial/README.md) o [en GitHub](https://github.com/dlunire/dlroute/blob/master/docs/tutorial/README.md).
 
 | Tema | Enlace |
 |------|--------|
+| Tutorial DLRoute (completo) | [dlroute/docs/tutorial/README.md](../../../dlroute/docs/tutorial/README.md) |
+| Rutas avanzadas (vista DLCore) | [26-dlroute-avanzado.md](26-dlroute-avanzado.md) |
 | Introducción y arquitectura | [DLRoute README](https://github.com/dlunire/dlroute/blob/master/README.md) |
 | Router (ES) | [Router-ES.md](https://github.com/dlunire/dlroute/blob/master/documentation/Router/Router-ES.md) |
-| Rutas avanzadas (tutorial) | [26-dlroute-avanzado.md](26-dlroute-avanzado.md) |
 | Peticiones HTTP (ES) | [Request-ES.md](https://github.com/dlunire/dlroute/blob/master/documentation/Request/Request-ES.md) |
 | Subida de archivos y SVG | [DLUpload-ES.md](https://github.com/dlunire/dlroute/blob/master/documentation/Request/DLUpload-ES.md) |
 | HTTP Request (v2) | [Request.md](https://github.com/dlunire/dlroute/blob/master/documentation/v2/HTTP/Request.md) |
 
-> En el monorepo local: `Libraries/dlroute/documentation/…`
+> En el monorepo local: `Libraries/dlroute/docs/tutorial/…` y `Libraries/dlroute/documentation/…`
 
 ## Instalación
 
