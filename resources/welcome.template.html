@@ -5,27 +5,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0b0d13">
-    <meta name="description" content="DLCore — núcleo del framework DLUnire. ORM, plantillas, autenticación y bootstrap PHP moderno.">
-    <title>Bienvenido a DLCore</title>
+    <meta name="theme-color" content="#080a0f">
+    <meta name="description" content="DLCore v2.1.0 — kernel de aplicación del framework DLUnire. ORM, plantillas, autenticación, variables tipadas y bootstrap sobre DLRoute.">
+    <title>DLCore — Kernel de DLUnire</title>
 
     <link rel="icon" href="./favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <main class="app welcome">
+        <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
         <header class="header app__header">
             <nav class="header__nav" aria-label="Principal">
                 <a class="app__logo" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
                     @includes('layouts.icons.isotipo')
 
-                    <span class="app__title"><strong>DL</strong><span>Core</span></span>
+                    <span class="app__brand">
+                        <span class="app__title"><strong>DL</strong><span>Core</span></span>
+                        <span class="app__subtitle">Kernel · DLUnire</span>
+                    </span>
                 </a>
+
+                <details class="header__drawer">
+                    <summary class="header__drawer-toggle">
+                        <span class="header__drawer-icon" aria-hidden="true"></span>
+                        <span class="header__drawer-label">Menú</span>
+                    </summary>
+
+                    <div class="header__drawer-panel">
+                        <ul class="header__links">
+                            <li><a class="header__link" href="#arquitectura">Arquitectura</a></li>
+                            <li><a class="header__link" href="#ecosistema">Ecosistema</a></li>
+                            <li><a class="header__link" href="#inicio-rapido">Inicio rápido</a></li>
+                            <li><a class="header__link" href="#contenido">Documentación</a></li>
+                            <li><a class="header__link" href="#changelog">Changelog</a></li>
+                            <li>
+                                <a class="header__link header__link--accent" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
+                                    dlunire.dev
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </details>
             </nav>
         </header>
 
@@ -35,33 +62,326 @@
             </div>
 
             <div class="welcome-hero__inner container">
-                <div class="welcome-hero__copy">
-                    <p class="welcome-hero__eyebrow">Framework DLUnire</p>
-                    <h1 id="welcome-hero-title" class="welcome-hero__title">
-                        <strong>DL</strong><span>Core</span>
-                    </h1>
-                    <p class="welcome-hero__lead">
-                        Núcleo PHP para ORM, plantillas, autenticación y bootstrap de aplicaciones web modernas.
-                    </p>
-                </div>
+                <div class="welcome-hero__stage">
+                    <div class="welcome-hero__visual" aria-hidden="true">
+                        <div class="welcome-hero__logo-ring">
+                            <div class="welcome-hero__logo">
+                                @includes('layouts.icons.isotipo')
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="welcome-hero__badges">
-                    <span class="badge badge--version">v2.1.0</span>
-                    <span class="badge badge--stack">PHP 8.2+</span>
-                    <span class="badge badge--stack">AGPL-3.0</span>
-                    <a class="badge badge--link" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
-                        dlunire.dev
-                    </a>
+                    <div class="welcome-hero__content">
+                        <p class="welcome-hero__eyebrow">Framework DLUnire · Capa de aplicación</p>
+
+                        <h1 id="welcome-hero-title" class="welcome-hero__title">
+                            <strong>DL</strong><span>Core</span>
+                        </h1>
+
+                        <p class="welcome-hero__lead">
+                            Kernel funcional que construye sobre el contexto de ejecución provisto por
+                            <strong>DLRoute</strong>. Proporciona ORM, motor de plantillas, autenticación,
+                            variables tipadas (<code>.env.type</code>) y el bootstrap de la aplicación mediante
+                            <code>Project::run()</code>.
+                        </p>
+
+                        <p class="welcome-hero__principle">
+                            DLCore <em>no redefine</em> el entorno de ejecución: lo consume de forma determinista
+                            y delega la infraestructura HTTP y de rutas a DLRoute.
+                        </p>
+
+                        <dl class="welcome-hero__specs" aria-label="Especificación del paquete">
+                            <div class="spec">
+                                <dt>Versión</dt>
+                                <dd>v2.1.0</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>PHP</dt>
+                                <dd>≥ 8.2</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Licencia</dt>
+                                <dd>AGPL-3.0</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Tutorial</dt>
+                                <dd>27 capítulos</dd>
+                            </div>
+                        </dl>
+
+                        <div class="welcome-hero__actions">
+                            <a
+                                class="btn btn--primary"
+                                href="https://github.com/dlunire/dlcore/blob/main/docs/tutorial/README.md"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Documentación del kernel
+                            </a>
+                            <a class="btn btn--ghost" href="#arquitectura">Ver arquitectura</a>
+                            <a class="btn btn--ghost" href="#inicio-rapido">Inicio rápido</a>
+                        </div>
+                    </div>
+
+                    <aside class="welcome-hero__meta">
+                        <div class="welcome-hero__meta-card">
+                            <p class="welcome-hero__meta-title">Instalación</p>
+                            <p class="welcome-hero__meta-desc">
+                                Paquete Composer que declara <code>dlunire/dlroute</code> y
+                                <code>dlunire/dlstorage</code> como dependencias estructurales.
+                            </p>
+
+                            <div class="code-snippet code-snippet--compact code-snippet--pro" role="group" aria-label="Instalación">
+                                <div class="code-snippet__bar" aria-hidden="true">
+                                    <span class="code-snippet__label">composer</span>
+                                </div>
+                                <pre class="code-snippet__body"><code>composer require dlunire/dlcore</code></pre>
+                            </div>
+
+                            <ul class="welcome-hero__deps">
+                                <li><code>dlunire/dlroute</code> ^2.0</li>
+                                <li><code>dlunire/dlstorage</code> ^0.1.3</li>
+                            </ul>
+                        </div>
+                    </aside>
                 </div>
             </div>
         </section>
 
-        <div class="container welcome-layout">
-            <article class="panel panel--main">
+        <section id="arquitectura" class="welcome-architecture welcome-section" aria-labelledby="architecture-title">
+            <div class="container welcome-architecture__inner">
+                <header class="section-header">
+                    <span class="section-header__kicker">Diseño del framework</span>
+                    <h2 id="architecture-title" class="section-header__title">Arquitectura en capas</h2>
+                    <p class="section-header__lead">
+                        Separación intencional entre infraestructura (DLRoute), núcleo de aplicación (DLCore)
+                        y persistencia de secretos (DLStorage). Cada capa tiene responsabilidades acotadas.
+                    </p>
+                </header>
+
+                <div class="arch-layout">
+                    <div class="arch-stack" role="list" aria-label="Capas del stack DLUnire">
+                        <article class="arch-layer" role="listitem">
+                            <span class="arch-layer__index">03</span>
+                            <div class="arch-layer__body">
+                                <h3 class="arch-layer__title">Capa de aplicación</h3>
+                                <p class="arch-layer__desc">
+                                    Controladores, modelos de dominio, vistas <code>*.template.html</code> y reglas de negocio.
+                                </p>
+                            </div>
+                        </article>
+
+                        <div class="arch-stack__connector" aria-hidden="true"></div>
+
+                        <article class="arch-layer arch-layer--kernel" role="listitem">
+                            <span class="arch-layer__index">02</span>
+                            <div class="arch-layer__body">
+                                <h3 class="arch-layer__title"><strong>DL</strong>Core · Kernel</h3>
+                                <p class="arch-layer__desc">
+                                    ORM, plantillas, <code>DLAuth</code>, correo, lectura tipada de entorno,
+                                    credenciales cifradas y <code>Project::run()</code>.
+                                </p>
+                            </div>
+                        </article>
+
+                        <div class="arch-stack__connector" aria-hidden="true"></div>
+
+                        <article class="arch-layer arch-layer--infra" role="listitem">
+                            <span class="arch-layer__index">01</span>
+                            <div class="arch-layer__body">
+                                <h3 class="arch-layer__title"><strong>DL</strong>Route · Infraestructura</h3>
+                                <p class="arch-layer__desc">
+                                    Contexto de ejecución, <code>document root</code>, peticiones HTTP,
+                                    enrutamiento y subida de archivos.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <aside class="arch-aside reveal">
+                        <h3 class="arch-aside__title">Responsabilidades del kernel</h3>
+                        <ul class="arch-aside__list">
+                            <li>Consumir el contexto de servidor sin duplicar resolución de rutas base.</li>
+                            <li>Orquestar bootstrap, autoload de rutas y ciclo de vida de la aplicación.</li>
+                            <li>Exponer APIs estables para datos, vistas, autenticación y configuración.</li>
+                            <li>Integrar DLStorage para contenedores <code>.dlstorage</code> y entropía de credenciales.</li>
+                        </ul>
+
+                        <div class="arch-aside__note">
+                            <span class="arch-aside__note-label">Estado operativo</span>
+                            <p>
+                                <code>MULTITENANT</code> permanece en desarrollo; el aislamiento por dominio
+                                dependerá de <strong>DLParse</strong>. En monoinquilino, use
+                                <code>MULTITENANT: false</code>.
+                            </p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section id="ecosistema" class="welcome-ecosystem welcome-section" aria-labelledby="ecosystem-title">
+            <div class="container welcome-ecosystem__inner">
+                <header class="section-header">
+                    <span class="section-header__kicker">Paquetes del ecosistema</span>
+                    <h2 id="ecosystem-title" class="section-header__title">Componentes y dependencias</h2>
+                    <p class="section-header__lead">
+                        DLCore es el punto de entrada del desarrollador; DLRoute y DLStorage son dependencias
+                        obligatorias con tutoriales propios en el monorepo DLUnire.
+                    </p>
+                </header>
+
+                <div class="welcome-ecosystem__grid">
+                    <article class="eco-card eco-card--core reveal">
+                        <div class="eco-card__head">
+                            <span class="eco-card__tag">Kernel</span>
+                            <span class="eco-card__version">v2.1.0</span>
+                        </div>
+                        <h3 class="eco-card__name"><strong>DL</strong>Core</h3>
+                        <p class="eco-card__role">Núcleo funcional · capa de aplicación</p>
+                        <p class="eco-card__pkg"><code>dlunire/dlcore</code></p>
+                        <p class="eco-card__desc">
+                            ORM, compilador de plantillas, autenticación, variables <code>.env.type</code>,
+                            bootstrap y operaciones de credenciales.
+                        </p>
+                        <a
+                            class="eco-card__link"
+                            href="https://github.com/dlunire/dlcore/blob/main/docs/tutorial/README.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Tutorial — 27 capítulos
+                        </a>
+                    </article>
+
+                    <article class="eco-card eco-card--route reveal">
+                        <div class="eco-card__head">
+                            <span class="eco-card__tag">Infraestructura</span>
+                            <span class="eco-card__version">^2.0</span>
+                        </div>
+                        <h3 class="eco-card__name"><strong>DL</strong>Route</h3>
+                        <p class="eco-card__role">Proveedor de contexto de ejecución · HTTP</p>
+                        <p class="eco-card__pkg"><code>dlunire/dlroute</code></p>
+                        <p class="eco-card__desc">
+                            Requerido por DLCore. Resuelve entorno de servidor, rutas, peticiones,
+                            filtros de parámetros y carga de archivos.
+                        </p>
+                        <a
+                            class="eco-card__link"
+                            href="https://github.com/dlunire/dlroute/blob/master/docs/tutorial/README.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Tutorial — 16 capítulos
+                        </a>
+                    </article>
+
+                    <article class="eco-card eco-card--storage reveal">
+                        <div class="eco-card__head">
+                            <span class="eco-card__tag">Persistencia</span>
+                            <span class="eco-card__version">^0.1.3</span>
+                        </div>
+                        <h3 class="eco-card__name"><strong>DL</strong>Storage</h3>
+                        <p class="eco-card__role">Almacenamiento binario · credenciales MTB</p>
+                        <p class="eco-card__pkg"><code>dlunire/dlstorage</code></p>
+                        <p class="eco-card__desc">
+                            Contenedores <code>.dlstorage</code>, modelo de transformación de bytes y
+                            integración con <code>EntropyValue</code> / <code>EncryptedCredentials</code>.
+                        </p>
+                        <a
+                            class="eco-card__link"
+                            href="https://github.com/dlunire/dlstorage/blob/master/docs/tutorial/README.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Tutorial — 11 capítulos
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="inicio-rapido" class="welcome-quickstart welcome-section" aria-labelledby="quickstart-title">
+            <div class="container welcome-quickstart__inner">
+                <div class="quickstart-panel reveal">
+                    <header class="section-header section-header--inset">
+                        <span class="section-header__kicker">Onboarding</span>
+                        <h2 id="quickstart-title" class="section-header__title">Inicio rápido</h2>
+                        <p class="section-header__lead">
+                            Secuencia recomendada para integrar el kernel en un proyecto PHP y validar
+                            el bootstrap antes de avanzar en el tutorial.
+                        </p>
+                    </header>
+
+                    <ol class="quickstart-steps">
+                        <li class="quickstart-step">
+                            <span class="quickstart-step__num" aria-hidden="true">1</span>
+                            <div class="quickstart-step__body">
+                                <h3 class="quickstart-step__title">Instalar dependencias</h3>
+                                <p class="quickstart-step__text">
+                                    Composer instala DLCore junto con DLRoute y DLStorage.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="quickstart-step">
+                            <span class="quickstart-step__num" aria-hidden="true">2</span>
+                            <div class="quickstart-step__body">
+                                <h3 class="quickstart-step__title">Configurar entorno tipado</h3>
+                                <p class="quickstart-step__text">
+                                    Defina <code>dlunire.env.type</code>, el directorio <code>routes/</code>
+                                    y el punto de entrada en <code>public/</code>.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="quickstart-step">
+                            <span class="quickstart-step__num" aria-hidden="true">3</span>
+                            <div class="quickstart-step__body">
+                                <h3 class="quickstart-step__title">Ejecutar bootstrap</h3>
+                                <p class="quickstart-step__text">
+                                    Invocar <code>Project::run()</code> y continuar con el capítulo 1 del tutorial.
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div class="code-snippet code-snippet--pro" role="group" aria-label="Comandos de inicio">
+                        <div class="code-snippet__bar" aria-hidden="true">
+                            <span class="code-snippet__label">shell</span>
+                        </div>
+                        <pre class="code-snippet__body"><code>composer require dlunire/dlcore
+php -S localhost:8000 -t public/</code></pre>
+                    </div>
+
+                    <div class="quickstart-panel__actions">
+                        <a
+                            class="btn btn--primary"
+                            href="https://github.com/dlunire/dlcore/blob/main/docs/tutorial/01-inicio-rapido.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Capítulo 1 — Bootstrap
+                        </a>
+                        <a class="btn btn--ghost" href="#contenido">Referencia operativa</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="contenido" class="container welcome-layout welcome-section">
+            <article class="panel panel--main reveal">
                 <header class="panel__header panel__header--accent">
-                    <span class="panel__kicker">Guía y referencia</span>
+                    <span class="panel__kicker">Referencia</span>
                     <h2 class="panel__title">Documentación y estado del proyecto</h2>
-                    <p class="panel__subtitle">Tutorial publicado, dependencias del ecosistema y notas operativas.</p>
+                    <p class="panel__subtitle">
+                        Tutoriales publicados, licenciamiento AGPL y notas sobre capacidades en desarrollo.
+                    </p>
+
+                    <nav class="panel__nav" aria-label="Enlaces de documentación">
+                        <a class="panel__nav-link" href="https://github.com/dlunire/dlcore/blob/main/docs/tutorial/README.md" target="_blank" rel="noopener noreferrer">Tutorial DLCore</a>
+                        <a class="panel__nav-link" href="https://github.com/dlunire/dlroute" target="_blank" rel="noopener noreferrer">DLRoute</a>
+                        <a class="panel__nav-link" href="https://github.com/dlunire/dlstorage" target="_blank" rel="noopener noreferrer">DLStorage</a>
+                        <a class="panel__nav-link panel__nav-link--warn" href="https://github.com/dlunire/dlcore/blob/main/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual" target="_blank" rel="noopener noreferrer">MULTITENANT</a>
+                    </nav>
                 </header>
 
                 <div class="markdown markdown--welcome">
@@ -69,24 +389,39 @@
                 </div>
             </article>
 
-            <aside class="panel panel--changelog" aria-labelledby="changelog-title">
+            <aside id="changelog" class="panel panel--changelog reveal" aria-labelledby="changelog-title">
                 <header class="panel__header panel__header--compact panel__header--changelog">
-                    <span class="panel__kicker">Changelog</span>
+                    <span class="panel__kicker">Registro de cambios</span>
                     <h2 id="changelog-title" class="panel__title">Notas de la versión</h2>
-                    <p class="panel__subtitle">Cambios recientes según Versionado Semántico.</p>
+                    <p class="panel__subtitle">Historial según Versionado Semántico.</p>
                 </header>
 
-                <div class="markdown markdown--changelog">
+                <div class="markdown markdown--changelog markdown--timeline">
                     @markdown('changelog.changelog')
                 </div>
             </aside>
         </div>
 
         <footer class="footer app__footer">
-            <div class="footer__inner">
-                <span>2026 — David E Luna M</span>
-                <span class="footer__sep" aria-hidden="true">·</span>
-                <span>Todos los derechos reservados</span>
+            <div class="footer__inner footer__inner--rich">
+                <div class="footer__brand">
+                    <span class="footer__logo"><strong>DL</strong>Core</span>
+                    <p class="footer__tagline">Kernel de aplicación · Framework DLUnire</p>
+                    <p class="footer__meta">AGPL-3.0-or-later · PHP 8.2+ · v2.1.0</p>
+                </div>
+
+                <nav class="footer__nav" aria-label="Enlaces del proyecto">
+                    <a href="https://github.com/dlunire/dlcore" target="_blank" rel="noopener noreferrer">Repositorio</a>
+                    <a href="https://github.com/dlunire/dlroute" target="_blank" rel="noopener noreferrer">DLRoute</a>
+                    <a href="https://github.com/dlunire/dlstorage" target="_blank" rel="noopener noreferrer">DLStorage</a>
+                    <a href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">dlunire.dev</a>
+                </nav>
+
+                <p class="footer__legal">
+                    <span>2026 — David E Luna M</span>
+                    <span class="footer__sep" aria-hidden="true">·</span>
+                    <span>Todos los derechos reservados</span>
+                </p>
             </div>
         </footer>
     </main>

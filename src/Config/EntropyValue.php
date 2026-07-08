@@ -131,6 +131,8 @@ trait EntropyValue {
         /** @var non-empty-string|null $file_path */
         $file_path = self::get_value(strtoupper(trim($varname)));
 
+        // Placeholder: MULTITENANT se lee pero aún no altera la resolución de rutas.
+        // El modo multitenant completo depende de DLParse (en desarrollo).
         // /** @var boolean $multitenant */
         $multitenant = self::get_boolean('multitenant');
 

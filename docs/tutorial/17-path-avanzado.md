@@ -91,8 +91,10 @@ $route = Path::get_normalize_file('pages.about', dot_separator: true);
 // /pages/about
 
 $host = Path::get_normalize_file('Mi-Dominio.COM', dot_separator: true);
-// Usado en EntropyValue para rutas por dominio
+// Usado en EntropyValue para segmentar entropía por host (no equivale a MULTITENANT completo)
 ```
+
+La normalización por host alimenta la entropía de credenciales (`EntropyValue`), no el modo multitenant final. La variable `MULTITENANT` existe en `.env.type` pero el aislamiento por tenant depende de **DLParse** (en desarrollo). Ver [13 — Credenciales cifradas](13-credenciales-cifradas.md#multitenant--estado-actual).
 
 `DLView::load()` invoca `get_normalize_file($view, true)` antes de escribir en `.build/` ([14-cache-vistas.md](14-cache-vistas.md)).
 

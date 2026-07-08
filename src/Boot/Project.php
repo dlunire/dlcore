@@ -65,7 +65,7 @@ class Project {
      *
      * Esta flexibilidad permite implementar procesos de bootstrap
      * personalizados, arquitecturas modulares, sistemas de plugins,
-     * aplicaciones multi-tenant o cualquier otro mecanismo de registro manual
+     * aplicaciones modulares por dominio o cualquier otro mecanismo de registro manual
      * de rutas.
      *
      * Este método no devuelve ningún valor y produce efectos colaterales sobre
