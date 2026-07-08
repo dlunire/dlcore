@@ -251,7 +251,45 @@ class Users extends DLUser {
 
 ## Documentation / Documentación
 
-This documentation will be updated progressively. DLCore has many advanced features that require time to document properly.
+### Usage tutorial / Tutorial de uso
+
+Progressive guide (Spanish): [`docs/tutorial/README.md`](docs/tutorial/README.md)
+
+| # | Topic / Tema |
+|---|----------------|
+| 1 | [Quick start / Inicio rápido](docs/tutorial/01-inicio-rapido.md) |
+| 2 | [Typed env vars / Variables de entorno](docs/tutorial/02-variables-entorno.md) |
+| 3 | [Models & queries / Modelos ORM](docs/tutorial/03-modelos-orm.md) |
+| 4 | [Controllers / Controladores](docs/tutorial/04-controladores.md) |
+| 5 | [Templates / Plantillas](docs/tutorial/05-plantillas.md) |
+| 6 | [Authentication / Autenticación](docs/tutorial/06-autenticacion.md) |
+| 7 | [Email / Correo](docs/tutorial/07-correo.md) |
+| 8 | [Markdown, JSON & views / Markdown, JSON y vistas](docs/tutorial/08-markdown-json.md) |
+| 9 | [SQL queries / Consultas SQL](docs/tutorial/09-consultas-sql.md) |
+| 10 | [Bootstrap & ops / Bootstrap y operación](docs/tutorial/10-bootstrap-operacion.md) |
+| 11 | [Exceptions & tests / Excepciones y pruebas](docs/tutorial/11-excepciones-pruebas.md) |
+| 12 | [File uploads / Subida de archivos](docs/tutorial/12-subida-archivos.md) |
+| 13 | [Encrypted credentials / Credenciales cifradas](docs/tutorial/13-credenciales-cifradas.md) |
+| 14 | [View cache / Caché de vistas](docs/tutorial/14-cache-vistas.md) |
+| 15 | [Time / Tiempo (`DLTime`)](docs/tutorial/15-dltime.md) |
+| 16 | [Advanced logs / Logs avanzados](docs/tutorial/16-logs-avanzados.md) |
+| 17 | [Advanced Path / Path avanzado](docs/tutorial/17-path-avanzado.md) |
+| 18 | [PDF (`view_pdf`)](docs/tutorial/18-view-pdf.md) |
+| 19 | [URL validation (`BaseURL`)](docs/tutorial/19-baseurl.md) |
+| 20 | [Credentials & Environment](docs/tutorial/20-credentials-environment.md) |
+| 21 | [Skeleton helpers & advanced ORM / Helpers del skeleton y ORM avanzado](docs/tutorial/21-helpers-skeleton.md) |
+| 22 | [Production deployment / Despliegue en producción](docs/tutorial/22-despliegue-produccion.md) |
+| 23 | [`DL_TOKEN`, CORS & ORM APIs / CORS, DL_TOKEN y ORM en APIs](docs/tutorial/23-cors-dl-token-orm.md) |
+| 24 | [ORM aggregations / Agregaciones y ORM avanzado](docs/tutorial/24-orm-agregaciones.md) |
+| 25 | [Advanced writes & transactions / Escritura avanzada y transacciones](docs/tutorial/25-orm-escritura-transacciones.md) |
+| 26 | [Advanced DLRoute / Rutas avanzadas de DLRoute](docs/tutorial/26-dlroute-avanzado.md) |
+| 27 | [DLAuth & route protection / DLAuth y protección de rutas](docs/tutorial/27-dlauth-rutas.md) |
+
+Module reference: [`docs/`](docs/) (DLConfig, DLDatabase, DLRequest, template syntax).
+
+Infrastructure layer: [DLRoute](https://github.com/dlunire/dlroute) — routing, HTTP requests, [file uploads / SVG sanitization](https://github.com/dlunire/dlroute/blob/master/documentation/Request/DLUpload-ES.md).
+
+Capa de infraestructura: [DLRoute](https://github.com/dlunire/dlroute) — enrutamiento, peticiones HTTP, [subida de archivos / saneamiento SVG](https://github.com/dlunire/dlroute/blob/master/documentation/Request/DLUpload-ES.md).
 
 Esta documentación se actualizará progresivamente. DLCore posee muchas funcionalidades avanzadas que requieren tiempo para documentarse con precisión.
 

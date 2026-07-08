@@ -1,3 +1,43 @@
+# Documentación DLCore
+
+## Tutorial de uso (recomendado)
+
+Guía progresiva en español: [tutorial/README.md](tutorial/README.md)
+
+**Capa de infraestructura:** DLCore depende de [DLRoute](https://github.com/dlunire/dlroute) (rutas, peticiones, [subida de archivos](https://github.com/dlunire/dlroute/blob/master/documentation/Request/DLUpload-ES.md)).
+
+| Capítulo | Tema |
+|----------|------|
+| 1 | [Inicio rápido](tutorial/01-inicio-rapido.md) |
+| 2 | [Variables de entorno](tutorial/02-variables-entorno.md) |
+| 3 | [Modelos ORM](tutorial/03-modelos-orm.md) |
+| 4 | [Controladores](tutorial/04-controladores.md) |
+| 5 | [Plantillas](tutorial/05-plantillas.md) |
+| 6 | [Autenticación](tutorial/06-autenticacion.md) |
+| 7 | [Envío de correo](tutorial/07-correo.md) |
+| 8 | [Markdown, JSON y vistas compuestas](tutorial/08-markdown-json.md) |
+| 9 | [Consultas SQL (`DLDatabase`)](tutorial/09-consultas-sql.md) |
+| 10 | [Bootstrap y operación](tutorial/10-bootstrap-operacion.md) |
+| 11 | [Excepciones y pruebas](tutorial/11-excepciones-pruebas.md) |
+| 12 | [Subida de archivos](tutorial/12-subida-archivos.md) |
+| 13 | [Credenciales cifradas y DLStorage](tutorial/13-credenciales-cifradas.md) |
+| 14 | [Caché de vistas](tutorial/14-cache-vistas.md) |
+| 15 | [Tiempo (`DLTime`)](tutorial/15-dltime.md) |
+| 16 | [Logs avanzados](tutorial/16-logs-avanzados.md) |
+| 17 | [`Path` avanzado](tutorial/17-path-avanzado.md) |
+| 18 | [PDF (`view_pdf`)](tutorial/18-view-pdf.md) |
+| 19 | [URLs (`BaseURL`)](tutorial/19-baseurl.md) |
+| 20 | [`Credentials` y `Environment`](tutorial/20-credentials-environment.md) |
+| 21 | [Helpers del skeleton y ORM avanzado](tutorial/21-helpers-skeleton.md) |
+| 22 | [Despliegue en producción](tutorial/22-despliegue-produccion.md) |
+| 23 | [`DL_TOKEN`, CORS y ORM en APIs](tutorial/23-cors-dl-token-orm.md) |
+| 24 | [Agregaciones y ORM avanzado](tutorial/24-orm-agregaciones.md) |
+| 25 | [Escritura avanzada y transacciones](tutorial/25-orm-escritura-transacciones.md) |
+| 26 | [Rutas avanzadas de DLRoute](tutorial/26-dlroute-avanzado.md) |
+| 27 | [DLAuth y protección de rutas](tutorial/27-dlauth-rutas.md) |
+
+---
+
 # Sintaxis de las plantillas
 
 ## Directivas

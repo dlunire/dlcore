@@ -8,6 +8,22 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
+## [Unreleased]
+
+### Removed / Eliminado
+
+- **`enshrined/svg-sanitize` dependency**: removed from `composer.json`. DLCore never referenced or called this package. SVG sanitization for uploads is handled by **DLRoute** (`DLUpload::sanitize_svg()`), which cleans SVG content on the server when a file is received (scripts, inline events, unsafe attributes). A separate sanitizer in DLCore is therefore redundant for the standard DLUnire upload flow.
+
+- **Dependencia `enshrined/svg-sanitize`**: eliminada de `composer.json`. DLCore nunca la referenció ni la invocó. El saneamiento de SVG en subidas lo realiza **DLRoute** (`DLUpload::sanitize_svg()`), que depura el contenido en el servidor al recibir el archivo (scripts, eventos inline, atributos inseguros). Un sanitizador adicional en DLCore resulta redundante en el flujo estándar de carga de archivos de DLUnire.
+
+### Documentation / Documentación
+
+- Added a progressive **DLCore usage tutorial** under `docs/tutorial/` (quick start, environment variables, ORM, controllers, templates, authentication, email, Markdown/JSON, SQL query builder, bootstrap & operations, exceptions & testing, file uploads, encrypted credentials & DLStorage, view compilation cache, `DLTime`, advanced logging, advanced `Path`, PDF via `view_pdf`, `BaseURL`, `Credentials` & `Environment`, skeleton helpers & advanced ORM, production deployment, `DL_TOKEN`/CORS & ORM in APIs, ORM aggregations, advanced writes & transactions, advanced DLRoute, `DLAuth` & route protection).
+
+- Se añadió un **tutorial de uso de DLCore** progresivo en `docs/tutorial/` (inicio rápido, variables de entorno, ORM, controladores, plantillas, autenticación, correo, Markdown/JSON, constructor SQL `DLDatabase`, bootstrap y operación, excepciones y pruebas, subida de archivos, credenciales cifradas y DLStorage, caché de compilación de vistas, tiempo con `DLTime`, logs avanzados, `Path` avanzado, PDF con `view_pdf`, validación de URLs con `BaseURL`, `Credentials` y `Environment` avanzado, helpers del skeleton y ORM avanzado con vistas virtuales y `paginate()`, despliegue en producción con Apache/Nginx, CORS y checklist operativo, `DL_TOKEN`/CORS y uso práctico del ORM en APIs JSON, agregaciones y ORM avanzado con `GROUP BY`, vistas virtuales para reportes y `query()`, escritura avanzada con inserción masiva, `replace`, transacciones manuales y patrones multi-tabla, rutas avanzadas de DLRoute con `filter_by_type`, `match`, `RouteHandler` y MIME, `DLAuth` y protección de rutas con `restrict_route`, `SystemCredentials` y APIs JSON protegidas), con enlaces a la documentación de **DLRoute** (incl. subida de archivos y saneamiento SVG).
+
+---
+
 ## [v2.0.0] - 2026-07-05
 
 ### BREAKING CHANGES
