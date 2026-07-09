@@ -1,18 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.572 257.624">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184 184" role="img" aria-hidden="true">
     <style>
         svg {
-            width: var(--icon-width);
-            height: var(--icon-height);
+            width: var(--icon-width, 40px);
+            height: var(--icon-height, 40px);
+            flex-shrink: 0;
         }
 
-        path {
-            fill: var(--icon-color);
+        .isotipo-bg {
+            fill: var(--icon-bg, #ffffff);
+        }
+
+        .isotipo-mark {
+            fill: var(--icon-mark, #080a0f);
+        }
+
+        .isotipo-core {
+            fill: var(--icon-core, var(--icon-accent, #3a9e5c));
+        }
+
+        .isotipo-grid {
+            fill: var(--icon-bg, #ffffff);
         }
     </style>
-    <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2.5"
-        d="M55.735.023a75.765 64.034 60 00-26.459 7.37 75.765 64.034 60 00-17.572 97.632 75.765 64.034 60 0020.088 23.796 64.034 75.765 30 00-20.088 23.797 64.034 75.765 30 0017.572 97.631 64.034 75.765 30 0092.01-31.45 75.765 64.034 60 0092.01 31.45 75.765 64.034 60 0017.572-97.63 75.765 64.034 60 00-20.088-23.798 64.034 75.765 30 0020.088-23.796 64.034 75.765 30 00-17.572-97.631 64.034 75.765 30 00-92.01 31.449A75.765 64.034 60 0055.736.023z"
-    /></svg
->
+    <rect class="isotipo-bg" width="184" height="184" rx="24.87" ry="24.87"/>
+    <circle class="isotipo-mark" cx="93.16" cy="78.14" r="25.22"/>
+    <circle class="isotipo-mark" cx="153.04" cy="103.36" r="17.6"/>
+    <rect class="isotipo-core" x="74.5" y="114" width="56" height="56" rx="9" ry="9"/>
+    <rect class="isotipo-grid" x="84.5" y="124" width="14" height="14" rx="2.5" ry="2.5"/>
+    <rect class="isotipo-grid" x="106.5" y="124" width="14" height="14" rx="2.5" ry="2.5"/>
+    <rect class="isotipo-grid" x="84.5" y="146" width="14" height="14" rx="2.5" ry="2.5"/>
+    <rect class="isotipo-grid" x="106.5" y="146" width="14" height="14" rx="2.5" ry="2.5"/>
+</svg>

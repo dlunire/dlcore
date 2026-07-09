@@ -9,7 +9,7 @@
 
 | Recurso | Enlace |
 |---------|--------|
-| **Tutorial DLCore** (27 capítulos) | [docs/tutorial/README.md](https://github.com/dlunire/dlcore/blob/main/docs/tutorial/README.md) |
+| **Tutorial DLCore** (27 capítulos) | [docs/tutorial/README.md](https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md) |
 | Tutorial DLRoute (16 capítulos) | [dlroute/docs/tutorial/](https://github.com/dlunire/dlroute/blob/master/docs/tutorial/README.md) |
 | Tutorial DLStorage (11 capítulos) | [dlstorage/docs/tutorial/](https://github.com/dlunire/dlstorage/blob/master/docs/tutorial/README.md) |
 | Referencia API (phpDocumentor) | generar con `phpdoc.xml` → `docs/.build/` en el repositorio |
@@ -25,4 +25,4 @@ Desde v2.0.0 el paquete se distribuye bajo **AGPL-3.0-or-later**. El uso en prod
 
 La variable `MULTITENANT` en `.env.type` apunta a un modo SaaS (una base de datos por dominio), pero **aún no está terminada**. Hoy la entropía de credenciales ya incorpora el host normalizado; el aislamiento multitenant completo depende de **DLParse**, que sigue en desarrollo.
 
-En despliegues **monoinquilino**, usa `MULTITENANT: boolean = false`. Más contexto en el capítulo 13: [Credenciales cifradas y DLStorage](https://github.com/dlunire/dlcore/blob/main/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual).
+En despliegues **monoinquilino**, usa `MULTITENANT: boolean = false`. Más contexto en el capítulo 13: [Credenciales cifradas y DLStorage](https://github.com/dlunire/dlcore/blob/master/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual).

@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184 184" role="img" aria-label="DLCore — kernel">
-  <title>DLCore</title>
-  <desc>Isotipo DLCore: familia DLUnire con núcleo (kernel) en rejilla 2×2.</desc>
-  <!-- Misma pastilla redondeada que DLUnire -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184 184">
   <rect width="184" height="184" rx="24.87" ry="24.87" fill="#ffffff"/>
-  <!-- Círculos heredados de DLUnire -->
   <circle cx="93.16" cy="78.14" r="25.22" fill="#000000"/>
   <circle cx="153.04" cy="103.36" r="17.6" fill="#000000"/>
-  <!-- Núcleo: die del kernel (sustituye el círculo grande inferior) -->
   <rect x="74.5" y="114" width="56" height="56" rx="9" ry="9" fill="#000000"/>
   <rect x="84.5" y="124" width="14" height="14" rx="2.5" ry="2.5" fill="#ffffff"/>
   <rect x="106.5" y="124" width="14" height="14" rx="2.5" ry="2.5" fill="#ffffff"/>
