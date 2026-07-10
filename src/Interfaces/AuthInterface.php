@@ -62,7 +62,7 @@ interface AuthInterface {
      * @param DLCookie|null $cookie Opcional. Establece los parámetros de configuración y envío de la cookie.
      * @return bool Retorna `true` si la autenticación fue exitosa, `false` en caso contrario.
      */
-    public function auth(DLUser $user, array|DLAuthOptions $options = [], ?DLCookie $cookie): bool;
+    public function auth(DLUser $user, array|DLAuthOptions $options = [], ?DLCookie $cookie = null): bool;
 
 
     /**

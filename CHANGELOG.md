@@ -8,6 +8,22 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
+## [v2.1.2] - 2026-07-10
+
+### Fixed / Corregido
+
+- **`AuthInterface::auth()` signature (PHP 8+ deprecation):** the optional parameter `$options = []` was declared **before** a required `$cookie` parameter. In PHP 8+, that is deprecated (*Optional parameter … declared before required parameter … is implicitly treated as a required parameter*). The interface now matches the implementation in `DLAuth`:
+  - **Before:** `auth(DLUser $user, array|DLAuthOptions $options = [], ?DLCookie $cookie): bool`
+  - **After:** `auth(DLUser $user, array|DLAuthOptions $options = [], ?DLCookie $cookie = null): bool`
+  - File: `src/Interfaces/AuthInterface.php`. No call-site changes required; `DLAuth` already used `= null`.
+
+- **Firma de `AuthInterface::auth()` (deprecación PHP 8+):** el parámetro opcional `$options = []` se declaraba **antes** de un `$cookie` obligatorio. En PHP 8+ eso emite *Deprecated: Optional parameter … declared before required parameter…*. La interfaz queda alineada con `DLAuth`:
+  - **Antes:** `auth(DLUser $user, array|DLAuthOptions $options = [], ?DLCookie $cookie): bool`
+  - **Después:** `auth(DLUser $user, array|DLAuthOptions $options = [], ?DLCookie $cookie = null): bool`
+  - Archivo: `src/Interfaces/AuthInterface.php`. No requiere cambios en llamadas; `DLAuth` ya usaba `= null`.
+
+---
+
 ## [v2.1.1] - 2026-07-10
 
 ### Dependencies / Dependencias
