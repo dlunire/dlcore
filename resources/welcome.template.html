@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es-ES">
+<html lang="es-ES" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080a0f">
+    <meta name="theme-color" content="#eef2f6" id="meta-theme-color">
     <meta name="description" content="DLCore v2.1.0 — kernel de aplicación del framework DLUnire. ORM, plantillas, autenticación, variables tipadas y bootstrap sobre DLRoute.">
     <title>DLCore — Kernel de DLUnire</title>
 
@@ -35,29 +35,39 @@
                     </span>
                 </a>
 
-                <details class="header__drawer">
-                    <summary class="header__drawer-toggle">
-                        <span class="header__drawer-icon" aria-hidden="true"></span>
-                        <span class="header__drawer-label">Menú</span>
-                    </summary>
+                <div class="header__tools">
+                    <details class="header__drawer" id="nav-drawer">
+                        <summary class="header__drawer-toggle" aria-label="Abrir menú de navegación" aria-controls="nav-drawer-panel">
+                            <span class="header__drawer-icon" aria-hidden="true"></span>
+                            <span class="header__drawer-text">Menú</span>
+                        </summary>
 
-                    <div class="header__drawer-panel">
-                        <ul class="header__links">
-                            <li><a class="header__link" href="#arquitectura">Arquitectura</a></li>
-                            <li><a class="header__link" href="#ecosistema">Ecosistema</a></li>
-                            <li><a class="header__link" href="#licencia">Licencia</a></li>
-                            <li><a class="header__link" href="#inicio-rapido">Inicio rápido</a></li>
-                            <li><a class="header__link" href="#bootstrap-demo">Bootstrap</a></li>
-                            <li><a class="header__link" href="#contenido">Documentación</a></li>
-                            <li><a class="header__link" href="#changelog">Changelog</a></li>
-                            <li>
-                                <a class="header__link header__link--accent" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
-                                    dlunire.dev
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </details>
+                        <div class="header__drawer-panel" id="nav-drawer-panel">
+                            <ul class="header__links">
+                                <li><a class="header__link" href="#arquitectura">Arquitectura</a></li>
+                                <li><a class="header__link" href="#ecosistema">Ecosistema</a></li>
+                                <li><a class="header__link" href="#licencia">Licencia</a></li>
+                                <li><a class="header__link" href="#licencia-comercial">Licencia comercial</a></li>
+                                <li><a class="header__link" href="#inicio-rapido">Inicio rápido</a></li>
+                                <li><a class="header__link" href="#bootstrap-demo">Bootstrap</a></li>
+                                <li><a class="header__link" href="#contenido">Documentación</a></li>
+                                <li><a class="header__link" href="#changelog">Changelog</a></li>
+                                <li><a class="header__link" href="/docs/licencia-comercial">Guía pública</a></li>
+                                <li><a class="header__link" href="/politica-datos">Política de datos</a></li>
+                                <li>
+                                    <a class="header__link header__link--accent" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
+                                        dlunire.dev
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema claro u oscuro">
+                        <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">☀</span>
+                        <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">☾</span>
+                    </button>
+                </div>
             </nav>
         </header>
 
@@ -232,11 +242,10 @@
                         </ul>
 
                         <div class="arch-aside__note">
-                            <span class="arch-aside__note-label">Estado operativo</span>
+                            <span class="arch-aside__note-label">MULTITENANT — en desarrollo</span>
                             <p>
-                                <code>MULTITENANT</code> permanece en desarrollo; el aislamiento por dominio
-                                dependerá de <strong>DLParse</strong>. En monoinquilino, use
-                                <code>MULTITENANT: false</code>.
+                                El aislamiento por dominio dependerá de <strong>DLParse</strong>.
+                                En monoinquilino, use <code>MULTITENANT: false</code>.
                             </p>
                         </div>
                     </aside>
@@ -367,11 +376,12 @@
 
                 <div class="license-guide reveal">
                     <aside class="license-guide__note" aria-label="Resumen en una frase">
-                        <span class="license-guide__note-label">En síntesis</span>
+                        <span class="license-guide__note-label">En una frase</span>
                         <p class="license-guide__note-text">
-                            <strong>Puede comercializar con DLCore.</strong> Si su aplicación es obra derivada
-                            y la pone a disposición de usuarios (web, API, SaaS), publique su código bajo AGPL
-                            o adquiera una <a href="#licencia-comercial">licencia comercial</a>.
+                            <strong>Puede crear su aplicación con DLUnire.</strong> Si terceros usan su app por
+                            red y el código de su aplicación no será público bajo AGPL, necesita
+                            <a href="#licencia-comercial">licencia comercial</a> o publicar fuentes. En desarrollo
+                            local, staging, uso interno u open source, <strong>no</strong>.
                         </p>
                     </aside>
 
@@ -383,8 +393,8 @@
                             </header>
                             <h3 class="license-guide__title">Uso comercial</h3>
                             <p class="license-guide__text">
-                                Puede vender licencias, suscripciones o servicios, usar DLCore en startups,
-                                agencias y productos de pago. La AGPL no impide facturar ni monetizar su trabajo.
+                                Puede facturar desarrollo para clientes, vender suscripciones, operar tiendas
+                                o SaaS. La AGPL no exige pagar a DLUnire ni impide monetizar su trabajo.
                             </p>
                         </article>
 
@@ -408,47 +418,146 @@
                             </header>
                             <h3 class="license-guide__title">Licencia comercial</h3>
                             <p class="license-guide__text">
-                                Si prefiere mantener el código cerrado (SaaS propietario, código fuente no
-                                público), DLUnire ofrece licenciamiento comercial sin obligación de publicar
-                                el repositorio de su producto. Véase <a href="#licencia-comercial">tarifas y alcance</a>.
+                                Para desplegar código cerrado en producción (SaaS, API, web comercial): un
+                                <strong>permiso legal</strong> para un (1) producto, sin publicar el fuente de
+                                su aplicación bajo AGPL. No es comprar el framework. Véase
+                                <a href="#licencia-comercial">tarifas y alcance</a>.
                             </p>
                         </article>
                     </div>
 
+                    <aside class="license-guide__note" aria-label="Para desarrolladores">
+                        <span class="license-guide__note-label">Mensaje para desarrolladores</span>
+                        <p class="license-guide__note-text">
+                            <strong>Usen DLUnire gratis.</strong> Construyan lo que quieran y cobren a sus clientes.
+                            Solo si van a dejar el producto <strong>en producción</strong> con código cerrado y usuarios
+                            externos lo usan por internet, necesitan licencia comercial <strong>de ese producto</strong>
+                            — o publican el código de su app bajo AGPL. No es «gratis o de pago»: es gratis para
+                            desarrollar; el pago es opcional para despliegue cerrado.
+                            <a href="/docs/licencia-comercial">Casos detallados</a>.
+                        </p>
+                    </aside>
+
+                    <aside class="license-guide__note" aria-label="Tienda online">
+                        <span class="license-guide__note-label">Tienda online</span>
+                        <p class="license-guide__note-text">
+                            <strong>¿Tienda con compras por internet?</strong> En producción con código cerrado,
+                            <strong>sí</strong> — pero si es para un <strong>cliente</strong>, el plan
+                            <a href="#licencia-comercial">Freelance</a> cubre el permiso desde
+                            <strong>$50.000 COP</strong>. Construir y probar sigue siendo <strong>gratis</strong>.
+                        </p>
+                    </aside>
+
+                    <aside class="license-guide__note" aria-label="Para quien empieza">
+                        <span class="license-guide__note-label">Para quien empieza</span>
+                        <p class="license-guide__note-text">
+                            <strong>$0</strong> para instalar, aprender, desarrollar y probar en staging sin límite.
+                            @if($fundadores_activo)
+                            <strong>{{ $fundadores_restantes }} de {{ $fundadores_total }}</strong> cupos
+                            <strong>Fundadores gratis</strong> (<strong>{{ $fundadores_codigo }}</strong>).
+                            Luego pago único desde $20.000 COP (INICIO) o $100.000 (Pack).
+                            @else
+                            Freelance <strong>pago único</strong> desde $20.000 COP (INICIO).
+                            @endif
+                            <a href="#licencia-comercial">Cómo solicitar</a>.
+                        </p>
+                    </aside>
+
                     <div id="licencia-comercial" class="license-commercial">
                         <header class="license-commercial__head">
-                            <span class="license-commercial__kicker">Código cerrado</span>
+                            <span class="license-commercial__kicker">Permiso de despliegue</span>
                             <h3 class="license-commercial__title">Licencia comercial — tarifas y alcance</h3>
                             <p class="license-commercial__lead">
-                                Tarifas pensadas para independientes y pequeños equipos. Cubren el
-                                <strong>derecho legal de uso</strong> en un producto, actualizaciones del núcleo
-                                y soporte acotado por correo. No incluye desarrollo de su aplicación.
+                                <strong>Todos los planes son pago único</strong> — sin suscripciones ni renovaciones.
+                                Permiso legal para desplegar <strong>código cerrado</strong> a usuarios externos.
+                                No es requisito para desarrollar: paga una vez, certificado + 12 meses de actualizaciones
+                                y soporte por correo según plan.
                             </p>
                         </header>
 
+                        <aside class="license-guide__note" aria-label="Siempre puede desarrollar">
+                            <span class="license-guide__note-label">Siempre puede desarrollar</span>
+                            <p class="license-guide__note-text">
+                                Instale, programe y pruebe sin licencia comercial. Solo entra al poner en
+                                producción código cerrado accesible por internet a terceros (web, API, SaaS).
+                                Desarrollo local, staging, intranet y proyectos AGPL públicos quedan fuera.
+                            </p>
+                        </aside>
+
+                        <div class="license-commercial__scope license-commercial__scope--starter" aria-label="Facilidades para quien empieza">
+                            <section class="license-commercial__scope-panel license-commercial__scope-panel--in">
+                                <h4 class="license-commercial__scope-title">Siempre gratis</h4>
+                                <ul class="license-commercial__scope-list">
+                                    <li>Composer, skeleton y ecosistema sin registro</li>
+                                    <li>Desarrollo y staging ilimitados en el tiempo</li>
+                                    <li>Tutorial, documentación y soporte comunitario (issues)</li>
+                                    <li>Facturar al cliente por diseño, desarrollo y mantenimiento</li>
+                                    <li>Demos, sandbox y validación del MVP antes de abrir</li>
+                                    <li>Camino AGPL si publica el código de su aplicación</li>
+                                </ul>
+                            </section>
+                            <section class="license-commercial__scope-panel license-commercial__scope-panel--out">
+                                <h4 class="license-commercial__scope-title">Al desplegar cerrado</h4>
+                                <ul class="license-commercial__scope-list">
+                                    <li><strong>Freelance (pago único):</strong>
+                                        @if($fundadores_activo)
+                                        Fundador $0 ({{ $fundadores_restantes }} cupos) ·
+                                        @endif
+                                        $20k INICIO · $50k/proyecto · $100k pack (5 clientes)
+                                    </li>
+                                    <li><strong>Indie / Pro:</strong> su propio SaaS o producto con su marca</li>
+                                    <li>Certificado en ~3 días hábiles tras confirmar pago</li>
+                                    <li>Precios en COP sin IVA (RUT código 49)</li>
+                                </ul>
+                            </section>
+                        </div>
+
                         <div class="license-commercial__pricing">
+                            <article class="license-commercial__plan license-commercial__plan--featured">
+                                <header class="license-commercial__plan-head">
+                                    <span class="license-commercial__plan-mark" aria-hidden="true">◇</span>
+                                    <span class="license-commercial__plan-kicker">Para freelancers</span>
+                                </header>
+                                <h4 class="license-commercial__plan-name">Freelance</h4>
+                                <p class="license-commercial__price">
+                                    <span class="license-commercial__price-value">$50.000</span>
+                                    <span class="license-commercial__price-unit">COP / proyecto cliente</span>
+                                    <span class="license-commercial__price-usd">Pack $100.000 · pago único · sin IVA</span>
+                                </p>
+                                <ul class="license-commercial__plan-list">
+                                    <li>Tiendas, encuestas y webs para clientes</li>
+                                    <li>INICIO $20k · Proyecto $50k · Pack 5 clientes $100k</li>
+                                    @if($fundadores_activo)
+                                    <li>Fundador: $0 — cupos {{ $fundadores_restantes }}/{{ $fundadores_total }}</li>
+                                    @endif
+                                    <li>Todo pago único — sin renovación</li>
+                                    <li>12 meses actualizaciones · soporte por correo</li>
+                                </ul>
+                            </article>
+
                             <article class="license-commercial__plan">
                                 <header class="license-commercial__plan-head">
                                     <span class="license-commercial__plan-mark" aria-hidden="true">01</span>
-                                    <span class="license-commercial__plan-kicker">Anual</span>
+                                    <span class="license-commercial__plan-kicker">Producto propio</span>
                                 </header>
                                 <h4 class="license-commercial__plan-name">Indie</h4>
                                 <p class="license-commercial__price">
                                     <span class="license-commercial__price-value">$600.000</span>
-                                    <span class="license-commercial__price-unit">COP / año</span>
+                                    <span class="license-commercial__price-unit">COP · pago único</span>
                                     <span class="license-commercial__price-usd">≈ USD 150 · sin IVA</span>
                                 </p>
                                 <ul class="license-commercial__plan-list">
-                                    <li>Un (1) producto o SaaS cerrado</li>
-                                    <li>Actualizaciones mientras esté vigente</li>
-                                    <li>Soporte: 4 h/año por correo</li>
+                                    <li>Su SaaS, tienda o producto con su marca</li>
+                                    <li>Un (1) producto — uso perpetuo</li>
+                                    <li>12 meses de actualizaciones del núcleo</li>
+                                    <li>Soporte: 4 h incluidas (correo)</li>
                                 </ul>
                             </article>
 
-                            <article class="license-commercial__plan license-commercial__plan--featured">
+                            <article class="license-commercial__plan">
                                 <header class="license-commercial__plan-head">
                                     <span class="license-commercial__plan-mark" aria-hidden="true">02</span>
-                                    <span class="license-commercial__plan-kicker">Pago único</span>
+                                    <span class="license-commercial__plan-kicker">Producto propio</span>
                                 </header>
                                 <h4 class="license-commercial__plan-name">Pro</h4>
                                 <p class="license-commercial__price">
@@ -457,15 +566,15 @@
                                     <span class="license-commercial__price-usd">≈ USD 200 · sin IVA</span>
                                 </p>
                                 <ul class="license-commercial__plan-list">
-                                    <li>Un (1) proyecto — licencia perpetua</li>
+                                    <li>Un (1) producto — uso perpetuo</li>
                                     <li>12 meses de actualizaciones del núcleo</li>
-                                    <li>Soporte: 8 h el primer año</li>
+                                    <li>Soporte: 8 h incluidas (correo)</li>
                                 </ul>
                             </article>
 
                             <article class="license-commercial__plan">
                                 <header class="license-commercial__plan-head">
-                                    <span class="license-commercial__plan-mark" aria-hidden="true">◇</span>
+                                    <span class="license-commercial__plan-mark" aria-hidden="true">03</span>
                                     <span class="license-commercial__plan-kicker">Equipos</span>
                                 </header>
                                 <h4 class="license-commercial__plan-name">Business</h4>
@@ -474,8 +583,8 @@
                                 </p>
                                 <ul class="license-commercial__plan-list">
                                     <li>Varios productos en la organización</li>
-                                    <li>SLA y bolsa de integración</li>
-                                    <li>Propuesta según necesidad</li>
+                                    <li>SLA y bolsa de integración por correo</li>
+                                    <li>Cotización según necesidad</li>
                                 </ul>
                             </article>
                         </div>
@@ -484,42 +593,86 @@
                             <section class="license-commercial__scope-panel license-commercial__scope-panel--in">
                                 <h4 class="license-commercial__scope-title">Incluye</h4>
                                 <ul class="license-commercial__scope-list">
-                                    <li>Contrato o certificado de licencia para el producto indicado</li>
-                                    <li>Uso de DLCore, DLRoute y DLStorage sin publicar fuentes AGPL</li>
-                                    <li>Actualizaciones del núcleo según plan</li>
-                                    <li>Soporte por correo: licencia, instalación e integración básica</li>
+                                    <li>Permiso legal de despliegue cerrado para un (1) producto identificado</li>
+                                    <li>DLCore, DLRoute, DLStorage y skeleton sin publicar fuentes de su app</li>
+                                    <li>Certificado o contrato + actualizaciones del núcleo según plan</li>
+                                    <li>Soporte solo por correo: licencia, instalación e integración básica</li>
                                 </ul>
                             </section>
                             <section class="license-commercial__scope-panel license-commercial__scope-panel--out">
                                 <h4 class="license-commercial__scope-title">No incluye</h4>
                                 <ul class="license-commercial__scope-list">
-                                    <li>Desarrollo o mantenimiento de su producto de negocio</li>
-                                    <li>Hosting, DevOps ni administración de servidores</li>
-                                    <li>Segundo producto sin ampliar plan</li>
-                                    <li>Soporte 24/7 ni auditorías de seguridad</li>
+                                    <li>Desarrollo o mantenimiento de su aplicación de negocio</li>
+                                    <li>Comprar el framework ni derecho genérico a «usar DLUnire»</li>
+                                    <li>Hosting, DevOps, segundo producto o revender el núcleo empaquetado</li>
+                                    <li>Soporte 24/7, videollamadas, teléfono ni auditorías</li>
                                 </ul>
                             </section>
                         </div>
 
-                        <aside class="license-commercial__pay" aria-label="Medios de pago en Colombia">
-                            <p class="license-commercial__pay-title">Pago en Colombia (COP)</p>
+                        @if($fundadores_activo)
+                        <aside class="license-commercial__promo license-commercial__promo--founders" aria-label="Programa Fundadores">
+                            <p class="license-commercial__promo-title">Programa Fundadores — gratis</p>
+                            <p class="license-commercial__promo-text">
+                                Quedan <strong>{{ $fundadores_restantes }} de {{ $fundadores_total }}</strong> cupos.
+                                Código <strong>{{ $fundadores_codigo }}</strong>: primer sitio de cliente
+                                <strong>$0</strong> (Freelance Proyecto). Un cupo por titular. Sin pasarela — certificado por correo.
+                            </p>
+                        </aside>
+                        @endif
+
+                        <aside class="license-commercial__promo" aria-label="Promoción Freelance">
+                            <p class="license-commercial__promo-title">Después de Fundadores</p>
+                            <p class="license-commercial__promo-text">
+                                Código <strong>DLUNIRE-INICIO</strong>: <strong>$20.000 COP</strong> pago único
+                                (luego $50.000/proyecto o $100.000 pack). Sin suscripciones.
+                            </p>
+                        </aside>
+
+                        <section class="license-commercial__checkout" aria-labelledby="freelance-checkout-title">
+                            <h4 id="freelance-checkout-title" class="license-commercial__checkout-title">Solicitar y pagar Freelance</h4>
+                            <ol class="license-commercial__steps">
+                                <li>
+                                    <strong>Escriba</strong> a
+                                    <a href="mailto:ventas@dlunire.dev?subject=Licencia%20Freelance%20DLUnire&amp;body=Plan%3A%20Freelance%20Proyecto%0ATitular%3A%20%0ADominio%3A%20%0ACorreo%20asociado%20al%20dominio%3A%20%0ACliente%20final%3A%20%0ADescripci%C3%B3n%3A%20%0AAcepto%20pol%C3%ADtica%20de%20datos%20(Ley%201581)%3A%20S%C3%AD%0AC%C3%B3digo%3A%20DLUNIRE-FUNDADOR%0A">ventas@dlunire.dev</a>
+                                    o WhatsApp <a href="https://wa.me/573026488528">+57 302 648 8528</a>
+                                    con titular, <strong>dominio</strong>, <strong>correo del dominio</strong>, cliente final y descripción.
+                                    Sin documento de identidad. Código <strong>DLUNIRE-FUNDADOR</strong> si busca cupo gratis.
+                                </li>
+                                @if($fundadores_activo)
+                                <li><strong>Fundador:</strong> si queda cupo, confirmación <strong>$0</strong> y certificado sin pago.</li>
+                                @endif
+                                <li><strong>Si no hay cupo o más proyectos:</strong> <strong>Wompi</strong> pago único — $20k INICIO · $50k proyecto · $100k pack.</li>
+                                <li><strong>Certificado</strong> PDF por correo (≤ 3 días hábiles; mismo día habitual).</li>
+                            </ol>
+                            <p class="license-commercial__privacy">
+                                Tratamos sus datos conforme a la
+                                <a href="/politica-datos">política de tratamiento de datos</a>
+                                (Ley 1581 de 2012, Colombia). No pedimos documento de identidad para Freelance.
+                            </p>
+                        </section>
+
+                        <aside class="license-commercial__pay" aria-label="Medios de pago">
+                            <p class="license-commercial__pay-title">Medios de pago</p>
                             <p class="license-commercial__pay-text">
-                                Precio de lista en <strong>COP</strong> (total, <strong>sin IVA</strong> — RUT código 49).
-                                El equivalente en USD es orientativo y <strong>varía con la TRM</strong>; el cobro en pasarela es el monto en pesos indicado.
-                                Medios: <strong>ePayco</strong>, <strong>Bancolombia</strong>, transferencia o Nequi.
+                                <strong>Preferido (Colombia):</strong> <strong>Wompi</strong> (PSE, tarjeta, Nequi, Bancolombia)
+                                — monto exacto en COP, sin IVA (RUT código 49). Respaldo: ePayco o Bancolombia.
+                                También: Nequi o transferencia (con comprobante).
+                                <strong>Internacional:</strong> PayPal (USD según TRM) o Binance USDT (manual, con hash de transacción).
+                                Detalle en <a href="/docs/licencia-comercial">docs/LICENCIA-COMERCIAL.md</a>.
                             </p>
                         </aside>
 
                         <footer class="license-guide__foot license-commercial__foot">
                             <p class="license-guide__foot-text">
-                                Uso interno, pruebas locales y proyectos open source no requieren licencia comercial.
-                                Alcance detallado en
-                                <a href="https://github.com/dlunire/dlcore/blob/master/docs/LICENCIA-COMERCIAL.md" target="_blank" rel="noopener noreferrer">docs/LICENCIA-COMERCIAL.md</a>.
+                                Desarrollo local, staging, uso interno y proyectos open source AGPL no requieren
+                                licencia comercial. Árbol de decisión, ejemplos y FAQ en
+                                <a href="/docs/licencia-comercial">docs/LICENCIA-COMERCIAL.md</a>.
                             </p>
                             <div class="license-guide__actions">
                                 <a class="license-guide__link" href="https://spdx.org/licenses/AGPL-3.0-or-later.html" target="_blank" rel="noopener noreferrer">Texto legal AGPL</a>
-                                <a class="license-guide__link" href="https://github.com/dlunire/dlcore/blob/master/docs/LICENCIA-COMERCIAL.md" target="_blank" rel="noopener noreferrer">Alcance completo</a>
-                                <a class="license-guide__link license-guide__link--next" href="mailto:ventas@dlunire.dev?subject=Licencia%20comercial%20DLUnire">Solicitar y pagar</a>
+                                <a class="license-guide__link" href="/docs/licencia-comercial">Alcance completo</a>
+                                <a class="license-guide__link license-guide__link--next" href="mailto:ventas@dlunire.dev?subject=Licencia%20Freelance%20DLUnire">Solicitar Freelance</a>
                             </div>
                         </footer>
                     </div>
@@ -1087,12 +1240,29 @@
                         <a class="panel__nav-link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md" target="_blank" rel="noopener noreferrer">Tutorial DLCore</a>
                         <a class="panel__nav-link" href="https://github.com/dlunire/dlroute" target="_blank" rel="noopener noreferrer">DLRoute</a>
                         <a class="panel__nav-link" href="https://github.com/dlunire/dlstorage" target="_blank" rel="noopener noreferrer">DLStorage</a>
-                        <a class="panel__nav-link panel__nav-link--warn" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual" target="_blank" rel="noopener noreferrer">MULTITENANT</a>
+                        <a class="panel__nav-link panel__nav-link--warn" href="#multitenant-estado">MULTITENANT — en desarrollo</a>
                     </nav>
                 </header>
 
                 <div class="markdown markdown--welcome">
                     @markdown('welcome')
+
+                    <aside id="multitenant-estado" class="welcome-callout welcome-callout--dev" aria-labelledby="multitenant-estado-title">
+                        <p id="multitenant-estado-title" class="welcome-callout__kicker">MULTITENANT — en desarrollo</p>
+                        <div class="welcome-callout__body">
+                            <p>
+                                La variable <code>MULTITENANT</code> en <code>.env.type</code> apunta a un modo SaaS
+                                (una base de datos por dominio), pero <strong>aún no está terminada</strong>. Hoy la entropía
+                                de credenciales ya incorpora el host normalizado; el aislamiento multitenant completo depende
+                                de <strong>DLParse</strong>, que sigue en desarrollo.
+                            </p>
+                            <p>
+                                En despliegues <strong>monoinquilino</strong>, usa
+                                <code>MULTITENANT: boolean = false</code>. Más contexto en el capítulo 13:
+                                <a href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual" target="_blank" rel="noopener noreferrer">Credenciales cifradas y DLStorage</a>.
+                            </p>
+                        </div>
+                    </aside>
                 </div>
             </article>
 
@@ -1185,11 +1355,16 @@
                             <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html" target="_blank" rel="noopener noreferrer">SPDX — AGPL-3.0-or-later</a>.
                         </p>
                         <p class="footer__panel-text">
-                            Código cerrado o SaaS: desde
-                            <a href="#licencia-comercial">$600.000 COP/año</a> (Indie)
-                            o
-                            <a href="#licencia-comercial">$800.000 COP</a> (Pro) — sin IVA.
-                            <a href="https://github.com/dlunire/dlcore/blob/master/docs/LICENCIA-COMERCIAL.md" target="_blank" rel="noopener noreferrer">Alcance</a>.
+                            Webs para clientes: desde
+                            @if($fundadores_activo)
+                            <a href="#licencia-comercial">Fundador $0</a> ({{ $fundadores_restantes }} cupos)
+                            @else
+                            <a href="#licencia-comercial">$20.000 COP</a> (Freelance INICIO)
+                            @endif
+                            · producto propio:
+                            <a href="#licencia-comercial">$600.000 COP</a> (Indie, pago único) —
+                            sin IVA.
+                            <a href="/docs/licencia-comercial">Alcance</a>.
                         </p>
                     </section>
 

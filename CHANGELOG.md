@@ -8,6 +8,22 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
+## [v2.1.1] - 2026-07-10
+
+### Dependencies / Dependencias
+
+- **`dlunire/dlroute` updated to `v2.0.2`** (constraint remains `^2.0` in `composer.json`; `composer.lock` pins the resolved release).
+  - Upstream fix: removal of the accidental absolute symlink `public/subdirectorio` (local Linux path under `/srv/Aplicaciones/...`) that broke **Composer install/extract on Windows** (`7z`: *Dangerous link path was ignored*).
+  - That link was only a local document-root / environment probe and was never part of the DLRoute public API.
+  - No DLCore API changes are required; applications that depend on DLCore continue to pull a Windows-safe DLRoute when they update the lockfile.
+
+- **`dlunire/dlroute` actualizado a `v2.0.2`** (la restricción en `composer.json` sigue siendo `^2.0`; `composer.lock` fija la versión resuelta).
+  - Corrección en el paquete: se eliminó el enlace simbólico absoluto accidental `public/subdirectorio` (ruta local Linux bajo `/srv/Aplicaciones/...`) que rompía la **instalación/extracción de Composer en Windows** (`7z`: *Dangerous link path was ignored*).
+  - Ese enlace solo servía para pruebas locales de document root / entorno y no formaba parte de la API pública de DLRoute.
+  - No hay cambios de API en DLCore; las aplicaciones que dependen de DLCore obtienen un DLRoute seguro en Windows al actualizar el lockfile.
+
+---
+
 ## [v2.1.0]
 
 ### Removed / Eliminado

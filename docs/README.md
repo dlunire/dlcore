@@ -1,5 +1,11 @@
 # Documentación DLCore
 
+## Licencia comercial
+
+Guía para productos de código cerrado o SaaS: [LICENCIA-COMERCIAL.md](LICENCIA-COMERCIAL.md) · [versión web](/docs/licencia-comercial)
+
+Política de tratamiento de datos (Ley 1581, Colombia): [POLITICA-DATOS.md](POLITICA-DATOS.md) · [versión web](/politica-datos)
+
 ## Tutorial de uso (recomendado)
 
 Guía progresiva en español: [tutorial/README.md](tutorial/README.md)

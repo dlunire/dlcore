@@ -8,10 +8,6 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ## [v2.1.0]
 
-### Removed / Eliminado
-
-- **`enshrined/svg-sanitize`**: eliminada de `composer.json`. El saneamiento de SVG en subidas lo realiza **DLRoute** (`DLUpload::sanitize_svg()`); un sanitizador adicional en DLCore es redundante en el flujo estándar de DLUnire.
-
 ### Documentation / Documentación
 
 - Tutorial progresivo de **DLCore** en `docs/tutorial/` (27 capítulos: variables de entorno, ORM, plantillas, autenticación, credenciales cifradas y DLStorage, despliegue, APIs JSON, ORM avanzado, DLRoute y `DLAuth`).

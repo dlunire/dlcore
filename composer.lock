@@ -83,16 +83,16 @@
         },
         {
             "name": "dlunire/dlroute",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dlunire/dlroute.git",
-                "reference": "fa71ddacdd7b8c7d0b4ae57660f61578b23a7416"
+                "reference": "b703a8a660ed753e6b47152c25dfbdd41fcc808d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dlunire/dlroute/zipball/fa71ddacdd7b8c7d0b4ae57660f61578b23a7416",
-                "reference": "fa71ddacdd7b8c7d0b4ae57660f61578b23a7416",
+                "url": "https://api.github.com/repos/dlunire/dlroute/zipball/b703a8a660ed753e6b47152c25dfbdd41fcc808d",
+                "reference": "b703a8a660ed753e6b47152c25dfbdd41fcc808d",
                 "shasum": ""
             },
             "require": {
@@ -117,7 +117,7 @@
             "description": "Sistema avanzado de enrutamiento HTTP impulsado por autómatas finitos. Altamente eficiente, flexible y de alto rendimiento. Úsalo como motor central de DLUnire o intégralo fácilmente en cualquier proyecto PHP.",
             "support": {
                 "issues": "https://github.com/dlunire/dlroute/issues",
-                "source": "https://github.com/dlunire/dlroute/tree/v2.0.1"
+                "source": "https://github.com/dlunire/dlroute/tree/v2.0.2"
             },
             "funding": [
                 {
@@ -125,7 +125,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-08T21:42:20+00:00"
+            "time": "2026-07-10T17:18:43+00:00"
         },
         {
             "name": "dlunire/dlstorage",

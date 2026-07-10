@@ -20,9 +20,3 @@ El tutorial del kernel abarca bootstrap (`Project::run()`), ORM, plantillas, aut
 ### Licencia
 
 Desde v2.0.0 el paquete se distribuye bajo **AGPL-3.0-or-later**. El uso en productos de código cerrado o SaaS sin publicar el código fuente correspondiente requiere licencia comercial. Detalle en el repositorio principal `dlunire/dlunire` (`LICENSE`, `LICENSING.md`).
-
-### `MULTITENANT` — en desarrollo
-
-La variable `MULTITENANT` en `.env.type` apunta a un modo SaaS (una base de datos por dominio), pero **aún no está terminada**. Hoy la entropía de credenciales ya incorpora el host normalizado; el aislamiento multitenant completo depende de **DLParse**, que sigue en desarrollo.
-
-En despliegues **monoinquilino**, usa `MULTITENANT: boolean = false`. Más contexto en el capítulo 13: [Credenciales cifradas y DLStorage](https://github.com/dlunire/dlcore/blob/master/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual).
