@@ -285,18 +285,14 @@ abstract class Model {
     }
 
     /**
-     * Ejecuta una consulta y devuelve los registros obtenidos.
+     * Ejecuta la consulta y devuelve registros con **tope de seguridad**
+     * ({@see DLDatabase::DEFAULT_GET_LIMIT}, p. ej. 1000 filas) si no hubo `limit()`.
      *
-     * Este método inicializa la conexión a la base de datos, ejecuta la consulta sobre 
-     * la tabla predeterminada y retorna los registros obtenidos. Una vez ejecutada la consulta, 
-     * se limpia la referencia a la tabla para evitar reutilizaciones accidentales en futuras consultas.
+     * Evita materializar tablas enormes en memoria. Para listados use `paginate()`.
+     * Si necesita el conjunto completo a sabiendas, use `all()` (puede ser muy costoso).
      *
-     * @param array $params Opcional. Array asociativo de parámetros para la consulta parametrizada.
-     *                      Las claves representan los nombres de los parámetros en la consulta SQL
-     *                      y los valores corresponden a los datos a sustituir. 
-     *                      Esto previene inyecciones SQL y mejora la seguridad.
-     *
-     * @return array Retorna un array con los registros obtenidos de la consulta.
+     * @param array $params Parámetros de la consulta preparada (claves → valores).
+     * @return array Hasta DEFAULT_GET_LIMIT filas (o el `limit()` que haya fijado el builder).
      */
     public static function get(array $params = []): array {
         static::init();
@@ -307,6 +303,24 @@ abstract class Model {
          * @var array $data Contiene los registros resultantes de la consulta.
          */
         $data = static::$db->from(static::$table_default)->get($params);
+
+        static::clear_table();
+        return $data;
+    }
+
+    /**
+     * Como `get()`, pero **sin tope de seguridad**: puede devolver toda la tabla.
+     *
+     * No lo use en tablas grandes (riesgo de memoria/tiempo). Prefiera `paginate()`
+     * o `get()` / `limit()`.
+     *
+     * @param array $params Parámetros de la consulta preparada
+     * @return array
+     */
+    public static function all(array $params = []): array {
+        static::init();
+
+        $data = static::$db->from(static::$table_default)->all($params);
 
         static::clear_table();
         return $data;

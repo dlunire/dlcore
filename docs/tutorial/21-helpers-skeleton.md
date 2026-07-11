@@ -192,8 +192,17 @@ Products::get()
             └── set_table_name('DLUnire\Models\Products')
                     └── dl_products   (prefijo + snake_case)
             └── DLDatabase::from('dl_products')->get()
+                    └── tope DEFAULT_GET_LIMIT (1000) si no hay limit()
     └── clear_table()   ← resetea $table_default tras cada operación
+
+Products::all()
+    └── igual, pero get() sin tope (allow_unlimited)
 ```
+
+**Importante:** `get()` **no** lista toda la tabla: aplica un tope de seguridad
+(`DLDatabase::DEFAULT_GET_LIMIT`, 1000 filas) para no tumbar el proceso con
+volúmenes masivos. Para listados use `paginate()`. `all()` desactiva el tope
+solo si usted lo pide a sabiendas. Detalle en [03-modelos-orm.md](03-modelos-orm.md).
 
 La clase vacía **es** la API de consulta. El nombre de tabla no se declara porque el ORM lo deduce.
 
@@ -309,7 +318,7 @@ use DLCore\Core\BaseController;
 
 final class ProductsController extends BaseController {
     public function index(): array {
-        $page = (int) ($this->get_input('page') ?? 1);
+        $page = $this->get_integer('page');
 
         $paginated = ActiveProducts::paginate($page, rows: 25);
 

@@ -220,7 +220,7 @@ use DLCore\Core\BaseController;
 final class ReportsController extends BaseController {
 
     public function sales_by_category(): array {
-        $page = (int) ($this->get_input('page') ?? 1);
+        $page = $this->get_integer('page');
 
         $result = SalesByCategory::order_by('revenue')
             ->paginate($page, rows: 10);
@@ -458,6 +458,9 @@ Respuesta JSON vía DLRoute; si el frontend es cross-origin, aplica CORS y `DL_T
 | ORM básico | [03-modelos-orm.md](03-modelos-orm.md) |
 | `DLDatabase` y `query()` | [09-consultas-sql.md](09-consultas-sql.md) |
 | Vistas virtuales y `paginate()` | [21-helpers-skeleton.md](21-helpers-skeleton.md) |
+| Tope de `get()` / `all()` / `paginate()` | [03-modelos-orm.md](03-modelos-orm.md) |
+
+**Nota:** las agregaciones suelen devolver pocas filas; aun así `->get()` aplica el tope de seguridad (`DEFAULT_GET_LIMIT`) si no hay `limit()`. Use `paginate()` o `limit()` cuando el `GROUP BY` pueda producir muchas filas.
 | API + CORS + `DL_TOKEN` | [23-cors-dl-token-orm.md](23-cors-dl-token-orm.md) |
 | Controladores | [04-controladores.md](04-controladores.md) |
 

@@ -31,15 +31,36 @@ class ActiveProducts extends Model {
 }
 ```
 
-## Lectura
+## Lectura: `get()`, `all()` y `paginate()`
+
+| Método | Tope | Cuándo usarlo |
+|--------|------|----------------|
+| **`get()`** / **`->get()`** | Sí: **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** si no hubo `limit()` | Lecturas acotadas, demos, filtrados cortos |
+| **`limit(n)`** / **`limit(offset, rows)`** | El que usted fije | Control explícito del tamaño del resultado |
+| **`paginate($page, $rows)`** | Páginas de `$rows` | Listados de API/UI (recomendado) |
+| **`all()`** / **`->all()`** | **Ninguno** | Solo si el conjunto es pequeño a propósito |
+
+**Por qué el tope en `get()`:** un `SELECT` sin límite sobre una tabla de cientos de millones o miles de millones de filas puede agotar memoria y colgar el servidor. El límite es **intencional**. Si necesita más filas, use `paginate()`, un `limit()` mayor, o `all()` solo de forma consciente.
 
 ```php
-// Todos los registros (con parámetros opcionales)
+// Tope de seguridad (~1000 filas). No es “toda la tabla”.
 $rows = Products::get();
 
-// Conteo
+// Tope personalizado
+$rows = Products::select('*')->limit(50)->get();
+
+// Listados (recomendado)
+$page = (int) ($_GET['page'] ?? 1);
+$paginated = Products::paginate($page, rows: 20);
+
+// Sin tope — peligroso en tablas grandes. Preferir paginate() o limit().
+// $all = Products::all();
+
+// Conteo (no trae filas)
 $total = Products::count();
 ```
+
+`Products::where(...)->get()` y `$db->from(...)->get()` usan el **mismo tope** salvo que la cadena ya tenga `limit()` o se use `all()`.
 
 ## Filtros
 
@@ -49,6 +70,7 @@ use DLCore\Database\Model;
 $query = Products::where('category_id', '=', '3')
     ->where('price', '>', '1000', Model::AND);
 
+// También acotado por DEFAULT_GET_LIMIT si no hay limit()
 $results = $query->get();
 ```
 
@@ -118,7 +140,7 @@ final class ProductsController extends BaseController {
 
 Para el patrón **modelo vacío**, tablas personalizadas, **vistas virtuales** (`SELECT` en `$table`) y `paginate()` en detalle, consulta [21-helpers-skeleton.md](21-helpers-skeleton.md). Uso del ORM en APIs con CORS y `DL_TOKEN` en [23-cors-dl-token-orm.md](23-cors-dl-token-orm.md). Agregaciones en [24-orm-agregaciones.md](24-orm-agregaciones.md). Escritura masiva y transacciones en [25-orm-escritura-transacciones.md](25-orm-escritura-transacciones.md).
 
-Para reportes sin definir un modelo, usa el constructor `DLDatabase` en [09-consultas-sql.md](09-consultas-sql.md).
+Para reportes sin definir un modelo, usa el constructor `DLDatabase` en [09-consultas-sql.md](09-consultas-sql.md) (mismo tope de seguridad en `get()` / `all()`). Referencia corta: [DLDatabase.md](../DLDatabase.md).
 
 ## Siguiente paso
 

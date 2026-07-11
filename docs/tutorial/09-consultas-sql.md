@@ -32,10 +32,25 @@ $db = new DLDatabase('+00:00'); // zona horaria para TIMESTAMP
 
 ## Lectura
 
-### Todos los registros o el primero
+### `get()`, `all()` y tope de seguridad
+
+| Método | Tope | Notas |
+|--------|------|--------|
+| **`get()`** | **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** si no hay `limit()` | Protege frente a tablas masivas |
+| **`limit(n)`** | El que fije | Se respeta en el siguiente `get()` |
+| **`all()`** | Ninguno | Puede devolver toda la tabla; use con cuidado |
+| **`paginate()`** | Páginas de `$rows` | Listados recomendados |
+| **`first()`** | 1 fila lógica | Primer registro |
 
 ```php
+// Hasta DEFAULT_GET_LIMIT filas (p. ej. 1000), no “toda la tabla”
 $rows = $db->from('dl_products')->get();
+
+// Límite explícito
+$rows = $db->from('dl_products')->limit(50)->get();
+
+// Sin tope — solo si el conjunto es acotado
+// $all = $db->from('dl_products')->all();
 
 $one = $db->from('dl_products')
     ->where('id', '=', '7')
@@ -47,7 +62,7 @@ $one = $db->from('dl_products')
 ```php
 $rows = $db->select('id', 'product_name', 'price')
     ->from('dl_products')
-    ->get();
+    ->get(); // también con tope de seguridad
 ```
 
 ### Filtros y orden
@@ -76,7 +91,7 @@ $page = $db->from('dl_products')->paginate(page: 2, rows: 25);
 $items = $page['register'];
 ```
 
-Misma forma de respuesta que `Model::paginate()` del capítulo 3.
+Misma forma de respuesta que `Model::paginate()` del capítulo 3. Ver también el tope de `get()` en [03-modelos-orm.md](03-modelos-orm.md).
 
 ## Escritura
 

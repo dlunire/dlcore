@@ -197,15 +197,18 @@ DLCore infiere la tabla (`Products` → `dl_products` con `DL_PREFIX`). Detalle 
 Cada llamada resuelve tabla, ejecuta y llama a `clear_table()`:
 
 ```php
-$all   = Products::get();
+// get() ≠ “toda la tabla”: tope de seguridad DEFAULT_GET_LIMIT (1000)
+$rows  = Products::get();
 $total = Products::count();
 $one   = Products::first();
-$page  = Products::paginate(page: 1, rows: 20);
+$page  = Products::paginate(page: 1, rows: 20); // listados de API
+// $all = Products::all(); // sin tope — solo si el conjunto es acotado
 ```
 
 ### Patrón B — encadenamiento vía `DLDatabase`
 
-`where()`, `select()`, `order_by()`, etc. devuelven `DLDatabase` (trait `DLQueryBuilder`). Encadena y termina con `get()`, `first()`, `paginate()`, `update()` o `delete()`:
+`where()`, `select()`, `order_by()`, etc. devuelven `DLDatabase` (trait `DLQueryBuilder`). Encadena y termina con `get()`, `all()`, `first()`, `paginate()`, `update()` o `delete()`.  
+`->get()` aplica el mismo tope de seguridad si no hay `limit()`:
 
 ```php
 use DLCore\Database\Model;
@@ -243,10 +246,11 @@ Operadores lógicos: `Model::AND`, `Model::OR`.
 
 | Método | Retorno | Uso |
 |--------|---------|-----|
-| `get($params = [])` | `array` | Lista de filas |
+| `get($params = [])` | `array` | Filas con **tope de seguridad** (1000 si no hay `limit()`) |
+| `all($params = [])` | `array` | **Sin tope** — puede ser masivo; use con cuidado |
 | `first($params = [])` | `array` | Primera fila o `[]` |
 | `count($column = '*')` | `int` | `COUNT(*)` |
-| `paginate($page, $rows, $param = [])` | `array` | Página + metadatos ([21-helpers-skeleton.md](21-helpers-skeleton.md)) |
+| `paginate($page, $rows, $param = [])` | `array` | Página + metadatos (recomendado en APIs; [21-helpers-skeleton.md](21-helpers-skeleton.md)) |
 | `create($fields)` / `insert($fields)` | `bool` | `INSERT` |
 | `replace($fields)` | `bool` | `REPLACE` (upsert según motor) |
 | `where(...)` | `DLDatabase` | Filtro; encadenar |
@@ -330,7 +334,7 @@ use DLCore\Core\BaseController;
 final class ProductsController extends BaseController {
 
     public function index(): array {
-        $page = (int) ($this->get_input('page') ?? 1);
+        $page = $this->get_integer('page');
         $rows = (int) ($this->get_input('rows') ?? 20);
 
         $result = CatalogProducts::paginate($page, $rows);

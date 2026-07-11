@@ -64,6 +64,18 @@ class DLDatabase {
      */
     public const OR = "OR";
 
+    /**
+     * Tope de seguridad de `get()` cuando no hay `limit()` explícito.
+     * Evita materializar tablas enormes en memoria (p. ej. miles de millones de filas).
+     * Use `all()` solo de forma consciente si realmente necesita el conjunto completo.
+     */
+    public const DEFAULT_GET_LIMIT = 1000;
+
+    /**
+     * Devuelve la instancia de la clas DLDatabase
+     *
+     * @var self|null
+     */
     private static ?self $instance = NULL;
 
     /**
@@ -166,7 +178,7 @@ class DLDatabase {
         $parts = explode(",", $fields);
 
         foreach ($parts as $part) {
-            if (!is_string($part)) continue;
+            if (!\is_string($part)) continue;
 
             $part = trim($part);
             if (empty($part)) continue;
@@ -295,7 +307,17 @@ class DLDatabase {
      *
      * @return array
      */
+    /**
+     * Ejecuta la consulta y devuelve filas.
+     *
+     * Si no se definió `limit()` y no se pidió `all()` / modo ilimitado, aplica
+     * {@see self::DEFAULT_GET_LIMIT} como tope de seguridad.
+     *
+     * @param array $param Parámetros adicionales de la consulta preparada
+     * @return array
+     */
     public function get(array $param = []): array {
+        $this->apply_safe_get_limit();
 
         /**
          * Datos de la consulta
@@ -320,6 +342,38 @@ class DLDatabase {
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $data;
+    }
+
+    /**
+     * Como `get()`, pero **sin tope de seguridad**: puede devolver toda la tabla.
+     *
+     * Peligroso con volúmenes masivos (memoria / tiempo). Prefiera `paginate()` o
+     * un `limit()` explícito. Use solo si el conjunto es acotado a propósito.
+     *
+     * @param array $param Parámetros adicionales de la consulta preparada
+     * @return array
+     */
+    public function all(array $param = []): array {
+        $this->allow_unlimited = true;
+        $this->limit = -1;
+
+        return $this->get($param);
+    }
+
+    /**
+     * Aplica {@see self::DEFAULT_GET_LIMIT} si el builder no tiene límite y no es ilimitado.
+     * 
+     * @return void
+     */
+    private function apply_safe_get_limit(): void {
+        if ($this->allow_unlimited) {
+            return;
+        }
+
+        // -1 (int o string) = sin limit() del usuario → tope de seguridad
+        if ($this->limit === -1 || $this->limit === '-1') {
+            $this->limit = self::DEFAULT_GET_LIMIT;
+        }
     }
 
     /**
@@ -452,7 +506,7 @@ class DLDatabase {
      * @return bool
      */
     private function empty(array | string $value): bool {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return empty(trim($value));
         }
 
@@ -663,11 +717,19 @@ class DLDatabase {
     private function get_limit(): ?string {
         $limit = $this->limit;
 
-        $is_limit = $limit > 0 || empty(trim($limit));
+        // -1 / "-1" = sin cláusula LIMIT (p. ej. all() o ilimitado explícito)
+        if ($limit === -1 || $limit === '-1') {
+            return null;
+        }
+
+        $limit_str = is_string($limit) ? trim($limit) : (string) $limit;
+        $is_limit = ((int) $limit_str > 0) || ($limit_str === '0') || str_contains($limit_str, ',');
 
         if (!$is_limit) {
             return null;
         }
+
+        $limit = $limit_str;
 
         $parts = explode(",", $limit);
 
@@ -710,13 +772,28 @@ class DLDatabase {
     }
 
     /**
-     * Condicional de la base de datos
+     * Agrega una condición a la cláusula WHERE de la consulta SQL.
      *
-     * @param string $field
-     * @param string $operator
-     * @param ?string $value
-     * @param string $localOperator
-     * @return self
+     * Permite encadenar filtros sobre columnas (comparaciones, `LIKE`, `IS NULL`, etc.).
+     * Las condiciones sucesivas se unen con el operador lógico indicado (`AND` u `OR`).
+     * El fragmento resultante se almacena en la propiedad interna de condiciones y se
+     * reconstruye como `WHERE …` listo para el builder.
+     *
+     * @param string      $field    Nombre del campo (columna) sobre el que se aplica la condición.
+     * @param string      $operator Operador de comparación (p. ej. `=`, `>`, `<`, `LIKE`, `IS`).
+     * @param string|null $value    Valor a comparar. Puede ser `null` en casos como `IS NULL`.
+     * @param string      $logical  Operador lógico entre esta condición y las previas.
+     *                              Por defecto {@see self::AND}; use {@see self::OR} para alternativa.
+     *
+     * @return self Instancia actual del builder, para encadenar llamadas.
+     *
+     * @example
+     * ```php
+     * $db->from('dl_products')
+     *    ->where('price', '>', '100')
+     *    ->where('product_name', 'LIKE', '%teclado%', DLDatabase::AND)
+     *    ->get();
+     * ```
      */
     public function where(string $field, string $operator, ?string $value = NULL, string $logical = self::AND): self {
         $logical = $this->get_logical_operator($logical);
@@ -847,7 +924,7 @@ class DLDatabase {
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return is_array($data)
+        return \is_array($data)
             ? $data
             : [];
     }

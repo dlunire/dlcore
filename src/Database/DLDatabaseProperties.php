@@ -122,11 +122,19 @@ trait DLDatabaseProperties {
     protected string $where = "";
 
     /**
-     * Determina el límite de registros a devolver
+     * Determina el límite de registros a devolver.
+     * `-1` = sin límite explícito del builder (antes de aplicar el tope de seguridad en get()).
      *
-     * @var integer
+     * @var integer|string
      */
     protected int|string $limit = -1;
+
+    /**
+     * Si es true, `get()` no aplica el tope de seguridad (uso de `all()`).
+     *
+     * @var bool
+     */
+    protected bool $allow_unlimited = false;
 
     /**
      * Lugar donde se define si la estructura SQL se trata de una actualización.

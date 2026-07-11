@@ -580,6 +580,7 @@ trait DLQueryBuilder {
         $this->orderDirection = "ASC";
         $this->order_by = "";
         $this->limit = -1;
+        $this->allow_unlimited = false;
         $this->customized = false;
         $this->conditions = [];
         $this->operation = null;

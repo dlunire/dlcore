@@ -5,11 +5,10 @@ declare(strict_types=1);
 use DLCore\Compilers\DLMarkdown;
 use DLCore\Controllers\FileController;
 use DLCore\Core\Output\View;
-use DLCore\Licensing\FundadoresProgram;
 use DLCore\Tests\Usuarios;
 use DLRoute\Requests\DLRoute;
 
-DLRoute::get(uri: '/', controller: fn() => View::get('welcome', FundadoresProgram::welcome_vars()));
+DLRoute::get(uri: '/', controller: fn() => View::get('welcome'));
 
 DLRoute::get('/docs/licencia-comercial', function (): string {
     $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'docs' . DIRECTORY_SEPARATOR . 'LICENCIA-COMERCIAL.md';
@@ -52,3 +51,4 @@ DLRoute::get("/test", fn() => ["status" => "ok"]);
 DLRoute::get("/test-database", fn() => Usuarios::paginate(1, 3));
 
 DLRoute::post('/file', [FileController::class, 'upload']);
+

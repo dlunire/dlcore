@@ -5,15 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#eef2f6" id="meta-theme-color">
-    <meta name="description" content="DLCore v2.1.0 — kernel de aplicación del framework DLUnire. ORM, plantillas, autenticación, variables tipadas y bootstrap sobre DLRoute.">
+    <meta name="theme-color" content="#080a0f" id="meta-theme-color">
+    <meta name="description" content="DLCore v2.1.2 — kernel de aplicación del framework DLUnire. ORM, plantillas, autenticación, variables tipadas y bootstrap sobre DLRoute.">
+    <meta name="color-scheme" content="dark light">
     <title>DLCore — Kernel de DLUnire</title>
 
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <link rel="icon" href="./favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./style.css">
     <script src="./welcome.js" defer></script>
@@ -87,22 +88,25 @@
                     </div>
 
                     <div class="welcome-hero__content">
-                        <p class="welcome-hero__eyebrow">Framework DLUnire · Capa de aplicación</p>
+                        <p class="welcome-hero__eyebrow">
+                            <span class="welcome-hero__badge">DLUnire</span>
+                            <span class="welcome-hero__eyebrow-text">Capa de aplicación · Kernel PHP</span>
+                        </p>
 
                         <h1 id="welcome-hero-title" class="welcome-hero__title">
                             <strong>DL</strong><span>Core</span>
                         </h1>
 
                         <p class="welcome-hero__lead">
-                            Kernel funcional que construye sobre el contexto de ejecución provisto por
-                            <strong>DLRoute</strong>. Proporciona ORM, motor de plantillas, autenticación,
-                            variables tipadas (<code>.env.type</code>) y el bootstrap de la aplicación mediante
-                            <code>Project::run()</code>.
+                            Kernel funcional sobre el contexto de ejecución de
+                            <strong>DLRoute</strong>. ORM, plantillas, autenticación,
+                            <code>.env.type</code> y bootstrap con
+                            <code>Project::run()</code> — sin reinventar la infraestructura HTTP.
                         </p>
 
                         <p class="welcome-hero__principle">
-                            DLCore <em>no redefine</em> el entorno de ejecución: lo consume de forma determinista
-                            y delega la infraestructura HTTP y de rutas a DLRoute.
+                            DLCore <em>no redefine</em> el entorno: lo consume de forma determinista
+                            y delega rutas y servidor a DLRoute.
                         </p>
 
                         <div class="welcome-hero__capabilities-wrap">
@@ -119,7 +123,7 @@
                         <dl class="welcome-hero__specs" aria-label="Especificación del paquete">
                             <div class="spec">
                                 <dt>Versión</dt>
-                                <dd>v2.1.0</dd>
+                                <dd>v2.1.2</dd>
                             </div>
                             <div class="spec">
                                 <dt>PHP</dt>
@@ -268,7 +272,7 @@
                     <article class="eco-card eco-card--core reveal">
                         <header class="eco-card__head">
                             <span class="eco-card__mark" aria-hidden="true">DL</span>
-                            <span class="eco-card__kicker">Kernel · v2.1.0</span>
+                            <span class="eco-card__kicker">Kernel · v2.1.2</span>
                         </header>
                         <h3 class="eco-card__title"><strong>DL</strong>Core</h3>
                         <p class="eco-card__meta">Capa de aplicación · <code>dlunire/dlcore</code></p>
@@ -299,7 +303,7 @@
                     <article class="eco-card eco-card--route reveal">
                         <header class="eco-card__head">
                             <span class="eco-card__mark" aria-hidden="true">RT</span>
-                            <span class="eco-card__kicker">Infraestructura · ^2.0</span>
+                            <span class="eco-card__kicker">Infraestructura · ^2.0.2</span>
                         </header>
                         <h3 class="eco-card__title"><strong>DL</strong>Route</h3>
                         <p class="eco-card__meta">Contexto HTTP · <code>dlunire/dlroute</code></p>
@@ -452,13 +456,7 @@
                         <span class="license-guide__note-label">Para quien empieza</span>
                         <p class="license-guide__note-text">
                             <strong>$0</strong> para instalar, aprender, desarrollar y probar en staging sin límite.
-                            @if($fundadores_activo)
-                            <strong>{{ $fundadores_restantes }} de {{ $fundadores_total }}</strong> cupos
-                            <strong>Fundadores gratis</strong> (<strong>{{ $fundadores_codigo }}</strong>).
-                            Luego pago único desde $20.000 COP (INICIO) o $100.000 (Pack).
-                            @else
                             Freelance <strong>pago único</strong> desde $20.000 COP (INICIO).
-                            @endif
                             <a href="#licencia-comercial">Cómo solicitar</a>.
                         </p>
                     </aside>
@@ -500,9 +498,6 @@
                                 <h4 class="license-commercial__scope-title">Al desplegar cerrado</h4>
                                 <ul class="license-commercial__scope-list">
                                     <li><strong>Freelance (pago único):</strong>
-                                        @if($fundadores_activo)
-                                        Fundador $0 ({{ $fundadores_restantes }} cupos) ·
-                                        @endif
                                         $20k INICIO · $50k/proyecto · $100k pack (5 clientes)
                                     </li>
                                     <li><strong>Indie / Pro:</strong> su propio SaaS o producto con su marca</li>
@@ -527,9 +522,6 @@
                                 <ul class="license-commercial__plan-list">
                                     <li>Tiendas, encuestas y webs para clientes</li>
                                     <li>INICIO $20k · Proyecto $50k · Pack 5 clientes $100k</li>
-                                    @if($fundadores_activo)
-                                    <li>Fundador: $0 — cupos {{ $fundadores_restantes }}/{{ $fundadores_total }}</li>
-                                    @endif
                                     <li>Todo pago único — sin renovación</li>
                                     <li>12 meses actualizaciones · soporte por correo</li>
                                 </ul>
@@ -610,19 +602,8 @@
                             </section>
                         </div>
 
-                        @if($fundadores_activo)
-                        <aside class="license-commercial__promo license-commercial__promo--founders" aria-label="Programa Fundadores">
-                            <p class="license-commercial__promo-title">Programa Fundadores — gratis</p>
-                            <p class="license-commercial__promo-text">
-                                Quedan <strong>{{ $fundadores_restantes }} de {{ $fundadores_total }}</strong> cupos.
-                                Código <strong>{{ $fundadores_codigo }}</strong>: primer sitio de cliente
-                                <strong>$0</strong> (Freelance Proyecto). Un cupo por titular. Sin pasarela — certificado por correo.
-                            </p>
-                        </aside>
-                        @endif
-
                         <aside class="license-commercial__promo" aria-label="Promoción Freelance">
-                            <p class="license-commercial__promo-title">Después de Fundadores</p>
+                            <p class="license-commercial__promo-title">Promoción Freelance</p>
                             <p class="license-commercial__promo-text">
                                 Código <strong>DLUNIRE-INICIO</strong>: <strong>$20.000 COP</strong> pago único
                                 (luego $50.000/proyecto o $100.000 pack). Sin suscripciones.
@@ -634,15 +615,12 @@
                             <ol class="license-commercial__steps">
                                 <li>
                                     <strong>Escriba</strong> a
-                                    <a href="mailto:ventas@dlunire.dev?subject=Licencia%20Freelance%20DLUnire&amp;body=Plan%3A%20Freelance%20Proyecto%0ATitular%3A%20%0ADominio%3A%20%0ACorreo%20asociado%20al%20dominio%3A%20%0ACliente%20final%3A%20%0ADescripci%C3%B3n%3A%20%0AAcepto%20pol%C3%ADtica%20de%20datos%20(Ley%201581)%3A%20S%C3%AD%0AC%C3%B3digo%3A%20DLUNIRE-FUNDADOR%0A">ventas@dlunire.dev</a>
+                                    <a href="mailto:ventas@dlunire.dev?subject=Licencia%20Freelance%20DLUnire&amp;body=Plan%3A%20Freelance%20Proyecto%0ATitular%3A%20%0ADominio%3A%20%0ACorreo%20asociado%20al%20dominio%3A%20%0ACliente%20final%3A%20%0ADescripci%C3%B3n%3A%20%0AAcepto%20pol%C3%ADtica%20de%20datos%20(Ley%201581)%3A%20S%C3%AD%0AC%C3%B3digo%3A%20DLUNIRE-INICIO%0A">ventas@dlunire.dev</a>
                                     o WhatsApp <a href="https://wa.me/573026488528">+57 302 648 8528</a>
                                     con titular, <strong>dominio</strong>, <strong>correo del dominio</strong>, cliente final y descripción.
-                                    Sin documento de identidad. Código <strong>DLUNIRE-FUNDADOR</strong> si busca cupo gratis.
+                                    Sin documento de identidad. Mencione el código <strong>DLUNIRE-INICIO</strong> si aplica la promo.
                                 </li>
-                                @if($fundadores_activo)
-                                <li><strong>Fundador:</strong> si queda cupo, confirmación <strong>$0</strong> y certificado sin pago.</li>
-                                @endif
-                                <li><strong>Si no hay cupo o más proyectos:</strong> <strong>Wompi</strong> pago único — $20k INICIO · $50k proyecto · $100k pack.</li>
+                                <li><strong>Pago:</strong> <strong>Wompi</strong> pago único — $20k INICIO · $50k proyecto · $100k pack.</li>
                                 <li><strong>Certificado</strong> PDF por correo (≤ 3 días hábiles; mismo día habitual).</li>
                             </ol>
                             <p class="license-commercial__privacy">
@@ -1356,11 +1334,7 @@
                         </p>
                         <p class="footer__panel-text">
                             Webs para clientes: desde
-                            @if($fundadores_activo)
-                            <a href="#licencia-comercial">Fundador $0</a> ({{ $fundadores_restantes }} cupos)
-                            @else
                             <a href="#licencia-comercial">$20.000 COP</a> (Freelance INICIO)
-                            @endif
                             · producto propio:
                             <a href="#licencia-comercial">$600.000 COP</a> (Indie, pago único) —
                             sin IVA.

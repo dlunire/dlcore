@@ -8,6 +8,20 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ---
 
+## [Unreleased]
+
+### Changed / Cambiado
+
+- **ORM safety limit on `get()`:** `Model::get()` and `DLDatabase::get()` now apply **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** when no explicit `limit()` was set. Prevents loading unbounded result sets (e.g. multi-million/billion-row tables) into memory. Use `paginate()` for listings, or **`all()`** only when you intentionally need the full result without a cap.
+- **New `all()`:** `Model::all()` and `DLDatabase::all()` fetch without the safety limit (`allow_unlimited`). Documented as dangerous on large tables.
+- **Docs:** tutorials `03`, `09`, `21`, `23`, `24` and `docs/DLDatabase.md` updated for `get` / `all` / `paginate` behavior.
+
+- **Tope de seguridad en `get()`:** `Model::get()` y `DLDatabase::get()` aplican **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** si no hubo `limit()` explícito. Evita materializar conjuntos ilimitados (p. ej. tablas de cientos de millones de filas). Use `paginate()` para listados, o **`all()`** solo si necesita el resultado completo sin tope.
+- **Nuevo `all()`:** `Model::all()` y `DLDatabase::all()` leen sin el tope (`allow_unlimited`). Documentado como riesgoso en tablas grandes.
+- **Docs:** tutoriales `03`, `09`, `21`, `23`, `24` y `docs/DLDatabase.md` actualizados.
+
+---
+
 ## [v2.1.2] - 2026-07-10
 
 ### Fixed / Corregido
