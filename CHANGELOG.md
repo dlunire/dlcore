@@ -10,15 +10,29 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ## [Unreleased]
 
+### Dependencies / Dependencias
+
+- **`dlunire/dlstorage` raised from `^0.1.3` to `^0.2.2`** (`composer.json` + `composer.lock`).
+  - Aligns the binary/credentials store with the ecosystem **dual-licensing** model: DLStorage **0.2.x** is **`AGPL-3.0-or-later`** (0.1.x was MIT).
+  - Pins resolved release **v0.2.2** (docs/tutorial; AGPL headers). No intended change to the `EncryptedCredentials` / `SaveData` integration surface.
+  - Applications that depended on DLStorage **0.1.x** via an old lockfile must update when they take this DLCore line.
+
+- **`dlunire/dlstorage` de `^0.1.3` a `^0.2.2`** (`composer.json` + `composer.lock`).
+  - Alinea el almacén binario/credenciales con el modelo de **licenciamiento dual** del ecosistema: DLStorage **0.2.x** es **`AGPL-3.0-or-later`** (0.1.x era MIT).
+  - Fija la versión resuelta **v0.2.2** (docs/tutorial; cabeceras AGPL). Sin cambio intencional de la superficie `EncryptedCredentials` / `SaveData`.
+  - Quien aún use DLStorage **0.1.x** por un lock antiguo debe actualizar al tomar esta línea de DLCore.
+
 ### Changed / Cambiado
 
 - **ORM safety limit on `get()`:** `Model::get()` and `DLDatabase::get()` now apply **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** when no explicit `limit()` was set. Prevents loading unbounded result sets (e.g. multi-million/billion-row tables) into memory. Use `paginate()` for listings, or **`all()`** only when you intentionally need the full result without a cap.
 - **New `all()`:** `Model::all()` and `DLDatabase::all()` fetch without the safety limit (`allow_unlimited`). Documented as dangerous on large tables.
-- **Docs:** tutorials `03`, `09`, `21`, `23`, `24` and `docs/DLDatabase.md` updated for `get` / `all` / `paginate` behavior.
+- **Docs:** tutorials `03`, `09`, `21`, `23`, `24` and `docs/DLDatabase.md` updated for `get` / `all` / `paginate` behavior; pagination examples use `get_integer('page')`.
+- **`DLDatabase::where()` PHPDoc:** full documentation (params, fluent return, example).
 
 - **Tope de seguridad en `get()`:** `Model::get()` y `DLDatabase::get()` aplican **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** si no hubo `limit()` explícito. Evita materializar conjuntos ilimitados (p. ej. tablas de cientos de millones de filas). Use `paginate()` para listados, o **`all()`** solo si necesita el resultado completo sin tope.
 - **Nuevo `all()`:** `Model::all()` y `DLDatabase::all()` leen sin el tope (`allow_unlimited`). Documentado como riesgoso en tablas grandes.
-- **Docs:** tutoriales `03`, `09`, `21`, `23`, `24` y `docs/DLDatabase.md` actualizados.
+- **Docs:** tutoriales `03`, `09`, `21`, `23`, `24` y `docs/DLDatabase.md` actualizados; ejemplos de paginación con `get_integer('page')`.
+- **PHPDoc de `DLDatabase::where()`:** documentación completa (parámetros, retorno fluent, ejemplo).
 
 ---
 
