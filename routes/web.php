@@ -48,7 +48,7 @@ DLRoute::get('/politica-datos', function (): string {
 
 DLRoute::get("/test", fn() => ["status" => "ok"]);
 
-DLRoute::get("/test-database", fn() => Usuarios::paginate(1, 3));
+DLRoute::get("/test-database", fn() => Usuarios::paginate(1, 2));
 
 DLRoute::post('/file', [FileController::class, 'upload']);
 
