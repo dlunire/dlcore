@@ -7,21 +7,20 @@
     <meta name="theme-color" content="#080a0f">
     <meta name="description" content="Licencia comercial DLUnire — alcance, tarifas y proceso de solicitud.">
     <title>Licencia comercial — DLCore</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="icon" href="{{ $route('favicon.svg') }}" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="{{ $route('style.css') }}">
 </head>
 
 <body>
     <main class="app welcome">
         <div class="container" style="padding: 32px 0 48px;">
             <p style="margin: 0 0 20px;">
-                <a href="/" style="color: var(--text-muted); font-weight: 600; text-decoration: none;">← Volver a DLCore</a>
+                <a href="{{ $route('/') }}" style="color: var(--text-muted); font-weight: 600; text-decoration: none;">← Volver a DLCore</a>
                 <span style="color: rgba(255,255,255,0.2); margin: 0 8px;">·</span>
-                <a href="/#licencia-comercial" style="color: var(--accent-amber); font-weight: 600; text-decoration: none;">Resumen en la welcome</a>
+                <a href="https://store.dlunire.dev/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-amber); font-weight: 600; text-decoration: none;">Tienda</a>
             </p>
 
             <article class="panel reveal" style="padding: 24px 22px 28px;">

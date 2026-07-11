@@ -10,29 +10,73 @@ Este proyecto sigue la convención de [Versionado Semántico](https://semver.org
 
 ## [Unreleased]
 
+---
+
+## [v2.2.0] - 2026-07-11
+
+### Security / Seguridad
+
+- **Welcome CSP (Content-Security-Policy) + per-request nonce:**
+  - HTTP header + meta share the same policy string (`$csp` from `dlcore_welcome_csp()`).
+  - Random **`$token`** (`bin2hex(random_bytes(32))`) applied as `nonce` on stylesheets and `welcome.js`.
+  - **`script-src` / `style-src` use only the nonce** (no `'self'`), so same-origin JSONP / unexpected scripts are blocked unless they carry that response’s nonce; Google Fonts host remains on `style-src`.
+  - Also: `object-src 'none'`, `frame-ancestors 'none'` (header), `base-uri` / `form-action` constrained, `upgrade-insecure-requests`.
+- **Isotipo CSP-safe:** inline `<style>` removed from `layouts/icons/isotipo`; rules live in `public/style.css` (`.isotipo`, fills). Prevents CSP from dropping logo sizing and deforming the floating nav bar.
+- **CSP en welcome + nonce por petición:**
+  - Cabecera HTTP y meta con la misma política (`$csp` vía `dlcore_welcome_csp()`).
+  - **`$token`** aleatorio en `nonce` de hojas de estilo y `welcome.js`.
+  - **`script-src` / `style-src` solo con nonce** (sin `'self'`): un script del mismo origen sin el nonce de esa respuesta no se ejecuta; host de Google Fonts en `style-src`.
+  - Además: `object-src 'none'`, `frame-ancestors 'none'` (cabecera), `base-uri` / `form-action` acotados, `upgrade-insecure-requests`.
+- **Isotipo compatible con CSP:** eliminado el `<style>` inline del partial; estilos en `public/style.css`. Evita que la CSP deje el SVG a tamaño real y deforme la barra.
+
 ### Dependencies / Dependencias
 
-- **`dlunire/dlstorage` raised from `^0.1.3` to `^0.2.2`** (`composer.json` + `composer.lock`).
-  - Aligns the binary/credentials store with the ecosystem **dual-licensing** model: DLStorage **0.2.x** is **`AGPL-3.0-or-later`** (0.1.x was MIT).
-  - Pins resolved release **v0.2.2** (docs/tutorial; AGPL headers). No intended change to the `EncryptedCredentials` / `SaveData` integration surface.
-  - Applications that depended on DLStorage **0.1.x** via an old lockfile must update when they take this DLCore line.
+- **`dlunire/dlstorage` `^0.1.3` → `^0.2.2`** (`composer.json` + `composer.lock`).
+  - Aligns with ecosystem dual licensing: DLStorage **0.2.x** is **`AGPL-3.0-or-later`** (0.1.x was MIT).
+  - No intentional change to `EncryptedCredentials` / `SaveData`.
+- **`dlunire/dlstorage` `^0.1.3` → `^0.2.2`**.
+  - Alineado al dual licensing: **0.2.x** es **AGPL-3.0-or-later**. Sin cambio intencional de superficie de integración.
 
-- **`dlunire/dlstorage` de `^0.1.3` a `^0.2.2`** (`composer.json` + `composer.lock`).
-  - Alinea el almacén binario/credenciales con el modelo de **licenciamiento dual** del ecosistema: DLStorage **0.2.x** es **`AGPL-3.0-or-later`** (0.1.x era MIT).
-  - Fija la versión resuelta **v0.2.2** (docs/tutorial; cabeceras AGPL). Sin cambio intencional de la superficie `EncryptedCredentials` / `SaveData`.
-  - Quien aún use DLStorage **0.1.x** por un lock antiguo debe actualizar al tomar esta línea de DLCore.
+### Added / Añadido
+
+- **`Model::all()` / `DLDatabase::all()`** — full fetch without the safety limit (`allow_unlimited`). Documented as dangerous on large tables; prefer `paginate()` for listings.
+- **`Model::all()` / `DLDatabase::all()`** — lectura completa sin tope. Documentado como riesgoso en tablas grandes; prefiera `paginate()` para listados.
 
 ### Changed / Cambiado
 
-- **ORM safety limit on `get()`:** `Model::get()` and `DLDatabase::get()` now apply **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** when no explicit `limit()` was set. Prevents loading unbounded result sets (e.g. multi-million/billion-row tables) into memory. Use `paginate()` for listings, or **`all()`** only when you intentionally need the full result without a cap.
-- **New `all()`:** `Model::all()` and `DLDatabase::all()` fetch without the safety limit (`allow_unlimited`). Documented as dangerous on large tables.
-- **Docs:** tutorials `03`, `09`, `21`, `23`, `24` and `docs/DLDatabase.md` updated for `get` / `all` / `paginate` behavior; pagination examples use `get_integer('page')`.
-- **`DLDatabase::where()` PHPDoc:** full documentation (params, fluent return, example).
+- **ORM `get()` safety cap:** `Model::get()` / `DLDatabase::get()` apply **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** when no explicit `limit()` was set.
+- **Tope de seguridad en `get()`:** **`DEFAULT_GET_LIMIT` (1000)** si no hubo `limit()` explícito.
+- **`DLDatabase::where()` PHPDoc** — full params, fluent return, example / documentación completa.
 
-- **Tope de seguridad en `get()`:** `Model::get()` y `DLDatabase::get()` aplican **`DLDatabase::DEFAULT_GET_LIMIT` (1000)** si no hubo `limit()` explícito. Evita materializar conjuntos ilimitados (p. ej. tablas de cientos de millones de filas). Use `paginate()` para listados, o **`all()`** solo si necesita el resultado completo sin tope.
-- **Nuevo `all()`:** `Model::all()` y `DLDatabase::all()` leen sin el tope (`allow_unlimited`). Documentado como riesgoso en tablas grandes.
-- **Docs:** tutoriales `03`, `09`, `21`, `23`, `24` y `docs/DLDatabase.md` actualizados; ejemplos de paginación con `get_integer('page')`.
-- **PHPDoc de `DLDatabase::where()`:** documentación completa (parámetros, retorno fluent, ejemplo).
+- **Welcome UI (rediseño):**
+  - Hero `wh` (copy + install panel + pillars), aligned with skeleton.
+  - **Arquitectura**, **ecosistema**, **inicio rápido** share `qs-flow`.
+  - Floating glass header (`header--float` / `header__bar`); metrics via `getBoundingClientRect` (`--header-height`, `--header-offset`, `--header-scroll-margin`).
+  - Footer always dark; light-theme `code` contrast; theme toggle + drawer menu.
+  - Kernel/stack focus (no prices, commercial license block, reference or in-page changelog).
+  - Version **v2.2.0** / `dlstorage ^0.2.2` / `dlroute ^2.0`.
+- **Routing in templates (`Router::to` → `$route`):**
+  - Assets: `style.css`, `welcome.js`, favicons.
+  - Site paths: e.g. `politica-datos`.
+  - Fragments: `$route('/#inicio-rapido')`, `$route('/#top')`, etc.
+  - External `https://…` unchanged.
+  - `routes/web.php` injects one shared `$route = Router::to(...)` into welcome and docs views.
+- **Docs templates** (`docs-licencia`, `docs-politica-datos`): local nav/assets via `$route`; dropped dead `favicon.png` references.
+- **Public assets:** `favicon.svg` + `favicon-dark.svg`; removed `favicon.png`.
+
+- **UI de bienvenida (rediseño):** hero `wh`, `qs-flow`, header flotante glass, pie oscuro, tema claro/oscuro, chips v2.2.0.
+- **Enrutado en plantillas (`$route`):** assets, rutas de sitio y anclas con `Router::to`; externos sin `$route`; docs con la misma inyección.
+- **Assets públicos:** favicons SVG claro/oscuro; sin `favicon.png`.
+
+### Removed / Eliminado
+
+- Unused demo templates/markdown under `resources/`: `home`, `products`, `clients`, `files`, `base`, `layouts/demo`, `layouts/styles`, `test`/`vista`/`welcome.md`, `changelog`. Kept `welcome`, `docs-licencia`, `docs-politica-datos`, `layouts/icons/isotipo`.
+- Plantillas/markdown de demo no usados. Se mantienen welcome, docs de licencia/política e isotipo.
+
+### Documentation / Documentación
+
+- Tutorials `03`, `09`, `21`, `23`, `24` and `docs/DLDatabase.md`: `get` / `all` / `paginate`; pagination samples use `get_integer('page')`.
+- Tutoriales y `DLDatabase.md` actualizados al comportamiento de `get` / `all` / `paginate`.
 
 ---
 

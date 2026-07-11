@@ -6,1262 +6,703 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080a0f" id="meta-theme-color">
-    <meta name="description" content="DLCore v2.1.2 — kernel de aplicación del framework DLUnire. ORM, plantillas, autenticación, variables tipadas y bootstrap sobre DLRoute.">
+    <meta name="description"
+        content="DLCore v2.2.0 — kernel de aplicación del framework DLUnire. ORM, plantillas, autenticación, variables tipadas y bootstrap sobre DLRoute.">
     <meta name="color-scheme" content="dark light">
+    <!-- CSP también se envía por cabecera HTTP (frame-ancestors solo aplica ahí). -->
+    <meta http-equiv="Content-Security-Policy" content="{{ $csp }}">
     <title>DLCore — Kernel de DLUnire</title>
 
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="./favicon.png" type="image/png">
+    <!-- SVG para Light Mode (por defecto) -->
+    <link rel="icon" type="image/svg+xml" href="{{ $route('favicon.svg') }}" sizes="any">
+
+    <!-- SVG para Dark Mode -->
+    <link rel="icon" type="image/svg+xml" href="{{ $route('favicon-dark.svg') }}" media="(prefers-color-scheme: dark)" sizes="any">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet" nonce="{{ $token }}">
 
-    <link rel="stylesheet" href="./style.css">
-    <script src="./welcome.js" defer></script>
+    <link rel="stylesheet" href="{{ $route('style.css') }}" nonce="{{ $token }}">
+    <script src="{{ $route('welcome.js') }}" defer nonce="{{ $token }}"></script>
 </head>
 
 <body>
-    <main class="app welcome">
-        <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <main class="app welcome" id="top">
+        <a class="skip-link" href="{{ $route('/#inicio-rapido') }}">Saltar al contenido</a>
 
-        <header class="header app__header">
-            <div class="header__progress" aria-hidden="true"><span class="header__progress-bar"></span></div>
-            <nav class="header__nav" aria-label="Principal">
-                <a class="app__logo" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
-                    @includes('layouts.icons.isotipo')
+        <header class="header app__header header--float" data-float-header>
+            <div class="header__bar">
+                <div class="header__progress" aria-hidden="true"><span class="header__progress-bar"></span></div>
+                <nav class="header__nav" aria-label="Principal">
+                    <a class="app__logo" href="{{ $route('/#top') }}" aria-label="DLCore — ir al inicio de la página">
+                        @includes('layouts.icons.isotipo')
 
-                    <span class="app__brand">
-                        <span class="app__title"><strong>DL</strong><span>Core</span></span>
-                        <span class="app__subtitle">Kernel · DLUnire</span>
-                    </span>
-                </a>
+                        <span class="app__brand">
+                            <span class="app__title"><strong>DL</strong><span>Core</span></span>
+                            <span class="app__subtitle">Kernel · DLUnire</span>
+                        </span>
+                    </a>
 
-                <div class="header__tools">
-                    <details class="header__drawer" id="nav-drawer">
-                        <summary class="header__drawer-toggle" aria-label="Abrir menú de navegación" aria-controls="nav-drawer-panel">
-                            <span class="header__drawer-icon" aria-hidden="true"></span>
-                            <span class="header__drawer-text">Menú</span>
-                        </summary>
+                    <div class="header__tools">
+                        <details class="header__drawer" id="nav-drawer">
+                            <summary class="header__drawer-toggle" aria-label="Abrir menú de navegación"
+                                aria-controls="nav-drawer-panel">
+                                <span class="header__drawer-icon" aria-hidden="true"></span>
+                                <span class="header__drawer-text">Menú</span>
+                            </summary>
 
-                        <div class="header__drawer-panel" id="nav-drawer-panel">
-                            <ul class="header__links">
-                                <li><a class="header__link" href="#arquitectura">Arquitectura</a></li>
-                                <li><a class="header__link" href="#ecosistema">Ecosistema</a></li>
-                                <li><a class="header__link" href="#licencia">Licencia</a></li>
-                                <li><a class="header__link" href="#licencia-comercial">Licencia comercial</a></li>
-                                <li><a class="header__link" href="#inicio-rapido">Inicio rápido</a></li>
-                                <li><a class="header__link" href="#bootstrap-demo">Bootstrap</a></li>
-                                <li><a class="header__link" href="#contenido">Documentación</a></li>
-                                <li><a class="header__link" href="#changelog">Changelog</a></li>
-                                <li><a class="header__link" href="/docs/licencia-comercial">Guía pública</a></li>
-                                <li><a class="header__link" href="/politica-datos">Política de datos</a></li>
-                                <li>
-                                    <a class="header__link header__link--accent" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
-                                        dlunire.dev
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </details>
+                            <div class="header__drawer-panel" id="nav-drawer-panel">
+                                <p class="header__links-hint" id="nav-links-legend">
+                                    <span class="header__hint-item"><span class="header__hint-dot header__hint-dot--in"
+                                            aria-hidden="true"></span> En esta página</span>
+                                    <span class="header__hint-item"><span
+                                            class="header__hint-dot header__hint-dot--site" aria-hidden="true"></span>
+                                        Sitio DLCore</span>
+                                    <span class="header__hint-item"><span class="header__hint-dot header__hint-dot--ext"
+                                            aria-hidden="true"></span> Externo</span>
+                                </p>
+                                <ul class="header__links" aria-describedby="nav-links-legend">
+                                    <li>
+                                        <a class="header__link header__link--in" href="{{ $route('/#top') }}" data-nav-scope="page">
+                                            <span class="header__link-label">Inicio</span>
+                                            <span class="header__link-scope" title="En esta página">página</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--in" href="{{ $route('/#arquitectura') }}"
+                                            data-nav-scope="page">
+                                            <span class="header__link-label">Arquitectura</span>
+                                            <span class="header__link-scope" title="En esta página">página</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--in" href="{{ $route('/#ecosistema') }}"
+                                            data-nav-scope="page">
+                                            <span class="header__link-label">Ecosistema</span>
+                                            <span class="header__link-scope" title="En esta página">página</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--in" href="{{ $route('/#inicio-rapido') }}"
+                                            data-nav-scope="page">
+                                            <span class="header__link-label">Inicio rápido</span>
+                                            <span class="header__link-scope" title="En esta página">página</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--site" href="{{ $route('politica-datos') }}"
+                                            data-nav-scope="site">
+                                            <span class="header__link-label">Política de datos</span>
+                                            <span class="header__link-scope" title="Misma web, otra ruta">sitio</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--external"
+                                            href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md"
+                                            target="_blank" rel="noopener noreferrer" data-nav-scope="external">
+                                            <span class="header__link-label">Tutorial</span>
+                                            <span class="header__link-scope" title="Abre en otra web">externo ↗</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--external" href="https://store.dlunire.dev/"
+                                            target="_blank" rel="noopener noreferrer" data-nav-scope="external">
+                                            <span class="header__link-label">Tienda</span>
+                                            <span class="header__link-scope" title="Abre en otra web">externo ↗</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="header__link header__link--external header__link--accent"
+                                            href="https://dlunire.dev" target="_blank" rel="noopener noreferrer"
+                                            data-nav-scope="external">
+                                            <span class="header__link-label">dlunire.dev</span>
+                                            <span class="header__link-scope" title="Abre en otra web">externo ↗</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </details>
 
-                    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema claro u oscuro">
-                        <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">☀</span>
-                        <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">☾</span>
-                    </button>
-                </div>
-            </nav>
+                        <button type="button" class="theme-toggle" id="theme-toggle"
+                            aria-label="Cambiar tema claro u oscuro">
+                            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">☀</span>
+                            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">☾</span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
         </header>
 
-        <section class="welcome-hero" aria-labelledby="welcome-hero-title">
-            <div class="welcome-hero__backdrop" aria-hidden="true">
-                <div class="welcome-hero__grid"></div>
-            </div>
+        <section class="wh" aria-labelledby="welcome-hero-title">
+            <div class="wh__glow" aria-hidden="true"></div>
+            <div class="wh__grid" aria-hidden="true"></div>
 
-            <div class="welcome-hero__inner container">
-                <div class="welcome-hero__stage">
-                    <div class="welcome-hero__visual" aria-hidden="true">
-                        <div class="welcome-hero__logo-ring">
-                            <div class="welcome-hero__logo">
-                                @includes('layouts.icons.isotipo')
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="welcome-hero__content">
-                        <p class="welcome-hero__eyebrow">
-                            <span class="welcome-hero__badge">DLUnire</span>
-                            <span class="welcome-hero__eyebrow-text">Capa de aplicación · Kernel PHP</span>
+            <div class="container wh__inner">
+                <div class="wh__layout">
+                    <div class="wh__copy">
+                        <p class="wh__eyebrow">
+                            <span class="wh__badge">PHP 8.2+</span>
+                            <span class="wh__eyebrow-text">Capa de aplicación · Kernel PHP</span>
                         </p>
 
-                        <h1 id="welcome-hero-title" class="welcome-hero__title">
+                        <h1 id="welcome-hero-title" class="wh__title">
                             <strong>DL</strong><span>Core</span>
                         </h1>
 
-                        <p class="welcome-hero__lead">
+                        <p class="wh__lead">
                             Kernel funcional sobre el contexto de ejecución de
                             <strong>DLRoute</strong>. ORM, plantillas, autenticación,
                             <code>.env.type</code> y bootstrap con
                             <code>Project::run()</code> — sin reinventar la infraestructura HTTP.
                         </p>
 
-                        <p class="welcome-hero__principle">
+                        <p class="wh__lead wh__lead--soft">
                             DLCore <em>no redefine</em> el entorno: lo consume de forma determinista
                             y delega rutas y servidor a DLRoute.
                         </p>
 
-                        <div class="welcome-hero__capabilities-wrap">
-                            <ul class="welcome-hero__capabilities" aria-label="Capacidades del kernel">
-                                <li class="cap-chip cap-chip--green">ORM</li>
-                                <li class="cap-chip">Plantillas</li>
-                                <li class="cap-chip cap-chip--orange">DLAuth</li>
-                                <li class="cap-chip cap-chip--amber">.env.type</li>
-                                <li class="cap-chip">Credenciales</li>
-                                <li class="cap-chip cap-chip--green">Project::run()</li>
-                            </ul>
-                        </div>
+                        <ul class="wh__chips" aria-label="Capacidades del kernel">
+                            <li class="wh-chip wh-chip--green">ORM</li>
+                            <li class="wh-chip">Plantillas</li>
+                            <li class="wh-chip wh-chip--orange">DLAuth</li>
+                            <li class="wh-chip wh-chip--amber">.env.type</li>
+                            <li class="wh-chip">Credenciales</li>
+                            <li class="wh-chip wh-chip--green">Project::run()</li>
+                        </ul>
 
-                        <dl class="welcome-hero__specs" aria-label="Especificación del paquete">
-                            <div class="spec">
-                                <dt>Versión</dt>
-                                <dd>v2.1.2</dd>
-                            </div>
-                            <div class="spec">
-                                <dt>PHP</dt>
-                                <dd>≥ 8.2</dd>
-                            </div>
-                            <div class="spec">
-                                <dt>Licencia</dt>
-                                <dd>AGPL-3.0</dd>
-                            </div>
-                            <div class="spec">
-                                <dt>Tutorial</dt>
-                                <dd>27 capítulos</dd>
-                            </div>
-                        </dl>
-
-                        <div class="welcome-hero__actions">
-                            <a
-                                class="btn btn--primary"
+                        <div class="wh__actions">
+                            <a class="btn btn--primary"
                                 href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Documentación del kernel
-                            </a>
-                            <a class="btn btn--ghost" href="#arquitectura">Ver arquitectura</a>
-                            <a class="btn btn--ghost" href="#inicio-rapido">Inicio rápido</a>
+                                target="_blank" rel="noopener noreferrer">Documentación del kernel</a>
+                            <a class="btn btn--ghost" href="{{ $route('/#arquitectura') }}">Ver arquitectura</a>
+                            <a class="btn btn--ghost" href="{{ $route('/#inicio-rapido') }}">Inicio rápido</a>
                         </div>
                     </div>
 
-                    <aside class="welcome-hero__meta">
-                        <div class="welcome-hero__meta-card hero-install">
-                            <div class="hero-install__head">
-                                <span class="hero-install__label">Instalación</span>
-                                <span class="hero-install__pkg"><code>dlunire/dlcore</code></span>
+                    <aside class="wh__panel" aria-label="Instalación">
+                        <div class="wh-install">
+                            <div class="wh-install__head">
+                                <span class="wh-install__label">Instalación</span>
+                                <code class="wh-install__pkg">dlunire/dlcore</code>
                             </div>
 
-                            <div class="hero-install__command" role="group" aria-label="Comando de instalación">
-                                <span class="hero-install__prompt" aria-hidden="true">$</span>
-                                <code class="hero-install__code">composer require dlunire/dlcore</code>
-                                <button
-                                    type="button"
-                                    class="hero-install__copy code-snippet__copy"
+                            <div class="wh-install__command" role="group" aria-label="Comando de instalación">
+                                <span class="wh-install__prompt" aria-hidden="true">$</span>
+                                <code class="wh-install__code">composer require dlunire/dlcore</code>
+                                <button type="button" class="wh-install__copy code-snippet__copy"
                                     data-copy="composer require dlunire/dlcore"
-                                    aria-label="Copiar comando de instalación"
-                                >Copiar</button>
+                                    aria-label="Copiar comando de instalación">Copiar</button>
                             </div>
 
-                            <div class="hero-install__footer">
-                                <span class="hero-install__includes">Incluye</span>
-                                <div class="hero-install__deps" aria-label="Dependencias transitivas">
-                                    <span class="hero-dep-chip">dlroute ^2.0</span>
-                                    <span class="hero-dep-chip">dlstorage ^0.1.3</span>
+                            <dl class="wh-install__meta">
+                                <div>
+                                    <dt>Versión</dt>
+                                    <dd>v2.2.0</dd>
                                 </div>
-                            </div>
+                                <div>
+                                    <dt>PHP</dt>
+                                    <dd>≥ 8.2</dd>
+                                </div>
+                                <div>
+                                    <dt>Licencia</dt>
+                                    <dd>AGPL-3.0</dd>
+                                </div>
+                                <div>
+                                    <dt>Incluye</dt>
+                                    <dd>dlroute ^2.0 · dlstorage ^0.2.2</dd>
+                                </div>
+                            </dl>
 
-                            <a class="hero-install__link" href="#composer-demo">Ver <code>composer.json</code></a>
+                            <a class="wh-install__link" href="{{ $route('/#inicio-rapido') }}">Ver inicio rápido →</a>
                         </div>
                     </aside>
                 </div>
+
+                <ul class="wh-pillars" aria-label="Principios del kernel">
+                    <li class="wh-pillar">
+                        <span class="wh-pillar__mark" aria-hidden="true">01</span>
+                        <h2 class="wh-pillar__title">Sobre DLRoute</h2>
+                        <p class="wh-pillar__text">
+                            Consume el contexto HTTP de forma determinista; no redefine
+                            <code>document root</code> ni el servidor.
+                        </p>
+                    </li>
+                    <li class="wh-pillar">
+                        <span class="wh-pillar__mark" aria-hidden="true">02</span>
+                        <h2 class="wh-pillar__title">Capas del stack</h2>
+                        <p class="wh-pillar__text">
+                            App → <strong>DLCore</strong> → DLRoute → DLStorage.
+                            Responsabilidades acotadas y tutoriales por paquete.
+                        </p>
+                    </li>
+                    <li class="wh-pillar">
+                        <span class="wh-pillar__mark" aria-hidden="true">03</span>
+                        <h2 class="wh-pillar__title">AGPL + tienda</h2>
+                        <p class="wh-pillar__text">
+                            Libre para desarrollar. Despliegue cerrado en
+                            <a href="https://store.dlunire.dev/" target="_blank"
+                                rel="noopener noreferrer">store.dlunire.dev</a>.
+                        </p>
+                    </li>
+                </ul>
             </div>
         </section>
 
-        <section id="arquitectura" class="welcome-architecture welcome-section" aria-labelledby="architecture-title">
-            <div class="container welcome-architecture__inner">
-                <header class="section-header">
-                    <span class="section-header__kicker">Diseño del framework</span>
-                    <h2 id="architecture-title" class="section-header__title">Arquitectura en capas</h2>
-                    <p class="section-header__lead">
-                        Separación intencional entre infraestructura (DLRoute), núcleo de aplicación (DLCore)
-                        y persistencia de secretos (DLStorage). Cada capa tiene responsabilidades acotadas.
+        <section id="arquitectura" class="welcome-section qs qs--arch" aria-labelledby="architecture-title">
+            <div class="container qs__inner">
+                <header class="sec-head">
+                    <span class="sec-head__kicker">Diseño del framework</span>
+                    <h2 id="architecture-title" class="sec-head__title">Arquitectura en capas</h2>
+                    <p class="sec-head__lead">
+                        Separación intencional entre infraestructura (DLRoute), núcleo (DLCore)
+                        y persistencia (DLStorage). Cada capa tiene responsabilidades acotadas.
                     </p>
                 </header>
 
-                <div class="arch-layout">
-                    <div class="arch-stack" role="list" aria-label="Capas del stack DLUnire">
-                        <article class="arch-layer" role="listitem">
-                            <span class="arch-layer__index">03</span>
-                            <div class="arch-layer__body">
-                                <h3 class="arch-layer__title">Capa de aplicación</h3>
-                                <p class="arch-layer__desc">
-                                    Controladores, modelos de dominio, vistas <code>*.template.html</code> y reglas de negocio.
+                <ol class="qs-flow" aria-label="Capas del stack DLUnire">
+                    <li class="qs-step qs-step--app reveal" id="arch-app">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">1</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg">Su código · capa de aplicación</p>
+                                <h3 class="qs-step__title">Capa de aplicación</h3>
+                                <p class="qs-step__desc">
+                                    Controladores, modelos de dominio, vistas
+                                    <code>*.template.html</code> y reglas de negocio.
+                                    Aquí vive lo que usted escribe.
                                 </p>
-                            </div>
-                        </article>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Contiene">
+                                <li>Controladores</li>
+                                <li>Modelos</li>
+                                <li>Plantillas</li>
+                                <li>Negocio</li>
+                            </ul>
+                        </div>
+                    </li>
 
-                        <div class="arch-stack__connector" aria-hidden="true"></div>
-
-                        <article class="arch-layer arch-layer--kernel" role="listitem">
-                            <span class="arch-layer__index">02</span>
-                            <div class="arch-layer__body">
-                                <h3 class="arch-layer__title"><strong>DL</strong>Core · Kernel</h3>
-                                <p class="arch-layer__desc">
+                    <li class="qs-step qs-step--core reveal" id="arch-core">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">2</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg"><code>dlunire/dlcore</code> · kernel</p>
+                                <h3 class="qs-step__title"><strong>DL</strong>Core · Kernel</h3>
+                                <p class="qs-step__desc">
                                     ORM, plantillas, <code>DLAuth</code>, correo, lectura tipada de entorno,
                                     credenciales cifradas y <code>Project::run()</code>.
                                 </p>
-                            </div>
-                        </article>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Capacidades">
+                                <li>ORM</li>
+                                <li>Vistas</li>
+                                <li>Correo</li>
+                                <li>Bootstrap</li>
+                            </ul>
+                        </div>
+                    </li>
 
-                        <div class="arch-stack__connector" aria-hidden="true"></div>
-
-                        <article class="arch-layer arch-layer--infra" role="listitem">
-                            <span class="arch-layer__index">01</span>
-                            <div class="arch-layer__body">
-                                <h3 class="arch-layer__title"><strong>DL</strong>Route · Infraestructura</h3>
-                                <p class="arch-layer__desc">
+                    <li class="qs-step qs-step--route reveal" id="arch-route">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">3</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg"><code>dlunire/dlroute</code> · HTTP</p>
+                                <h3 class="qs-step__title"><strong>DL</strong>Route · Infraestructura</h3>
+                                <p class="qs-step__desc">
                                     Contexto de ejecución, <code>document root</code>, peticiones HTTP,
                                     enrutamiento y subida de archivos.
                                 </p>
-                            </div>
-                        </article>
-                    </div>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Capacidades">
+                                <li>Rutas</li>
+                                <li>Peticiones</li>
+                                <li>Uploads</li>
+                                <li>Servidor</li>
+                            </ul>
+                        </div>
+                    </li>
 
-                    <aside class="arch-aside reveal">
-                        <h3 class="arch-aside__title">Responsabilidades del kernel</h3>
-                        <ul class="arch-aside__list">
+                    <li class="qs-step qs-step--storage reveal" id="arch-storage">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">4</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg"><code>dlunire/dlstorage</code> · persistencia</p>
+                                <h3 class="qs-step__title"><strong>DL</strong>Storage</h3>
+                                <p class="qs-step__desc">
+                                    Contenedores <code>.dlstorage</code> y soporte a credenciales cifradas
+                                    del kernel (<code>EntropyValue</code> / <code>EncryptedCredentials</code>).
+                                </p>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Capacidades">
+                                <li>Binario</li>
+                                <li>Credenciales</li>
+                                <li>MTB</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+
+                <div class="qs-panels">
+                    <aside class="qs-panel qs-panel--assemble reveal" aria-labelledby="arch-kernel-title">
+                        <header class="qs-panel__head">
+                            <span class="qs-panel__badge">Kernel</span>
+                            <div class="qs-panel__heading">
+                                <h3 id="arch-kernel-title" class="qs-panel__title">Responsabilidades del kernel</h3>
+                                <p class="qs-panel__subtitle">Qué hace DLCore en el stack</p>
+                            </div>
+                        </header>
+                        <ul class="qs-panel__list">
                             <li>Consumir el contexto de servidor sin duplicar resolución de rutas base.</li>
                             <li>Orquestar bootstrap, autoload de rutas y ciclo de vida de la aplicación.</li>
                             <li>Exponer APIs estables para datos, vistas, autenticación y configuración.</li>
-                            <li>Integrar DLStorage para contenedores <code>.dlstorage</code> y entropía de credenciales.</li>
+                            <li>Integrar DLStorage para contenedores <code>.dlstorage</code> y entropía de credenciales.
+                            </li>
                         </ul>
+                    </aside>
 
-                        <div class="arch-aside__note">
-                            <span class="arch-aside__note-label">MULTITENANT — en desarrollo</span>
-                            <p>
-                                El aislamiento por dominio dependerá de <strong>DLParse</strong>.
-                                En monoinquilino, use <code>MULTITENANT: false</code>.
-                            </p>
-                        </div>
+                    <aside class="qs-panel qs-panel--auth reveal" id="multitenant" aria-labelledby="multitenant-title">
+                        <header class="qs-panel__head">
+                            <span class="qs-panel__badge qs-panel__badge--warn">En desarrollo</span>
+                            <div class="qs-panel__heading">
+                                <h3 id="multitenant-title" class="qs-panel__title">MULTITENANT</h3>
+                                <p class="qs-panel__subtitle">Modo SaaS · una base por dominio</p>
+                            </div>
+                        </header>
+                        <p class="qs-panel__text">
+                            El aislamiento por dominio dependerá de <strong>DLParse</strong>.
+                            En monoinquilino, use <code>MULTITENANT: boolean = false</code>.
+                        </p>
                     </aside>
                 </div>
             </div>
         </section>
 
-        <section id="ecosistema" class="welcome-ecosystem welcome-section" aria-labelledby="ecosystem-title">
-            <div class="container welcome-ecosystem__inner">
-                <header class="section-header">
-                    <span class="section-header__kicker">Paquetes del ecosistema</span>
-                    <h2 id="ecosystem-title" class="section-header__title">Componentes y dependencias</h2>
-                    <p class="section-header__lead">
-                        DLCore es el punto de entrada del desarrollador; DLRoute y DLStorage son dependencias
-                        obligatorias con tutoriales propios en el monorepo DLUnire.
+        <section id="ecosistema" class="welcome-section qs qs--eco" aria-labelledby="ecosystem-title">
+            <div class="container qs__inner">
+                <header class="sec-head">
+                    <span class="sec-head__kicker">Paquetes del ecosistema</span>
+                    <h2 id="ecosystem-title" class="sec-head__title">Componentes y dependencias</h2>
+                    <p class="sec-head__lead">
+                        DLCore es el punto de entrada del desarrollador; DLRoute y DLStorage son
+                        dependencias obligatorias con tutoriales propios.
                     </p>
                 </header>
 
-                <div class="welcome-ecosystem__grid">
-                    <article class="eco-card eco-card--core reveal">
-                        <header class="eco-card__head">
-                            <span class="eco-card__mark" aria-hidden="true">DL</span>
-                            <span class="eco-card__kicker">Kernel · v2.1.2</span>
-                        </header>
-                        <h3 class="eco-card__title"><strong>DL</strong>Core</h3>
-                        <p class="eco-card__meta">Capa de aplicación · <code>dlunire/dlcore</code></p>
-                        <p class="eco-card__desc">
-                            ORM, compilador de plantillas, autenticación, variables <code>.env.type</code>,
-                            bootstrap y operaciones de credenciales.
-                        </p>
-                        <footer class="eco-card__foot">
-                            <a
-                                class="eco-card__link"
-                                href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Tutorial · 27 cap.
-                            </a>
-                            <a
-                                class="eco-card__link eco-card__link--next"
-                                href="https://github.com/dlunire/dlcore"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Repositorio ↗
-                            </a>
-                        </footer>
-                    </article>
+                <ol class="qs-flow" aria-label="Paquetes del ecosistema DLUnire">
+                    <li class="qs-step qs-step--core eco-step reveal" id="eco-core">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">1</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg"><code>dlunire/dlcore</code> · kernel · v2.2.0</p>
+                                <h3 class="qs-step__title"><strong>DL</strong>Core</h3>
+                                <p class="qs-step__desc">
+                                    ORM, compilador de plantillas, autenticación, variables
+                                    <code>.env.type</code>, bootstrap y operaciones de credenciales.
+                                    Capa de aplicación del stack.
+                                </p>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Capacidades">
+                                <li>ORM</li>
+                                <li>Plantillas</li>
+                                <li>.env.type</li>
+                                <li>Bootstrap</li>
+                            </ul>
+                            <div class="eco-step__links">
+                                <a class="eco-step__link eco-step__link--accent"
+                                    href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md"
+                                    target="_blank" rel="noopener noreferrer">Tutorial · 27 cap.</a>
+                                <a class="eco-step__link" href="https://github.com/dlunire/dlcore" target="_blank"
+                                    rel="noopener noreferrer">Repositorio ↗</a>
+                            </div>
+                        </div>
+                    </li>
 
-                    <article class="eco-card eco-card--route reveal">
-                        <header class="eco-card__head">
-                            <span class="eco-card__mark" aria-hidden="true">RT</span>
-                            <span class="eco-card__kicker">Infraestructura · ^2.0.2</span>
-                        </header>
-                        <h3 class="eco-card__title"><strong>DL</strong>Route</h3>
-                        <p class="eco-card__meta">Contexto HTTP · <code>dlunire/dlroute</code></p>
-                        <p class="eco-card__desc">
-                            Requerido por DLCore. Resuelve entorno de servidor, rutas, peticiones,
-                            filtros de parámetros y carga de archivos.
-                        </p>
-                        <footer class="eco-card__foot">
-                            <a
-                                class="eco-card__link"
-                                href="https://github.com/dlunire/dlroute/blob/master/docs/tutorial/README.md"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Tutorial · 16 cap.
-                            </a>
-                            <a
-                                class="eco-card__link eco-card__link--next"
-                                href="https://github.com/dlunire/dlroute"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Repositorio ↗
-                            </a>
-                        </footer>
-                    </article>
+                    <li class="qs-step qs-step--route eco-step reveal" id="eco-route">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">2</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg"><code>dlunire/dlroute</code> · HTTP · ^2.0.2</p>
+                                <h3 class="qs-step__title"><strong>DL</strong>Route</h3>
+                                <p class="qs-step__desc">
+                                    Requerido por DLCore. Resuelve entorno de servidor, rutas, peticiones,
+                                    filtros de parámetros y carga de archivos.
+                                </p>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Capacidades">
+                                <li>Rutas</li>
+                                <li>Peticiones</li>
+                                <li>Uploads</li>
+                                <li>Servidor</li>
+                            </ul>
+                            <div class="eco-step__links">
+                                <a class="eco-step__link eco-step__link--accent"
+                                    href="https://github.com/dlunire/dlroute/blob/master/docs/tutorial/README.md"
+                                    target="_blank" rel="noopener noreferrer">Tutorial · 16 cap.</a>
+                                <a class="eco-step__link" href="https://github.com/dlunire/dlroute" target="_blank"
+                                    rel="noopener noreferrer">Repositorio ↗</a>
+                            </div>
+                        </div>
+                    </li>
 
-                    <article class="eco-card eco-card--storage reveal">
-                        <header class="eco-card__head">
-                            <span class="eco-card__mark" aria-hidden="true">ST</span>
-                            <span class="eco-card__kicker">Persistencia · ^0.1.3</span>
-                        </header>
-                        <h3 class="eco-card__title"><strong>DL</strong>Storage</h3>
-                        <p class="eco-card__meta">Credenciales MTB · <code>dlunire/dlstorage</code></p>
-                        <p class="eco-card__desc">
-                            Contenedores <code>.dlstorage</code>, modelo de transformación de bytes y
-                            integración con <code>EntropyValue</code> / <code>EncryptedCredentials</code>.
-                        </p>
-                        <footer class="eco-card__foot">
-                            <a
-                                class="eco-card__link"
-                                href="https://github.com/dlunire/dlstorage/blob/master/docs/tutorial/README.md"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Tutorial · 11 cap.
-                            </a>
-                            <a
-                                class="eco-card__link eco-card__link--next"
-                                href="https://github.com/dlunire/dlstorage"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Repositorio ↗
-                            </a>
-                        </footer>
-                    </article>
-                </div>
+                    <li class="qs-step qs-step--storage eco-step reveal" id="eco-storage">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">3</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <p class="qs-step__pkg"><code>dlunire/dlstorage</code> · persistencia · ^0.2.2</p>
+                                <h3 class="qs-step__title"><strong>DL</strong>Storage</h3>
+                                <p class="qs-step__desc">
+                                    Contenedores <code>.dlstorage</code>, modelo de transformación de bytes e
+                                    integración con <code>EntropyValue</code> / <code>EncryptedCredentials</code>.
+                                </p>
+                            </header>
+                            <ul class="qs-step__tags" aria-label="Capacidades">
+                                <li>Binario</li>
+                                <li>Credenciales</li>
+                                <li>MTB</li>
+                                <li>AGPL</li>
+                            </ul>
+                            <div class="eco-step__links">
+                                <a class="eco-step__link eco-step__link--accent"
+                                    href="https://github.com/dlunire/dlstorage/blob/master/docs/tutorial/README.md"
+                                    target="_blank" rel="noopener noreferrer">Tutorial · 11 cap.</a>
+                                <a class="eco-step__link" href="https://github.com/dlunire/dlstorage" target="_blank"
+                                    rel="noopener noreferrer">Repositorio ↗</a>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
             </div>
         </section>
 
-        <section id="licencia" class="welcome-license welcome-section" aria-labelledby="license-practice-title">
-            <div class="container welcome-license__inner">
-                <header class="section-header">
-                    <span class="section-header__kicker">Licenciamiento</span>
-                    <h2 id="license-practice-title" class="section-header__title">AGPL en la práctica</h2>
-                    <p class="section-header__lead">
-                        DLCore es software libre: puede usarlo en proyectos comerciales, cobrar por su producto
-                        y escalar su negocio. La AGPL no prohíbe el uso comercial; define cuándo debe compartir
-                        el código fuente de su aplicación cuando esta integra el kernel y se ofrece a terceros
-                        por red.
+        <section id="inicio-rapido" class="welcome-section qs qs--onboard" aria-labelledby="quickstart-title">
+            <div class="container qs__inner">
+                <header class="sec-head">
+                    <span class="sec-head__kicker">Onboarding</span>
+                    <h2 id="quickstart-title" class="sec-head__title">Inicio rápido</h2>
+                    <p class="sec-head__lead">
+                        Cinco pasos para integrar <code>dlunire/dlcore</code>, arrancar el bootstrap
+                        y tener una ruta respondiendo.
                     </p>
                 </header>
 
-                <div class="license-guide reveal">
-                    <aside class="license-guide__note" aria-label="Resumen en una frase">
-                        <span class="license-guide__note-label">En una frase</span>
-                        <p class="license-guide__note-text">
-                            <strong>Puede crear su aplicación con DLUnire.</strong> Si terceros usan su app por
-                            red y el código de su aplicación no será público bajo AGPL, necesita
-                            <a href="#licencia-comercial">licencia comercial</a> o publicar fuentes. En desarrollo
-                            local, staging, uso interno u open source, <strong>no</strong>.
-                        </p>
-                    </aside>
-
-                    <div class="license-guide__grid">
-                        <article class="license-guide__card license-guide__card--ok">
-                            <header class="license-guide__head">
-                                <span class="license-guide__mark" aria-hidden="true">✓</span>
-                                <span class="license-guide__kicker">Permitido</span>
+                <ol class="qs-flow" aria-label="Pasos de inicio rápido">
+                    <li class="qs-step reveal" id="qs-require">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">1</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <h3 class="qs-step__title">Requerir el kernel</h3>
+                                <p class="qs-step__desc">
+                                    En un proyecto PHP con Composer, declare <code>dlunire/dlcore</code>.
+                                    Composer resuelve <code>dlroute</code> y <code>dlstorage</code> como dependencias
+                                    transitivas.
+                                </p>
                             </header>
-                            <h3 class="license-guide__title">Uso comercial</h3>
-                            <p class="license-guide__text">
-                                Puede facturar desarrollo para clientes, vender suscripciones, operar tiendas
-                                o SaaS. La AGPL no exige pagar a DLUnire ni impide monetizar su trabajo.
-                            </p>
-                        </article>
-
-                        <article class="license-guide__card license-guide__card--share">
-                            <header class="license-guide__head">
-                                <span class="license-guide__mark" aria-hidden="true">↗</span>
-                                <span class="license-guide__kicker">Obra derivada</span>
-                            </header>
-                            <h3 class="license-guide__title">Publicar fuentes</h3>
-                            <p class="license-guide__text">
-                                Si integra DLCore en su aplicación y los usuarios la utilizan por red, esa
-                                aplicación es obra derivada. Debe ofrecer el código fuente correspondiente
-                                bajo <strong>AGPL-3.0-or-later</strong> a quienes interactúan con ella.
-                            </p>
-                        </article>
-
-                        <article class="license-guide__card license-guide__card--alt">
-                            <header class="license-guide__head">
-                                <span class="license-guide__mark" aria-hidden="true">◇</span>
-                                <span class="license-guide__kicker">Alternativa</span>
-                            </header>
-                            <h3 class="license-guide__title">Licencia comercial</h3>
-                            <p class="license-guide__text">
-                                Para desplegar código cerrado en producción (SaaS, API, web comercial): un
-                                <strong>permiso legal</strong> para un (1) producto, sin publicar el fuente de
-                                su aplicación bajo AGPL. No es comprar el framework. Véase
-                                <a href="#licencia-comercial">tarifas y alcance</a>.
-                            </p>
-                        </article>
-                    </div>
-
-                    <aside class="license-guide__note" aria-label="Para desarrolladores">
-                        <span class="license-guide__note-label">Mensaje para desarrolladores</span>
-                        <p class="license-guide__note-text">
-                            <strong>Usen DLUnire gratis.</strong> Construyan lo que quieran y cobren a sus clientes.
-                            Solo si van a dejar el producto <strong>en producción</strong> con código cerrado y usuarios
-                            externos lo usan por internet, necesitan licencia comercial <strong>de ese producto</strong>
-                            — o publican el código de su app bajo AGPL. No es «gratis o de pago»: es gratis para
-                            desarrollar; el pago es opcional para despliegue cerrado.
-                            <a href="/docs/licencia-comercial">Casos detallados</a>.
-                        </p>
-                    </aside>
-
-                    <aside class="license-guide__note" aria-label="Tienda online">
-                        <span class="license-guide__note-label">Tienda online</span>
-                        <p class="license-guide__note-text">
-                            <strong>¿Tienda con compras por internet?</strong> En producción con código cerrado,
-                            <strong>sí</strong> — pero si es para un <strong>cliente</strong>, el plan
-                            <a href="#licencia-comercial">Freelance</a> cubre el permiso desde
-                            <strong>$50.000 COP</strong>. Construir y probar sigue siendo <strong>gratis</strong>.
-                        </p>
-                    </aside>
-
-                    <aside class="license-guide__note" aria-label="Para quien empieza">
-                        <span class="license-guide__note-label">Para quien empieza</span>
-                        <p class="license-guide__note-text">
-                            <strong>$0</strong> para instalar, aprender, desarrollar y probar en staging sin límite.
-                            Freelance <strong>pago único</strong> desde $20.000 COP (INICIO).
-                            <a href="#licencia-comercial">Cómo solicitar</a>.
-                        </p>
-                    </aside>
-
-                    <div id="licencia-comercial" class="license-commercial">
-                        <header class="license-commercial__head">
-                            <span class="license-commercial__kicker">Permiso de despliegue</span>
-                            <h3 class="license-commercial__title">Licencia comercial — tarifas y alcance</h3>
-                            <p class="license-commercial__lead">
-                                <strong>Todos los planes son pago único</strong> — sin suscripciones ni renovaciones.
-                                Permiso legal para desplegar <strong>código cerrado</strong> a usuarios externos.
-                                No es requisito para desarrollar: paga una vez, certificado + 12 meses de actualizaciones
-                                y soporte por correo según plan.
-                            </p>
-                        </header>
-
-                        <aside class="license-guide__note" aria-label="Siempre puede desarrollar">
-                            <span class="license-guide__note-label">Siempre puede desarrollar</span>
-                            <p class="license-guide__note-text">
-                                Instale, programe y pruebe sin licencia comercial. Solo entra al poner en
-                                producción código cerrado accesible por internet a terceros (web, API, SaaS).
-                                Desarrollo local, staging, intranet y proyectos AGPL públicos quedan fuera.
-                            </p>
-                        </aside>
-
-                        <div class="license-commercial__scope license-commercial__scope--starter" aria-label="Facilidades para quien empieza">
-                            <section class="license-commercial__scope-panel license-commercial__scope-panel--in">
-                                <h4 class="license-commercial__scope-title">Siempre gratis</h4>
-                                <ul class="license-commercial__scope-list">
-                                    <li>Composer, skeleton y ecosistema sin registro</li>
-                                    <li>Desarrollo y staging ilimitados en el tiempo</li>
-                                    <li>Tutorial, documentación y soporte comunitario (issues)</li>
-                                    <li>Facturar al cliente por diseño, desarrollo y mantenimiento</li>
-                                    <li>Demos, sandbox y validación del MVP antes de abrir</li>
-                                    <li>Camino AGPL si publica el código de su aplicación</li>
-                                </ul>
-                            </section>
-                            <section class="license-commercial__scope-panel license-commercial__scope-panel--out">
-                                <h4 class="license-commercial__scope-title">Al desplegar cerrado</h4>
-                                <ul class="license-commercial__scope-list">
-                                    <li><strong>Freelance (pago único):</strong>
-                                        $20k INICIO · $50k/proyecto · $100k pack (5 clientes)
-                                    </li>
-                                    <li><strong>Indie / Pro:</strong> su propio SaaS o producto con su marca</li>
-                                    <li>Certificado en ~3 días hábiles tras confirmar pago</li>
-                                    <li>Precios en COP sin IVA (RUT código 49)</li>
-                                </ul>
-                            </section>
-                        </div>
-
-                        <div class="license-commercial__pricing">
-                            <article class="license-commercial__plan license-commercial__plan--featured">
-                                <header class="license-commercial__plan-head">
-                                    <span class="license-commercial__plan-mark" aria-hidden="true">◇</span>
-                                    <span class="license-commercial__plan-kicker">Para freelancers</span>
-                                </header>
-                                <h4 class="license-commercial__plan-name">Freelance</h4>
-                                <p class="license-commercial__price">
-                                    <span class="license-commercial__price-value">$50.000</span>
-                                    <span class="license-commercial__price-unit">COP / proyecto cliente</span>
-                                    <span class="license-commercial__price-usd">Pack $100.000 · pago único · sin IVA</span>
-                                </p>
-                                <ul class="license-commercial__plan-list">
-                                    <li>Tiendas, encuestas y webs para clientes</li>
-                                    <li>INICIO $20k · Proyecto $50k · Pack 5 clientes $100k</li>
-                                    <li>Todo pago único — sin renovación</li>
-                                    <li>12 meses actualizaciones · soporte por correo</li>
-                                </ul>
-                            </article>
-
-                            <article class="license-commercial__plan">
-                                <header class="license-commercial__plan-head">
-                                    <span class="license-commercial__plan-mark" aria-hidden="true">01</span>
-                                    <span class="license-commercial__plan-kicker">Producto propio</span>
-                                </header>
-                                <h4 class="license-commercial__plan-name">Indie</h4>
-                                <p class="license-commercial__price">
-                                    <span class="license-commercial__price-value">$600.000</span>
-                                    <span class="license-commercial__price-unit">COP · pago único</span>
-                                    <span class="license-commercial__price-usd">≈ USD 150 · sin IVA</span>
-                                </p>
-                                <ul class="license-commercial__plan-list">
-                                    <li>Su SaaS, tienda o producto con su marca</li>
-                                    <li>Un (1) producto — uso perpetuo</li>
-                                    <li>12 meses de actualizaciones del núcleo</li>
-                                    <li>Soporte: 4 h incluidas (correo)</li>
-                                </ul>
-                            </article>
-
-                            <article class="license-commercial__plan">
-                                <header class="license-commercial__plan-head">
-                                    <span class="license-commercial__plan-mark" aria-hidden="true">02</span>
-                                    <span class="license-commercial__plan-kicker">Producto propio</span>
-                                </header>
-                                <h4 class="license-commercial__plan-name">Pro</h4>
-                                <p class="license-commercial__price">
-                                    <span class="license-commercial__price-value">$800.000</span>
-                                    <span class="license-commercial__price-unit">COP · pago único</span>
-                                    <span class="license-commercial__price-usd">≈ USD 200 · sin IVA</span>
-                                </p>
-                                <ul class="license-commercial__plan-list">
-                                    <li>Un (1) producto — uso perpetuo</li>
-                                    <li>12 meses de actualizaciones del núcleo</li>
-                                    <li>Soporte: 8 h incluidas (correo)</li>
-                                </ul>
-                            </article>
-
-                            <article class="license-commercial__plan">
-                                <header class="license-commercial__plan-head">
-                                    <span class="license-commercial__plan-mark" aria-hidden="true">03</span>
-                                    <span class="license-commercial__plan-kicker">Equipos</span>
-                                </header>
-                                <h4 class="license-commercial__plan-name">Business</h4>
-                                <p class="license-commercial__price">
-                                    <span class="license-commercial__price-value">A convenir</span>
-                                </p>
-                                <ul class="license-commercial__plan-list">
-                                    <li>Varios productos en la organización</li>
-                                    <li>SLA y bolsa de integración por correo</li>
-                                    <li>Cotización según necesidad</li>
-                                </ul>
-                            </article>
-                        </div>
-
-                        <div class="license-commercial__scope">
-                            <section class="license-commercial__scope-panel license-commercial__scope-panel--in">
-                                <h4 class="license-commercial__scope-title">Incluye</h4>
-                                <ul class="license-commercial__scope-list">
-                                    <li>Permiso legal de despliegue cerrado para un (1) producto identificado</li>
-                                    <li>DLCore, DLRoute, DLStorage y skeleton sin publicar fuentes de su app</li>
-                                    <li>Certificado o contrato + actualizaciones del núcleo según plan</li>
-                                    <li>Soporte solo por correo: licencia, instalación e integración básica</li>
-                                </ul>
-                            </section>
-                            <section class="license-commercial__scope-panel license-commercial__scope-panel--out">
-                                <h4 class="license-commercial__scope-title">No incluye</h4>
-                                <ul class="license-commercial__scope-list">
-                                    <li>Desarrollo o mantenimiento de su aplicación de negocio</li>
-                                    <li>Comprar el framework ni derecho genérico a «usar DLUnire»</li>
-                                    <li>Hosting, DevOps, segundo producto o revender el núcleo empaquetado</li>
-                                    <li>Soporte 24/7, videollamadas, teléfono ni auditorías</li>
-                                </ul>
-                            </section>
-                        </div>
-
-                        <aside class="license-commercial__promo" aria-label="Promoción Freelance">
-                            <p class="license-commercial__promo-title">Promoción Freelance</p>
-                            <p class="license-commercial__promo-text">
-                                Código <strong>DLUNIRE-INICIO</strong>: <strong>$20.000 COP</strong> pago único
-                                (luego $50.000/proyecto o $100.000 pack). Sin suscripciones.
-                            </p>
-                        </aside>
-
-                        <section class="license-commercial__checkout" aria-labelledby="freelance-checkout-title">
-                            <h4 id="freelance-checkout-title" class="license-commercial__checkout-title">Solicitar y pagar Freelance</h4>
-                            <ol class="license-commercial__steps">
-                                <li>
-                                    <strong>Escriba</strong> a
-                                    <a href="mailto:ventas@dlunire.dev?subject=Licencia%20Freelance%20DLUnire&amp;body=Plan%3A%20Freelance%20Proyecto%0ATitular%3A%20%0ADominio%3A%20%0ACorreo%20asociado%20al%20dominio%3A%20%0ACliente%20final%3A%20%0ADescripci%C3%B3n%3A%20%0AAcepto%20pol%C3%ADtica%20de%20datos%20(Ley%201581)%3A%20S%C3%AD%0AC%C3%B3digo%3A%20DLUNIRE-INICIO%0A">ventas@dlunire.dev</a>
-                                    o WhatsApp <a href="https://wa.me/573026488528">+57 302 648 8528</a>
-                                    con titular, <strong>dominio</strong>, <strong>correo del dominio</strong>, cliente final y descripción.
-                                    Sin documento de identidad. Mencione el código <strong>DLUNIRE-INICIO</strong> si aplica la promo.
-                                </li>
-                                <li><strong>Pago:</strong> <strong>Wompi</strong> pago único — $20k INICIO · $50k proyecto · $100k pack.</li>
-                                <li><strong>Certificado</strong> PDF por correo (≤ 3 días hábiles; mismo día habitual).</li>
-                            </ol>
-                            <p class="license-commercial__privacy">
-                                Tratamos sus datos conforme a la
-                                <a href="/politica-datos">política de tratamiento de datos</a>
-                                (Ley 1581 de 2012, Colombia). No pedimos documento de identidad para Freelance.
-                            </p>
-                        </section>
-
-                        <aside class="license-commercial__pay" aria-label="Medios de pago">
-                            <p class="license-commercial__pay-title">Medios de pago</p>
-                            <p class="license-commercial__pay-text">
-                                <strong>Preferido (Colombia):</strong> <strong>Wompi</strong> (PSE, tarjeta, Nequi, Bancolombia)
-                                — monto exacto en COP, sin IVA (RUT código 49). Respaldo: ePayco o Bancolombia.
-                                También: Nequi o transferencia (con comprobante).
-                                <strong>Internacional:</strong> PayPal (USD según TRM) o Binance USDT (manual, con hash de transacción).
-                                Detalle en <a href="/docs/licencia-comercial">docs/LICENCIA-COMERCIAL.md</a>.
-                            </p>
-                        </aside>
-
-                        <footer class="license-guide__foot license-commercial__foot">
-                            <p class="license-guide__foot-text">
-                                Desarrollo local, staging, uso interno y proyectos open source AGPL no requieren
-                                licencia comercial. Árbol de decisión, ejemplos y FAQ en
-                                <a href="/docs/licencia-comercial">docs/LICENCIA-COMERCIAL.md</a>.
-                            </p>
-                            <div class="license-guide__actions">
-                                <a class="license-guide__link" href="https://spdx.org/licenses/AGPL-3.0-or-later.html" target="_blank" rel="noopener noreferrer">Texto legal AGPL</a>
-                                <a class="license-guide__link" href="/docs/licencia-comercial">Alcance completo</a>
-                                <a class="license-guide__link license-guide__link--next" href="mailto:ventas@dlunire.dev?subject=Licencia%20Freelance%20DLUnire">Solicitar Freelance</a>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="inicio-rapido" class="welcome-quickstart welcome-section" aria-labelledby="quickstart-title">
-            <div class="container welcome-quickstart__inner">
-                <div class="quickstart-panel reveal">
-                    <header class="section-header section-header--inset">
-                        <span class="section-header__kicker">Onboarding</span>
-                        <h2 id="quickstart-title" class="section-header__title">Inicio rápido</h2>
-                        <p class="section-header__lead">
-                            Nueve pasos para integrar dependencias, entorno, bootstrap, rutas, vistas, modelos,
-                            controladores, middleware y servidor local antes de avanzar en el tutorial.
-                        </p>
-                    </header>
-
-                    <ol class="quickstart-track quickstart-track--nine" aria-label="Pasos de integración">
-                        <li class="quickstart-step" data-step="install">
-                            <a class="quickstart-step__link" href="#composer-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">01</span>
-                                        <span class="quickstart-step__kicker">Dependencias</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Composer</span>
-                                    <span class="quickstart-step__desc"><code>composer.json</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="env">
-                            <a class="quickstart-step__link" href="#env-type-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">02</span>
-                                        <span class="quickstart-step__kicker">Entorno</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Variables tipadas</span>
-                                    <span class="quickstart-step__desc"><code>.env.type</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="bootstrap">
-                            <a class="quickstart-step__link" href="#bootstrap-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">03</span>
-                                        <span class="quickstart-step__kicker">Bootstrap</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Punto de entrada</span>
-                                    <span class="quickstart-step__desc"><code>index.php</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="routes">
-                            <a class="quickstart-step__link" href="#routes-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">04</span>
-                                        <span class="quickstart-step__kicker">HTTP</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Rutas</span>
-                                    <span class="quickstart-step__desc"><code>routes/web.php</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="views">
-                            <a class="quickstart-step__link" href="#views-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">05</span>
-                                        <span class="quickstart-step__kicker">Plantillas</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Vistas</span>
-                                    <span class="quickstart-step__desc"><code>*.template.html</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="models">
-                            <a class="quickstart-step__link" href="#models-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">06</span>
-                                        <span class="quickstart-step__kicker">ORM</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Modelos</span>
-                                    <span class="quickstart-step__desc"><code>Model</code> + <code>DL_PREFIX</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="controllers">
-                            <a class="quickstart-step__link" href="#controllers-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">07</span>
-                                        <span class="quickstart-step__kicker">Lógica</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Controladores</span>
-                                    <span class="quickstart-step__desc"><code>BaseController</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="middleware">
-                            <a class="quickstart-step__link" href="#middleware-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">08</span>
-                                        <span class="quickstart-step__kicker">Acceso</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Middleware</span>
-                                    <span class="quickstart-step__desc"><code>logged()</code> / <code>not_logged()</code></span>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="quickstart-step" data-step="run">
-                            <a class="quickstart-step__link" href="#shell-demo">
-                                <span class="quickstart-step__card">
-                                    <span class="quickstart-step__head">
-                                        <span class="quickstart-step__num" aria-hidden="true">09</span>
-                                        <span class="quickstart-step__kicker">Dev</span>
-                                    </span>
-                                    <span class="quickstart-step__title">Servidor local</span>
-                                    <span class="quickstart-step__desc"><code>php -S</code> en <code>public/</code></span>
-                                </span>
-                            </a>
-                        </li>
-                    </ol>
-
-                    <div id="composer-demo" class="composer-demo">
-                        <header class="composer-demo__header">
-                            <h3 class="composer-demo__title"><code>composer.json</code> — dependencia mínima</h3>
-                            <p class="composer-demo__lead">
-                                Declare <code>dlunire/dlcore</code> en su proyecto. Composer resolverá
-                                <code>dlunire/dlroute</code> y <code>dlunire/dlstorage</code> como dependencias transitivas.
-                            </p>
-                        </header>
-
-                        <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="composer.json mínimo">
-                            <div class="code-snippet__bar">
-                                <span class="code-snippet__label">composer.json</span>
-                                <button type="button" class="code-snippet__copy" data-copy="{\n    &quot;require&quot;: {\n        &quot;php&quot;: &quot;&gt;=8.2&quot;,\n        &quot;dlunire/dlcore&quot;: &quot;^2.1&quot;\n    },\n    &quot;config&quot;: {\n        &quot;optimize-autoloader&quot;: true\n    }\n}">Copiar</button>
-                            </div>
-                            <pre class="code-snippet__body" tabindex="0"><code><span class="code-line">{</span><span class="code-line code-line--indent"><span class="tok-json-key">"require"</span><span class="tok-punct">: {</span></span><span class="code-line code-line--indent code-line--indent-2"><span class="tok-json-key">"php"</span><span class="tok-punct">: </span><span class="tok-val">"&gt;=8.2"</span><span class="tok-punct">,</span></span><span class="code-line code-line--indent code-line--indent-2"><span class="tok-json-key">"dlunire/dlcore"</span><span class="tok-punct">: </span><span class="tok-val">"^2.1"</span></span><span class="code-line code-line--indent"><span class="tok-punct">},</span></span><span class="code-line code-line--indent"><span class="tok-json-key">"config"</span><span class="tok-punct">: {</span></span><span class="code-line code-line--indent code-line--indent-2"><span class="tok-json-key">"optimize-autoloader"</span><span class="tok-punct">: </span><span class="tok-val">true</span></span><span class="code-line code-line--indent"><span class="tok-punct">}</span></span><span class="code-line">}</span></code></pre>
-                        </div>
-
-                        <p class="composer-demo__note">
-                            Ejecute <code>composer install</code> o
-                            <code>composer require dlunire/dlcore</code> para generar <code>vendor/autoload.php</code>.
-                        </p>
-                    </div>
-
-                    <div id="env-type-demo" class="envtype-demo">
-                        <header class="envtype-demo__header">
-                            <h3 class="envtype-demo__title"><code>.env.type</code> — variables con tipo</h3>
-                            <p class="envtype-demo__lead">
-                                DLCore valida cada valor al arrancar. Sintaxis:
-                                <code>NOMBRE: tipo = valor</code>.
-                                El archivo por defecto es <code>.env.type</code> en la raíz del proyecto.
-                            </p>
-                            <div class="envtype-demo__types" aria-label="Tipos soportados">
-                                <span class="envtype-type"><span class="envtype-type__label">string</span> cadenas entre comillas</span>
-                                <span class="envtype-type"><span class="envtype-type__label">integer</span> enteros</span>
-                                <span class="envtype-type"><span class="envtype-type__label">boolean</span> true / false</span>
-                            </div>
-                        </header>
-
-                        <div class="envtype-demo__grid">
-                            <div class="code-snippet code-snippet--pro" role="group" aria-label="Ejemplo .env.type">
+                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group"
+                                aria-label="Instalar DLCore">
                                 <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">.env.type</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="DL_PRODUCTION: boolean = false\nDL_DATABASE_HOST: string = &quot;127.0.0.1&quot;\nDL_DATABASE_PORT: integer = 3306\nDL_PREFIX: string = &quot;dl_&quot;\nMULTITENANT: boolean = false">Copiar</button>
+                                    <span class="code-snippet__label">terminal</span>
+                                    <button type="button" class="code-snippet__copy"
+                                        data-copy="composer require dlunire/dlcore">Copiar</button>
                                 </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-key">DL_PRODUCTION</span><span class="tok-punct">: </span><span class="tok-type">boolean</span><span class="tok-punct"> = </span><span class="tok-val">false</span></span><span class="code-line"><span class="tok-key">DL_DATABASE_HOST</span><span class="tok-punct">: </span><span class="tok-type">string</span><span class="tok-punct"> = </span><span class="tok-val">"127.0.0.1"</span></span><span class="code-line"><span class="tok-key">DL_DATABASE_PORT</span><span class="tok-punct">: </span><span class="tok-type">integer</span><span class="tok-punct"> = </span><span class="tok-val">3306</span></span><span class="code-line"><span class="tok-key">DL_PREFIX</span><span class="tok-punct">: </span><span class="tok-type">string</span><span class="tok-punct"> = </span><span class="tok-val">"dl_"</span></span><span class="code-line"><span class="tok-key">MULTITENANT</span><span class="tok-punct">: </span><span class="tok-type">boolean</span><span class="tok-punct"> = </span><span class="tok-val">false</span></span></code></pre>
+                                <pre class="code-snippet__body"
+                                    tabindex="0"><code><span class="code-line"><span class="tok-prompt">$ </span>composer require dlunire/dlcore</span></code></pre>
                             </div>
+                            <p class="qs-step__note">
+                                Alternativa en <code>composer.json</code>:
+                                <code>"dlunire/dlcore": "^2.1"</code> y luego <code>composer update</code>.
+                            </p>
+                        </div>
+                    </li>
 
-                            <div class="code-snippet code-snippet--pro" role="group" aria-label="Uso en PHP">
+                    <li class="qs-step reveal" id="qs-env">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">2</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <h3 class="qs-step__title">Configurar el entorno</h3>
+                                <p class="qs-step__desc">
+                                    Archivo <code>.env.type</code> en la raíz: cada variable tiene tipo estático.
+                                    Con un mínimo basta para arrancar <strong>sin base de datos</strong>.
+                                    Las variables <code>DL_DATABASE_*</code> y <code>DL_PREFIX</code>
+                                    solo hacen falta si va a usar el ORM.
+                                </p>
+                            </header>
+                            <div class="code-snippet code-snippet--pro" role="group"
+                                aria-label="Ejemplo .env.type mínimo">
                                 <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">PHP</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="use DLCore\Config\Environment;\n\n$env = Environment::get_instance();\n\nif ($env-&gt;get_credentials()-&gt;is_production()) {\n    // entorno de producción\n}\n\n$db_host = $env-&gt;get_env_value('DL_DATABASE_HOST');">Copiar</button>
+                                    <span class="code-snippet__label">.env.type · mínimo</span>
+                                    <button type="button" class="code-snippet__copy"
+                                        data-copy="DL_PRODUCTION: boolean = false\nDL_LIFETIME: integer = 3800">Copiar</button>
                                 </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">use</span> DLCore\Config\Environment;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">$env = Environment::get_instance();</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">if</span> ($env-&gt;get_credentials()-&gt;is_production()) {</span><span class="code-line code-line--indent"><span class="tok-comment">// entorno de producción</span></span><span class="code-line">}</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">$db_host = $env-&gt;get_env_value(<span class="tok-val">'DL_DATABASE_HOST'</span>);</span></code></pre>
+                                <pre class="code-snippet__body"
+                                    tabindex="0"><code><span class="code-line"><span class="tok-key">DL_PRODUCTION</span><span class="tok-punct">: </span><span class="tok-type">boolean</span><span class="tok-punct"> = </span><span class="tok-val">false</span></span><span class="code-line"><span class="tok-key">DL_LIFETIME</span><span class="tok-punct">: </span><span class="tok-type">integer</span><span class="tok-punct"> = </span><span class="tok-val">3800</span></span></code></pre>
                             </div>
-                        </div>
-
-                        <div id="prefix-map" class="prefix-map">
-                            <p class="prefix-map__title">Prefijo de tablas — <code>DL_PREFIX</code></p>
-                            <p class="prefix-map__lead">
-                                El ORM antepone <code>DL_PREFIX</code> al nombre inferido de la clase.
-                                Con <code>DL_PREFIX: string = "dl_"</code>, un modelo vacío resuelve la tabla física así:
-                            </p>
-                            <div class="prefix-map__flow" aria-label="Convención Products a dl_products">
-                                <span class="prefix-map__chip prefix-map__chip--class">Products</span>
-                                <span class="prefix-map__arrow" aria-hidden="true">→</span>
-                                <span class="prefix-map__chip">products</span>
-                                <span class="prefix-map__arrow" aria-hidden="true">→</span>
-                                <span class="prefix-map__chip prefix-map__chip--table">dl_products</span>
-                            </div>
-                            <p class="prefix-map__code">
-                                <code>final class Products extends Model {}</code>
-                                <span class="prefix-map__eq" aria-hidden="true">⇒</span>
-                                <code>dl_products</code>
+                            <p class="qs-step__note">
+                                Opcional: correo, reCAPTCHA, CORS (<code>DL_CORS_ORIGINS</code>).
+                                Detalle en el <a
+                                    href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/02-variables-entorno.md"
+                                    target="_blank" rel="noopener noreferrer">capítulo 2</a>.
                             </p>
                         </div>
+                    </li>
 
-                        <footer class="demo-foot">
-                            <div class="demo-foot__facts" aria-label="Convención de variables tipadas">
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Archivo</span>
-                                    <span class="demo-foot__value"><code>.env.type</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Sintaxis</span>
-                                    <span class="demo-foot__value"><code>NOMBRE: tipo = valor</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Prefijo ORM</span>
-                                    <span class="demo-foot__value"><code>dl_</code></span>
-                                </div>
-                            </div>
-                            <p class="demo-foot__text">
-                                DLCore valida cada valor al arrancar. <code>DL_PREFIX</code> también afecta las tablas
-                                inferidas por el ORM — véase <a href="#models-demo">modelos</a>.
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/02-variables-entorno.md" target="_blank" rel="noopener noreferrer">Capítulo 2</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#bootstrap-demo">Bootstrap</a>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <div id="bootstrap-demo" class="bootstrap-demo">
-                        <header class="bootstrap-demo__header">
-                            <h3 class="bootstrap-demo__title"><code>public/index.php</code> — punto de entrada</h3>
-                            <p class="bootstrap-demo__lead">
-                                El kernel se conecta vía autoload de Composer. Use
-                                <code>DIRECTORY_SEPARATOR</code> para rutas portables entre Windows y Unix,
-                                sin barras diagonales literales en el código.
-                            </p>
-                        </header>
-
-                        <div class="bootstrap-demo__layout">
-                            <div class="proj-tree" role="tree" aria-label="Estructura mínima del proyecto">
-                                <p class="proj-tree__title">Estructura recomendada</p>
-                                <div class="proj-tree__body">
-                                    <span class="proj-tree__line proj-tree__line--root">mi-proyecto</span>
-                                    <span class="proj-tree__line">├── <span class="proj-tree__name">.env.type</span></span>
-                                    <span class="proj-tree__line">├── <span class="proj-tree__name">composer.json</span></span>
-                                    <span class="proj-tree__line">├── <span class="proj-tree__name">public</span></span>
-                                    <span class="proj-tree__line proj-tree__line--highlight">│&nbsp;&nbsp;&nbsp;└── <span class="proj-tree__name">index.php</span> <span class="proj-tree__badge">entrada</span></span>
-                                    <span class="proj-tree__line">├── <span class="proj-tree__name">routes</span></span>
-                                    <span class="proj-tree__line">│&nbsp;&nbsp;&nbsp;└── <span class="proj-tree__name">web.php</span></span>
-                                    <span class="proj-tree__line">├── <span class="proj-tree__name">app</span></span>
-                                    <span class="proj-tree__line">│&nbsp;&nbsp;&nbsp;├── <span class="proj-tree__name">Controllers</span><span class="proj-tree__hint">/</span></span>
-                                    <span class="proj-tree__line">│&nbsp;&nbsp;&nbsp;└── <span class="proj-tree__name">Models</span><span class="proj-tree__hint">/</span></span>
-                                    <span class="proj-tree__line">├── <span class="proj-tree__name">resources</span></span>
-                                    <span class="proj-tree__line">│&nbsp;&nbsp;&nbsp;└── <span class="proj-tree__name">home.template.html</span></span>
-                                    <span class="proj-tree__line">└── <span class="proj-tree__name">vendor</span> <span class="proj-tree__hint">autoload</span></span>
-                                </div>
-                            </div>
-
-                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="public/index.php">
+                    <li class="qs-step reveal" id="qs-bootstrap">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">3</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <h3 class="qs-step__title">Punto de entrada</h3>
+                                <p class="qs-step__desc">
+                                    En <code>public/index.php</code>: autoload de Composer y
+                                    <code>Project::run()</code>. Use <code>DIRECTORY_SEPARATOR</code>
+                                    para rutas portables (Windows y Unix).
+                                </p>
+                            </header>
+                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group"
+                                aria-label="public/index.php">
                                 <div class="code-snippet__bar">
                                     <span class="code-snippet__label">public/index.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="&lt;?php\n\nuse DLCore\Boot\Project;\n\nrequire_once dirname(__DIR__)\n    . DIRECTORY_SEPARATOR . 'vendor'\n    . DIRECTORY_SEPARATOR . 'autoload.php';\n\nProject::run();">Copiar</button>
+                                    <button type="button" class="code-snippet__copy"
+                                        data-copy="&lt;?php\n\nuse DLCore\Boot\Project;\n\nrequire_once dirname(__DIR__)\n    . DIRECTORY_SEPARATOR . 'vendor'\n    . DIRECTORY_SEPARATOR . 'autoload.php';\n\nProject::run();">Copiar</button>
                                 </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLCore\Boot\Project;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-fn">require_once</span>&nbsp;<span class="tok-fn">dirname</span>(<span class="tok-php">__DIR__</span>)</span><span class="code-line code-line--indent">.&nbsp;<span class="tok-const">DIRECTORY_SEPARATOR</span>&nbsp;.&nbsp;<span class="tok-val">'vendor'</span></span><span class="code-line code-line--indent">.&nbsp;<span class="tok-const">DIRECTORY_SEPARATOR</span>&nbsp;.&nbsp;<span class="tok-val">'autoload.php'</span>;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">Project::<span class="tok-fn">run</span>();</span></code></pre>
+                                <pre class="code-snippet__body"
+                                    tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span> DLCore\Boot\Project;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-fn">require_once</span> <span class="tok-fn">dirname</span>(<span class="tok-php">__DIR__</span>)</span><span class="code-line code-line--indent">. <span class="tok-const">DIRECTORY_SEPARATOR</span> . <span class="tok-val">'vendor'</span></span><span class="code-line code-line--indent">. <span class="tok-const">DIRECTORY_SEPARATOR</span> . <span class="tok-val">'autoload.php'</span>;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">Project::<span class="tok-fn">run</span>();</span></code></pre>
                             </div>
                         </div>
+                    </li>
 
-                        <footer class="demo-foot">
-                            <div class="demo-foot__facts" aria-label="Convención de bootstrap">
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Entrada</span>
-                                    <span class="demo-foot__value"><code>public/index.php</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Raíz</span>
-                                    <span class="demo-foot__value"><code>dirname(__DIR__)</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Arranque</span>
-                                    <span class="demo-foot__value"><code>Project::run()</code></span>
-                                </div>
-                            </div>
-                            <p class="demo-foot__text">
-                                Resuelve la raíz del proyecto desde <code>public/</code> y carga
-                                <code>vendor/autoload.php</code> con rutas portables vía <code>DIRECTORY_SEPARATOR</code>.
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/01-inicio-rapido.md" target="_blank" rel="noopener noreferrer">Capítulo 1</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#routes-demo">Rutas</a>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <div id="routes-demo" class="routes-demo">
-                        <header class="routes-demo__header">
-                            <h3 class="routes-demo__title"><code>routes/</code> — registro HTTP mínimo</h3>
-                            <p class="routes-demo__lead">
-                                <code>Project::run()</code> carga automáticamente los archivos PHP de
-                                <code>routes/</code>. Cada llamada a <code>DLRoute</code> registra una ruta;
-                                la ejecución ocurre al final del bootstrap.
-                            </p>
-                        </header>
-
-                        <div class="routes-demo__layout">
-                            <div class="routes-demo__files" aria-label="Archivos de rutas">
-                                <span class="routes-file routes-file--active">
-                                    <span class="routes-file__icon" aria-hidden="true">PHP</span>
-                                    <span class="routes-file__name">routes/web.php</span>
-                                </span>
-                                <span class="routes-file">
-                                    <span class="routes-file__icon" aria-hidden="true">PHP</span>
-                                    <span class="routes-file__name">routes/api.php</span>
-                                    <span class="routes-file__hint">opcional</span>
-                                </span>
-                            </div>
-
-                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="routes/web.php mínimo">
+                    <li class="qs-step reveal" id="qs-route">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">4</span>
+                        </div>
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <h3 class="qs-step__title">Registrar una ruta</h3>
+                                <p class="qs-step__desc">
+                                    En <code>routes/web.php</code> — se cargan al arrancar con
+                                    <code>Project::run()</code> (salvo <code>autoload_routes: false</code>).
+                                </p>
+                            </header>
+                            <div class="code-snippet code-snippet--pro" role="group" aria-label="routes/web.php">
                                 <div class="code-snippet__bar">
                                     <span class="code-snippet__label">routes/web.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="&lt;?php\n\nuse DLRoute\Requests\DLRoute;\n\nDLRoute::get('/', fn () =&gt; [\n    'status' =&gt; 'ok',\n]);">Copiar</button>
+                                    <button type="button" class="code-snippet__copy"
+                                        data-copy="&lt;?php\n\nuse DLRoute\Requests\DLRoute;\n\nDLRoute::get('/api/health', fn () =&gt; [\n    'status' =&gt; 'ok',\n]);">Copiar</button>
                                 </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLRoute\Requests\DLRoute;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/'</span>,&nbsp;<span class="tok-php">fn</span>&nbsp;()&nbsp;=&gt;&nbsp;[</span><span class="code-line code-line--indent"><span class="tok-val">'status'</span>&nbsp;=&gt;&nbsp;<span class="tok-val">'ok'</span>,</span><span class="code-line">]);</span></code></pre>
+                                <pre class="code-snippet__body"
+                                    tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span> DLRoute\Requests\DLRoute;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/api/health'</span>, <span class="tok-php">fn</span> () =&gt; [</span><span class="code-line code-line--indent"><span class="tok-val">'status'</span> =&gt; <span class="tok-val">'ok'</span>,</span><span class="code-line">]);</span></code></pre>
+                            </div>
+
+                            <div class="qs-step__block" aria-labelledby="qs-model-title">
+                                <header class="qs-step__block-head">
+                                    <h4 id="qs-model-title" class="qs-step__block-title">Modelo y convención de tablas
+                                    </h4>
+                                    <p class="qs-step__block-desc">
+                                        Opcional en este paso: un modelo vacío y el prefijo ORM.
+                                    </p>
+                                </header>
+                                <div class="qs-step__grid">
+                                    <div class="code-snippet code-snippet--pro" role="group" aria-label="Modelo ORM">
+                                        <div class="code-snippet__bar">
+                                            <span class="code-snippet__label">app/Models/Products.php</span>
+                                            <button type="button" class="code-snippet__copy"
+                                                data-copy="&lt;?php\nnamespace App\Models;\n\nuse DLCore\Database\Model;\n\nfinal class Products extends Model {}">Copiar</button>
+                                        </div>
+                                        <pre class="code-snippet__body"
+                                            tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line"><span class="tok-php">namespace</span> App\Models;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span> DLCore\Database\Model;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">final class</span> Products <span class="tok-php">extends</span> Model {}</span></code></pre>
+                                    </div>
+                                    <div class="qs-map" aria-label="Convención de tablas">
+                                        <p class="qs-map__label">Con <code>DL_PREFIX: string = "dl_"</code></p>
+                                        <p class="qs-map__flow">
+                                            <span class="qs-map__chip">Products</span>
+                                            <span class="qs-map__arrow" aria-hidden="true">→</span>
+                                            <span class="qs-map__chip qs-map__chip--table">dl_products</span>
+                                        </p>
+                                        <p class="qs-map__hint">Plantillas en <code>resources/*.template.html</code></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </li>
 
-                        <footer class="demo-foot">
-                            <div class="demo-foot__facts" aria-label="Convención de rutas HTTP">
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Carpeta</span>
-                                    <span class="demo-foot__value"><code>routes/</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Archivo</span>
-                                    <span class="demo-foot__value"><code>web.php</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Método</span>
-                                    <span class="demo-foot__value"><code>GET</code></span>
-                                </div>
-                            </div>
-                            <p class="demo-foot__text">
-                                <code>Project::run()</code> carga cada PHP de <code>routes/</code> al arrancar.
-                                Organice por dominio (<code>web.php</code>, <code>api.php</code>, etc.).
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/26-dlroute-avanzado.md" target="_blank" rel="noopener noreferrer">Capítulo 26</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#views-demo">Vistas</a>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <div id="views-demo" class="views-demo">
-                        <header class="views-demo__header">
-                            <h3 class="views-demo__title"><code>resources/</code> — vistas mínimas</h3>
-                            <p class="views-demo__lead">
-                                Las plantillas viven en <code>resources/</code> con extensión
-                                <code>*.template.html</code>. El nombre de vista usa puntos como separador de carpetas
-                                (<code>home</code> → <code>resources/home.template.html</code>).
-                            </p>
-                        </header>
-
-                        <div class="views-demo__grid">
-                            <div class="code-snippet code-snippet--pro" role="group" aria-label="resources/home.template.html">
-                                <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">resources/home.template.html</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="&lt;!DOCTYPE html&gt;\n&lt;html lang=&quot;es&quot;&gt;\n&lt;head&gt;\n    &lt;meta charset=&quot;UTF-8&quot;&gt;\n    &lt;title&gt;&#123;&#123; $title &#125;&#125;&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n    &lt;h1&gt;&#123;&#123; $heading &#125;&#125;&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;">Copiar</button>
-                                </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-html">&lt;!DOCTYPE html&gt;</span></span><span class="code-line"><span class="tok-html">&lt;html lang="es"&gt;</span></span><span class="code-line"><span class="tok-html">&lt;head&gt;</span></span><span class="code-line code-line--indent"><span class="tok-html">&lt;meta charset="UTF-8"&gt;</span></span><span class="code-line code-line--indent"><span class="tok-html">&lt;title&gt;</span><span class="tok-template">&#123;&#123; $title &#125;&#125;</span><span class="tok-html">&lt;/title&gt;</span></span><span class="code-line"><span class="tok-html">&lt;/head&gt;</span></span><span class="code-line"><span class="tok-html">&lt;body&gt;</span></span><span class="code-line code-line--indent"><span class="tok-html">&lt;h1&gt;</span><span class="tok-template">&#123;&#123; $heading &#125;&#125;</span><span class="tok-html">&lt;/h1&gt;</span></span><span class="code-line"><span class="tok-html">&lt;/body&gt;</span></span><span class="code-line"><span class="tok-html">&lt;/html&gt;</span></span></code></pre>
-                            </div>
-
-                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="Ruta con View::get">
-                                <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">routes/web.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="&lt;?php\n\nuse DLCore\Core\Output\View;\nuse DLRoute\Requests\DLRoute;\n\nDLRoute::get('/', fn () =&gt; View::get('home', [\n    'title'   =&gt; 'Mi app',\n    'heading' =&gt; 'DLCore operativo',\n]));">Copiar</button>
-                                </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLCore\Core\Output\View;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLRoute\Requests\DLRoute;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/'</span>,&nbsp;<span class="tok-php">fn</span>&nbsp;()&nbsp;=&gt;&nbsp;View::<span class="tok-fn">get</span>(<span class="tok-val">'home'</span>,&nbsp;[</span><span class="code-line code-line--indent"><span class="tok-val">'title'</span>&nbsp;&nbsp;&nbsp;=&gt;&nbsp;<span class="tok-val">'Mi app'</span>,</span><span class="code-line code-line--indent"><span class="tok-val">'heading'</span>&nbsp;=&gt;&nbsp;<span class="tok-val">'DLCore operativo'</span>,</span><span class="code-line">]));</span></code></pre>
-                            </div>
+                    <li class="qs-step reveal" id="qs-run">
+                        <div class="qs-step__rail" aria-hidden="true">
+                            <span class="qs-step__num">5</span>
                         </div>
-
-                        <footer class="demo-foot">
-                            <div class="demo-foot__facts" aria-label="Resolución de vista">
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Vista</span>
-                                    <span class="demo-foot__value"><code>home</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Archivo</span>
-                                    <span class="demo-foot__value"><code>home.template.html</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Variables</span>
-                                    <span class="demo-foot__value"><code>title, heading</code></span>
-                                </div>
-                            </div>
-                            <p class="demo-foot__text">
-                                Las claves del segundo argumento de <code>View::get()</code> deben coincidir con las
-                                variables de la plantilla.
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/05-plantillas.md" target="_blank" rel="noopener noreferrer">Capítulo 5</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#models-demo">Modelos</a>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <div id="models-demo" class="models-demo">
-                        <header class="models-demo__header">
-                            <h3 class="models-demo__title"><code>app/Models/</code> — modelo mínimo</h3>
-                            <p class="models-demo__lead">
-                                Un modelo extiende <code>DLCore\Database\Model</code> y mapea una tabla mediante
-                                convención de nombres y el prefijo <code>DL_PREFIX</code> definido en
-                                <code>.env.type</code>.
-                            </p>
-                        </header>
-
-                        <div class="models-demo__grid">
-                            <div class="code-snippet code-snippet--pro" role="group" aria-label="app/Models/Products.php">
+                        <div class="qs-step__body">
+                            <header class="qs-step__head">
+                                <h3 class="qs-step__title">Levantar el servidor</h3>
+                                <p class="qs-step__desc">
+                                    Document root en <code>public/</code>. Servidor embebido de PHP:
+                                </p>
+                            </header>
+                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group"
+                                aria-label="Servidor local">
                                 <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">app/Models/Products.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="&lt;?php\nnamespace DLUnire\Models;\n\nuse DLCore\Database\Model;\n\nfinal class Products extends Model {}">Copiar</button>
+                                    <span class="code-snippet__label">terminal</span>
+                                    <button type="button" class="code-snippet__copy"
+                                        data-copy="php -S localhost:8000 -t public/">Copiar</button>
                                 </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line"><span class="tok-php">namespace</span>&nbsp;DLUnire\Models;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLCore\Database\Model;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">final</span>&nbsp;<span class="tok-php">class</span>&nbsp;Products&nbsp;<span class="tok-php">extends</span>&nbsp;Model&nbsp;{}</span></code></pre>
+                                <pre class="code-snippet__body"
+                                    tabindex="0"><code><span class="code-line"><span class="tok-prompt">$ </span>php -S localhost:8000 -t public/</span><span class="code-line"><span class="tok-comment"># → http://localhost:8000/</span></span></code></pre>
                             </div>
-
-                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="Consulta ORM en ruta">
-                                <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">routes/web.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="use DLUnire\Models\Products;\n\nDLRoute::get('/api/products', fn () =&gt; Products::get());">Copiar</button>
-                                </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">use</span>&nbsp;DLUnire\Models\Products;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/api/products'</span>,&nbsp;<span class="tok-php">fn</span>&nbsp;()&nbsp;=&gt;&nbsp;Products::<span class="tok-fn">get</span>());</span></code></pre>
-                            </div>
+                            <p class="qs-step__note">
+                                Pruebe <code>GET /api/health</code>. Si usa el skeleton completo
+                                (<code>dlunire/dlunire</code>), también puede <code>composer run dev</code> en el puerto
+                                3000.
+                            </p>
                         </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
 
-                        <footer class="demo-foot">
-                            <div class="demo-foot__facts" aria-label="Resolución de tabla con DL_PREFIX">
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Prefijo</span>
-                                    <span class="demo-foot__value"><code>dl_</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Modelo</span>
-                                    <span class="demo-foot__value"><code>Products</code></span>
-                                </div>
-                                <div class="demo-foot__fact">
-                                    <span class="demo-foot__label">Tabla</span>
-                                    <span class="demo-foot__value"><code>dl_products</code></span>
-                                </div>
-                            </div>
-                            <p class="demo-foot__text">
-                                Variable <code>DL_PREFIX</code> en <a href="#prefix-map">.env.type</a>.
-                                El ORM antepone el prefijo al nombre inferido de la clase.
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/03-modelos-orm.md" target="_blank" rel="noopener noreferrer">Capítulo 3</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#controllers-demo">Controladores</a>
-                            </div>
-                        </footer>
+        <section class="welcome-section qs-next" aria-labelledby="qs-next-title">
+            <div class="container qs-next__inner">
+                <div class="qs-cta qs-cta--standalone reveal">
+                    <div class="qs-cta__copy">
+                        <p id="qs-next-title" class="qs-cta__title">¿Listo para profundizar?</p>
+                        <p class="qs-cta__text">
+                            Tutorial del kernel (27 capítulos), ORM, autenticación y operación.
+                        </p>
                     </div>
-
-                    <div id="controllers-demo" class="controllers-demo">
-                        <header class="controllers-demo__header">
-                            <h3 class="controllers-demo__title"><code>app/Controllers/</code> — controlador mínimo</h3>
-                            <p class="controllers-demo__lead">
-                                Los controladores extienden <code>BaseController</code>, encapsulan la lógica de
-                                negocio y devuelven un <code>array</code> que DLRoute serializa según el contexto
-                                de la ruta (JSON, vista, etc.).
-                            </p>
-                        </header>
-
-                        <div class="controllers-demo__grid">
-                            <div class="code-snippet code-snippet--pro" role="group" aria-label="app/Controllers/HomeController.php">
-                                <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">app/Controllers/HomeController.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="&lt;?php\nnamespace DLUnire\Controllers;\n\nuse DLCore\Core\BaseController;\n\nfinal class HomeController extends BaseController {\n    public function index(): array {\n        return [\n            'message' =&gt; 'DLCore operativo',\n        ];\n    }\n}">Copiar</button>
-                                </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line"><span class="tok-php">namespace</span>&nbsp;DLUnire\Controllers;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLCore\Core\BaseController;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">final</span>&nbsp;<span class="tok-php">class</span>&nbsp;HomeController&nbsp;<span class="tok-php">extends</span>&nbsp;BaseController&nbsp;{</span><span class="code-line code-line--indent"><span class="tok-php">public</span>&nbsp;<span class="tok-php">function</span>&nbsp;<span class="tok-fn">index</span>():&nbsp;<span class="tok-php">array</span>&nbsp;{</span><span class="code-line code-line--indent code-line--indent-2"><span class="tok-php">return</span>&nbsp;[</span><span class="code-line code-line--indent code-line--indent-2"><span class="tok-val">'message'</span>&nbsp;=&gt;&nbsp;<span class="tok-val">'DLCore operativo'</span>,</span><span class="code-line code-line--indent code-line--indent-2">];</span><span class="code-line code-line--indent">}</span><span class="code-line">}</span></code></pre>
-                            </div>
-
-                            <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="Ruta con controlador">
-                                <div class="code-snippet__bar">
-                                    <span class="code-snippet__label">routes/web.php</span>
-                                    <button type="button" class="code-snippet__copy" data-copy="use DLUnire\Controllers\HomeController;\nuse DLRoute\Requests\DLRoute;\n\nDLRoute::get('/', [HomeController::class, 'index']);">Copiar</button>
-                                </div>
-                                <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">use</span>&nbsp;DLUnire\Controllers\HomeController;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLRoute\Requests\DLRoute;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/'</span>,&nbsp;[HomeController::<span class="tok-php">class</span>,&nbsp;<span class="tok-val">'index'</span>]);</span></code></pre>
-                            </div>
-                        </div>
-
-                        <footer class="demo-foot">
-                            <p class="demo-foot__text">
-                                Lectura tipada de peticiones, CSRF y validación de entradas.
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/04-controladores.md" target="_blank" rel="noopener noreferrer">Capítulo 4</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#middleware-demo">Middleware</a>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <div id="middleware-demo" class="middleware-demo">
-                        <header class="middleware-demo__header">
-                            <h3 class="middleware-demo__title">Middleware de rutas — <code>DLAuth</code></h3>
-                            <p class="middleware-demo__lead">
-                                Antes de ejecutar el enrutador, <code>logged()</code> y <code>not_logged()</code>
-                                envuelven el registro de rutas y sustituyen el handler por HTTP 403 cuando no se
-                                cumple la condición de sesión.
-                            </p>
-                        </header>
-
-                        <div class="code-snippet code-snippet--pro code-snippet--featured" role="group" aria-label="routes/web.php con middleware">
-                            <div class="code-snippet__bar">
-                                <span class="code-snippet__label">routes/web.php</span>
-                                <button type="button" class="code-snippet__copy" data-copy="&lt;?php\n\nuse DLCore\Auth\DLAuth;\nuse DLRoute\Requests\DLRoute;\n\n$auth = DLAuth::get_instance();\n\n$auth-&gt;logged(function () {\n    DLRoute::get('/dashboard', fn () =&gt; ['status' =&gt; 'privado']);\n});\n\n$auth-&gt;not_logged(function () {\n    DLRoute::get('/login', fn () =&gt; ['status' =&gt; 'invitado']);\n});">Copiar</button>
-                            </div>
-                            <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-php">&lt;?php</span></span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLCore\Auth\DLAuth;</span><span class="code-line"><span class="tok-php">use</span>&nbsp;DLRoute\Requests\DLRoute;</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">$auth&nbsp;=&nbsp;DLAuth::<span class="tok-fn">get_instance</span>();</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">$auth-&gt;<span class="tok-fn">logged</span>(<span class="tok-php">function</span>&nbsp;()&nbsp;{</span><span class="code-line code-line--indent">&nbsp;&nbsp;&nbsp;&nbsp;DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/dashboard'</span>,&nbsp;<span class="tok-php">fn</span>&nbsp;()&nbsp;=&gt;&nbsp;[<span class="tok-val">'status'</span>&nbsp;=&gt;&nbsp;<span class="tok-val">'privado'</span>]);</span><span class="code-line">});</span><span class="code-line code-line--blank" aria-hidden="true">&nbsp;</span><span class="code-line">$auth-&gt;<span class="tok-fn">not_logged</span>(<span class="tok-php">function</span>&nbsp;()&nbsp;{</span><span class="code-line code-line--indent">&nbsp;&nbsp;&nbsp;&nbsp;DLRoute::<span class="tok-fn">get</span>(<span class="tok-val">'/login'</span>,&nbsp;<span class="tok-php">fn</span>&nbsp;()&nbsp;=&gt;&nbsp;[<span class="tok-val">'status'</span>&nbsp;=&gt;&nbsp;<span class="tok-val">'invitado'</span>]);</span><span class="code-line">});</span></code></pre>
-                        </div>
-
-                        <footer class="demo-foot">
-                            <p class="demo-foot__text">
-                                Solo afecta rutas registradas dentro de cada bloque en la petición actual.
-                            </p>
-                            <div class="demo-foot__actions">
-                                <a class="demo-foot__link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/27-dlauth-rutas.md" target="_blank" rel="noopener noreferrer">Capítulo 27</a>
-                                <a class="demo-foot__link demo-foot__link--next" href="#shell-demo">Servidor</a>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <div id="shell-demo" class="code-snippet code-snippet--pro" role="group" aria-label="Comandos de inicio">
-                        <div class="code-snippet__bar">
-                            <span class="code-snippet__label">shell</span>
-                            <button type="button" class="code-snippet__copy" data-copy="composer require dlunire/dlcore\nphp -S localhost:8000 -t public/">Copiar</button>
-                        </div>
-                        <pre class="code-snippet__body" tabindex="0"><code><span class="code-line"><span class="tok-prompt">$ </span>composer require dlunire/dlcore</span><span class="code-line"><span class="tok-prompt">$ </span>php -S localhost:8000 -t public/</span></code></pre>
-                    </div>
-
-                    <div class="quickstart-panel__actions">
-                        <a
-                            class="btn btn--primary"
-                            href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/01-inicio-rapido.md"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Capítulo 1 — Bootstrap
-                        </a>
-                        <a class="btn btn--ghost" href="#contenido">Referencia operativa</a>
+                    <div class="qs-cta__actions">
+                        <a class="btn btn--primary"
+                            href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md" target="_blank"
+                            rel="noopener noreferrer">Tutorial DLCore</a>
+                        <a class="btn btn--ghost"
+                            href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/03-modelos-orm.md"
+                            target="_blank" rel="noopener noreferrer">ORM</a>
+                        <a class="btn btn--ghost" href="{{ $route('/#arquitectura') }}">Arquitectura</a>
                     </div>
                 </div>
             </div>
         </section>
-
-        <div id="contenido" class="container welcome-layout welcome-section">
-            <article class="panel panel--main reveal">
-                <header class="panel__header panel__header--accent">
-                    <span class="panel__kicker">Referencia</span>
-                    <h2 class="panel__title">Documentación y estado del proyecto</h2>
-                    <p class="panel__subtitle">
-                        Tutoriales publicados, licenciamiento AGPL y notas sobre capacidades en desarrollo.
-                    </p>
-
-                    <nav class="panel__nav" aria-label="Enlaces de documentación">
-                        <a class="panel__nav-link" href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/README.md" target="_blank" rel="noopener noreferrer">Tutorial DLCore</a>
-                        <a class="panel__nav-link" href="https://github.com/dlunire/dlroute" target="_blank" rel="noopener noreferrer">DLRoute</a>
-                        <a class="panel__nav-link" href="https://github.com/dlunire/dlstorage" target="_blank" rel="noopener noreferrer">DLStorage</a>
-                        <a class="panel__nav-link panel__nav-link--warn" href="#multitenant-estado">MULTITENANT — en desarrollo</a>
-                    </nav>
-                </header>
-
-                <div class="markdown markdown--welcome">
-                    @markdown('welcome')
-
-                    <aside id="multitenant-estado" class="welcome-callout welcome-callout--dev" aria-labelledby="multitenant-estado-title">
-                        <p id="multitenant-estado-title" class="welcome-callout__kicker">MULTITENANT — en desarrollo</p>
-                        <div class="welcome-callout__body">
-                            <p>
-                                La variable <code>MULTITENANT</code> en <code>.env.type</code> apunta a un modo SaaS
-                                (una base de datos por dominio), pero <strong>aún no está terminada</strong>. Hoy la entropía
-                                de credenciales ya incorpora el host normalizado; el aislamiento multitenant completo depende
-                                de <strong>DLParse</strong>, que sigue en desarrollo.
-                            </p>
-                            <p>
-                                En despliegues <strong>monoinquilino</strong>, usa
-                                <code>MULTITENANT: boolean = false</code>. Más contexto en el capítulo 13:
-                                <a href="https://github.com/dlunire/dlcore/blob/master/docs/tutorial/13-credenciales-cifradas.md#multitenant--estado-actual" target="_blank" rel="noopener noreferrer">Credenciales cifradas y DLStorage</a>.
-                            </p>
-                        </div>
-                    </aside>
-                </div>
-            </article>
-
-            <aside id="changelog" class="panel panel--changelog reveal" aria-labelledby="changelog-title">
-                <header class="panel__header panel__header--compact panel__header--changelog">
-                    <span class="panel__kicker">Registro de cambios</span>
-                    <h2 id="changelog-title" class="panel__title">Notas de la versión</h2>
-                    <p class="panel__subtitle">Historial según Versionado Semántico.</p>
-                </header>
-
-                <div class="markdown markdown--changelog markdown--timeline">
-                    @markdown('changelog.changelog')
-                </div>
-            </aside>
-        </div>
 
         <footer class="footer app__footer">
             <div class="footer__inner footer__inner--pro">
                 <div class="footer__masthead">
                     <div class="footer__brand">
-                        <span class="footer__logo-mark" aria-hidden="true"><strong>DL</strong></span>
+                        @includes('layouts.icons.isotipo')
                         <div class="footer__brand-copy">
                             <span class="footer__logo"><strong>DL</strong>Core</span>
                             <p class="footer__tagline">Kernel de aplicación · Framework DLUnire</p>
@@ -1269,7 +710,7 @@
                     </div>
                     <ul class="footer__badges" aria-label="Metadatos del paquete">
                         <li class="footer__badge">PHP 8.2+</li>
-                        <li class="footer__badge">v2.1.0</li>
+                        <li class="footer__badge">v2.2.0</li>
                         <li class="footer__badge"><code>dlunire/dlcore</code></li>
                         <li class="footer__badge footer__badge--license">AGPL-3.0</li>
                     </ul>
@@ -1282,7 +723,8 @@
                             <h3 id="footer-project-title" class="footer__panel-title">Ecosistema</h3>
                         </header>
                         <nav class="footer__panel-links" aria-label="Enlaces del ecosistema">
-                            <a class="footer__panel-link" href="https://github.com/dlunire/dlcore" target="_blank" rel="noopener noreferrer">
+                            <a class="footer__panel-link" href="https://github.com/dlunire/dlcore" target="_blank"
+                                rel="noopener noreferrer">
                                 <span class="footer__panel-link-mark" aria-hidden="true">DL</span>
                                 <span class="footer__panel-link-body">
                                     <span class="footer__panel-link-label">DLCore</span>
@@ -1290,24 +732,30 @@
                                 </span>
                                 <span class="footer__panel-link-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="footer__panel-link" href="https://github.com/dlunire/dlroute" target="_blank" rel="noopener noreferrer">
-                                <span class="footer__panel-link-mark footer__panel-link-mark--route" aria-hidden="true">RT</span>
+                            <a class="footer__panel-link" href="https://github.com/dlunire/dlroute" target="_blank"
+                                rel="noopener noreferrer">
+                                <span class="footer__panel-link-mark footer__panel-link-mark--route"
+                                    aria-hidden="true">RT</span>
                                 <span class="footer__panel-link-body">
                                     <span class="footer__panel-link-label">DLRoute</span>
                                     <span class="footer__panel-link-desc">Infraestructura HTTP</span>
                                 </span>
                                 <span class="footer__panel-link-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="footer__panel-link" href="https://github.com/dlunire/dlstorage" target="_blank" rel="noopener noreferrer">
-                                <span class="footer__panel-link-mark footer__panel-link-mark--storage" aria-hidden="true">ST</span>
+                            <a class="footer__panel-link" href="https://github.com/dlunire/dlstorage" target="_blank"
+                                rel="noopener noreferrer">
+                                <span class="footer__panel-link-mark footer__panel-link-mark--storage"
+                                    aria-hidden="true">ST</span>
                                 <span class="footer__panel-link-body">
                                     <span class="footer__panel-link-label">DLStorage</span>
                                     <span class="footer__panel-link-desc">Credenciales cifradas</span>
                                 </span>
                                 <span class="footer__panel-link-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="footer__panel-link" href="https://dlunire.dev" target="_blank" rel="noopener noreferrer">
-                                <span class="footer__panel-link-mark footer__panel-link-mark--site" aria-hidden="true">∴</span>
+                            <a class="footer__panel-link" href="https://dlunire.dev" target="_blank"
+                                rel="noopener noreferrer">
+                                <span class="footer__panel-link-mark footer__panel-link-mark--site"
+                                    aria-hidden="true">∴</span>
                                 <span class="footer__panel-link-body">
                                     <span class="footer__panel-link-label">dlunire.dev</span>
                                     <span class="footer__panel-link-desc">Sitio del framework</span>
@@ -1330,17 +778,19 @@
                         </div>
                         <p class="footer__panel-text">
                             Texto legal completo en
-                            <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html" target="_blank" rel="noopener noreferrer">SPDX — AGPL-3.0-or-later</a>.
+                            <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html" target="_blank"
+                                rel="noopener noreferrer">SPDX — AGPL-3.0-or-later</a>.
                         </p>
                         <p class="footer__panel-text">
-                            Webs para clientes: desde
-                            <a href="#licencia-comercial">$20.000 COP</a> (Freelance INICIO)
-                            · producto propio:
-                            <a href="#licencia-comercial">$600.000 COP</a> (Indie, pago único) —
-                            sin IVA.
-                            <a href="/docs/licencia-comercial">Alcance</a>.
+                            Despliegue cerrado a terceros: planes y precios en
+                            <a href="https://store.dlunire.dev/" target="_blank"
+                                rel="noopener noreferrer">store.dlunire.dev</a>.
+                            Texto legal:
+                            <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html" target="_blank"
+                                rel="noopener noreferrer">AGPL-3.0-or-later</a>.
                         </p>
                     </section>
+
 
                     <section class="footer__panel footer__panel--legal" aria-labelledby="footer-holder-title">
                         <header class="footer__panel-head">
@@ -1371,7 +821,7 @@
                 <div class="footer__bar">
                     <p class="footer__copyright">© 2026 David E Luna M · Todos los derechos reservados</p>
                     <p class="footer__disclaimer">
-                        Resumen orientativo en <a href="#licencia">AGPL en la práctica</a>. No sustituye asesoría legal.
+                        La licencia del código es AGPL-3.0-or-later. No sustituye asesoría legal.
                     </p>
                 </div>
             </div>
